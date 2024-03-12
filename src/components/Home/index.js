@@ -10,7 +10,7 @@ const Home = () => {
 
     useEffect(() => {
         const options = {
-            strings: ['Software Engineer', 'Web Developer', 'Media-Designer'],
+            strings: ['Software Engineer', 'Full Stack Developer', 'Media-Designer', 'Web-Designer'],
             typeSpeed: 100,
             backSpeed: 100,
             backDelay: 1000,
@@ -28,6 +28,7 @@ const Home = () => {
 
     return (
         <section className="home" id="home">
+            <div className='animated-background'/>
             <div className="home-content">
                 <h3>Hello, my Name is</h3>
                 <h1><img className='p' src={P} alt=''></img>ius <span className='surname'>Maushart</span></h1>
