@@ -1,28 +1,14 @@
-section {
+
+.home {
   font-family: "Poppins";
   line-height: 0;
   color: white;
   min-height: 100vh;
-}
-
-.home {
   position: relative;
   background-color: #133051;
   z-index: 0;
 
 }
-// inside-out
-// .home {
-//   position: relative;
-//   min-height: 100vh;
-//   background-image: url('../../assets/images/galaxy2.jpg');
-//   background-size: cover;
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   animation: moveBackground 20s ease-in-out infinite alternate;
-//   z-index: 0;
-
-// }
 
 .flat-button {
   position: relative;
@@ -52,20 +38,6 @@ section {
 }
 
 
-
-// inside-out
-// .background {
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-//   background-color: #133051;
-//   clip-path: polygon(0 -1%, 100% 20%, 110% 62%, 0 102%);
-//   z-index: -100;
-//   transition: ease-in-out 0.5s;
-// }
-
 .background {
   position: absolute;
   top: 0;
@@ -81,19 +53,6 @@ section {
 }
 
 
-
-
-// inside-out
-// .flat-button:hover ~ .hoverbackground {
-  
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-//   background-color: #133051;
-//   z-index: -101;
-// }
 
 
 
