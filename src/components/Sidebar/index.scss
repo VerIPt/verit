@@ -92,6 +92,12 @@ nav {
             content: 'CONTACT'
         }
     }
+    a.portfolio-link {
+        &:after {
+            font-family: 'Coolvetica';
+            content: 'PROJECTS'
+        }
+    }
 
     a.active {
         svg {
