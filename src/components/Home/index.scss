@@ -36,7 +36,22 @@ section {
   animation: fadeIn 1s 0.8s backwards;
   white-space: nowrap;
   z-index: 1000;
+  &:hover{
+    background-color: #f39f9f;
+    color: #133051;
+    transition: 0.5s ease-in-out;
+    box-shadow:(0 0 30px #a2deeb);
+  }
 }
+
+.flat-button:hover ~ .background {
+  background-color: #133051;
+  clip-path: polygon(0 -1%, 100% 20%, 110% 62%, 0 102%);
+  z-index: -100;
+  transition: ease-in-out 0.5s;
+}
+
+
 
 // inside-out
 // .background {
@@ -66,12 +81,7 @@ section {
 }
 
 
-.flat-button:hover ~ .background {
-  background-color: #133051;
-  clip-path: polygon(0 -1%, 100% 20%, 110% 62%, 0 102%);
-  z-index: -100;
-  transition: ease-in-out 0.5s;
-}
+
 
 // inside-out
 // .flat-button:hover ~ .hoverbackground {
@@ -127,7 +137,7 @@ section {
 .home-img img {
 
   width: 35vw;
-  filter: drop-shadow(0 0 50px #a2deeb);
+  
   animation: pulse1 6s ease-in-out infinite;
 
 
