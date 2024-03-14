@@ -1,10 +1,25 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import './index.scss';
 import emailjs from '@emailjs/browser'
 import Pacman from 'react-pacman';
 
 const Contact = () => {
     const refForm = useRef()
+    const [startGame, setStartGame] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setStartGame(true);
+        }, 1000); 
+
+        return () => clearTimeout(timer);
+    }, []);
+   
+
+    const handleRestartClick = () => {
+        setStartGame(false);
+        setTimeout(() => setStartGame(true), 10);
+    };
 
     const sendEmail = (e) => {
         e.preventDefault()
@@ -71,7 +86,10 @@ const Contact = () => {
                     </div>
                 </div>
                 <div className='pacman'>
-                    <Pacman />
+                    <div className='pacman-frame'>
+                    {startGame && <Pacman gridSize={20} />}
+                    <button onClick={handleRestartClick}>RESTART</button>
+                    </div>
                 </div>
             </div>
         </>
