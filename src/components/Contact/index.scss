@@ -1,0 +1,38 @@
+.contact-page {
+    font-family: "Poppins";
+    width: 100%;
+    will-change: contents;
+    height: 90%;
+    min-height: 566px;
+    position: absolute;
+    top: 5%;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.text-zone {
+    color: white;
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35%;
+    vertical-align: middle;
+    display: table-cell;
+    max-height: 90%;
+}
+
+.text-zone p {
+    font-size: 1.6rem;
+    animation: slideInFromRight 0.8s ease-out forwards;
+
+}
+
+.text-zone h1 {
+    font-size: 5.6rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-right: 135px;
+
+    animation: slideInFromLeft 0.8s ease-out forwards;
+}
