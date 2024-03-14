@@ -20,6 +20,7 @@ const About = () => {
                     I was able to gain experience in this field
                     and am now ready to apply and expand these
                     skills outside of the university's practical training.</p>
+                    
 
 
             </div>
