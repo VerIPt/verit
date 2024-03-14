@@ -11,7 +11,7 @@ const Home = () => {
 
     useEffect(() => {
         const options = {
-            strings: ['Software Engineer', 'Full Stack Developer', 'Web-Designer', 'Media-Designer'],
+            strings: ['IT-Student', 'Software Engineer', 'Full Stack Developer', 'Web-Designer'],
             typeSpeed: 100,
             backSpeed: 100,
             backDelay: 1000,

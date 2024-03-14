@@ -54,7 +54,9 @@ const Portfolio = () => {
                 <img src={js}/>
                 </div>
             </div>
-            
+            <div className='pathtracer'>
+            <img src={react}/>
+            </div>
         </div>
         </div>
     );
