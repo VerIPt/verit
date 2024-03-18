@@ -130,7 +130,7 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .home {
     padding-top: 15px;
     flex-direction: column;
@@ -165,6 +165,7 @@
 
   
   .home-img img {
+    padding-top: 30%;
     min-width: 200px;
     
   }
