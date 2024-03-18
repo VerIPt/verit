@@ -46,7 +46,7 @@
   left: 0;
   background-image: url('../../assets/images/galaxy2.jpg');
   background-size: cover;
-  clip-path: polygon(0 72%, 100% -26%, 150% 62%, 25% 102%);
+  clip-path: polygon(-10% 72%, 100% -26%, 150% 62%, 25% 102%);
   z-index: -100;
   animation: moveBackground 20s ease-in-out infinite alternate;
   transition: ease-in-out 0.5s;
