@@ -45,7 +45,7 @@
 .contact-form {
     align-items: baseline;
     width: 100%;
-    margin-top: 60%;
+   margin-top: 2000px;
 
     ul {
         padding: 0;
@@ -60,7 +60,7 @@
             overflow: hidden;
             display: block;
             clear: both;
-            position: relative;
+           position: relative;
             animation: fadeInUp 0.8s 0.8s;
             animation-fill-mode: forwards;
         }
@@ -158,5 +158,39 @@ button {
   button:hover {
     background-color: #f39f9f;
   }
+
+
+@media (max-width: 900px) {
+    .pacman {
+       display: none;
+    
+    }
+    .text{
+        padding-bottom: 200px;
+
+    }
+    .contact-page{
+        position: inherit;
+    }
+
+    .contact-form{
+        padding-top: 2000px;
+    }
+
+    .text-zone {
+        
+        left: 5%;
+        width: 90%;
+    }
+
+    .text-zone h1 {
+        font-size: 4rem; /* Kleinere Schriftgröße für kleinere Bildschirme */
+    }
+
+    .text-zone p {
+        font-size: 1.2rem; /* Kleinere Schriftgröße für kleinere Bildschirme */
+    }
+    
+}
 
   
