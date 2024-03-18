@@ -1,5 +1,7 @@
+
+
 import './index.scss'
-import Pius from '../../assets/images/pius_transparent1.png'
+import Pius from '../../assets/images/transparent1.png'
 import Loader from 'react-loaders';
 
 const About = () => {
