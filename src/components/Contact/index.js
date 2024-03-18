@@ -51,7 +51,7 @@ const Contact = () => {
                     </div>
                     <div className="contact-form">
                         <form ref={refForm} onSubmit={sendEmail}>
-                            <ul>
+                            <ul className='contact'>
                                 <li className="half">
                                     <input placeholder="Name" type="text" name="name" required />
                                 </li>

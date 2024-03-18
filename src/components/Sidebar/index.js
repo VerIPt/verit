@@ -47,7 +47,7 @@ const Sidebar = () => {
 
                 </NavLink>
             </nav>
-            <ul>
+            <ul className='sidebar'>
                 <li>
                     <a target='_blank' rel='noreferrer' href='https://www.linkedin.com/in/pius-maushart-9a81142a2/'>
                         <FontAwesomeIcon icon={faLinkedin} color='#4d4d4e' />

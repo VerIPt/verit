@@ -45,7 +45,7 @@
 .contact-form {
     align-items: baseline;
     width: 100%;
-   margin-top: 2000px;
+ 
 
     ul {
         padding: 0;
@@ -158,6 +158,7 @@ button {
   button:hover {
     background-color: #f39f9f;
   }
+  
 
 
 @media (max-width: 900px) {
@@ -173,9 +174,8 @@ button {
         position: inherit;
     }
 
-    .contact-form{
-        padding-top: 2000px;
-    }
+
+    
 
     .text-zone {
         
@@ -188,7 +188,7 @@ button {
     }
 
     .text-zone p {
-        font-size: 0.9rem; /* Kleinere Schriftgröße für kleinere Bildschirme */
+        font-size: 1.2rem; /* Kleinere Schriftgröße für kleinere Bildschirme */
     }
     
 }
