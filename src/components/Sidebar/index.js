@@ -2,29 +2,15 @@ import { Link, NavLink } from 'react-router-dom'
 import { slide as Menu, handleOnClose } from 'react-burger-menu';
 import './index.scss'
 import LogoS from '../../assets/images/Logo_ohneService.png'
-import React, { useState, useEffect } from 'react';
+import LogoSubtitle from '../../assets/images/logo_sub.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faUser, faEnvelope, faCode } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 
-const Sidebar = () => {
-    
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
+const Sidebar = () => (
 
-        window.addEventListener('resize', handleResize);
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    return (
-        <Menu width={100} right={isMobile}>
+    <Menu width={100}>
         <div className='nav-bar'>
             <Link className='logo' to='/'>
                 <img src={LogoS} alt="logo" />
@@ -61,7 +47,6 @@ const Sidebar = () => {
             </ul>
         </div>
     </Menu>
-    );
-}
+)
 
 export default Sidebar;
