@@ -13,7 +13,7 @@ import treemap from '../../assets/images/treemap.png'
 
 const Portfolio = () => {
     return (
-        <div className="container about-page" >
+        <div className="container" >
             <div className="text-zone1">
                 <span></span>
                 <h1>My <span>Skills</span></h1>

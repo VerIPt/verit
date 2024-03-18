@@ -130,6 +130,111 @@
     text-align: center;
 }
 
+// @media (max-width: 768px) {
+//     .container {
+//         font-family: 'Poppins';
+//         width: 100%;
+//         will-change: contents;
+//         height: 90%;
+//         min-height: 566px;
+//         position: absolute;
+//         opacity: 0;
+//         top: 5%;
+//         margin: 0 auto;
+//         z-index: 1;
+//         transform-style: preserve-3d;
+//         animation: fadeIn 1s forwards;
+//       }
+      
+    
+//     .text-zone1 {
+//         left: 5%;
+//         width: 90%;
+//     }
+
+//     .text-zone1 h1 {
+//         font-size: 4rem;
+//     }
+
+//     .text-zone1 p {
+//         font-size: 0.9rem;
+//     }
+
+//     .stage-cube-cont {
+//         position: static;
+//         width: 100%;
+//         padding-top: 50%;
+//     }
+
+//     .project img {
+//         width: 90%;
+//     }
+    
+
+
+// }
+
+@media (max-width: 768px) {
+    .text-zone1, .stage-cube-cont, .portfolio {
+        position: static;
+        width: 100%;
+    }
+
+    .text-zone1 {
+        left: 5%;
+        width: 90%;
+        transform: none;
+        
+    }
+
+    .text-zone1 h1 {
+        font-size: 4rem; /* Anpassung der Schriftgröße */
+        margin-right: 20px; /* Anpassung des rechten Margins */
+        margin-left: 20px;
+    }
+
+    .text-zone1 p {
+        font-size: 0.9rem; /* Anpassung der Schriftgröße */
+        margin-right: 20px; /* Anpassung des rechten Margins */
+        margin-left: 20px;
+    }
+    .text-zone1 h3 {
+        font-size: 1rem; /* Anpassung der Schriftgröße */
+        margin-right: 20px; /* Anpassung des rechten Margins */
+        margin-left: 20px;
+    }
+
+    .stage-cube-cont {
+        padding-top: 100px; /* Etwas Abstand nach oben */
+       
+    }
+    .cubespinner{
+        margin-bottom: 100px;
+    }
+
+    .portfolio{
+        margin-top:60% ;
+
+    }
+    .project img {
+        align-items: center;
+        
+        width: 90%; /* Anpassung der Bildbreite */
+        max-width: 500px; /* Maximale Bildbreite festlegen */
+        margin: 4%; /* Zentrierung der Bilder */
+    }
+
+    
+    .project button.view-project-btn {
+       
+        bottom: 5%;
+        
+        
+    }
+
+    
+}
+
 
 
 @keyframes spincube {
