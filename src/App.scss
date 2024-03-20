@@ -24,6 +24,11 @@ textarea{
   font-family: 'Poppins';
 }
 
+.App {
+  overflow-y: auto;
+  height: 100vh;
+}
+
 
 // .loader-active{
 //   display:block;
