@@ -13,7 +13,7 @@ i18next
                 translation: {
                     name: 'Hallo, mein Name ist',
                     ich_bin: 'Ich bin',
-                    verit: 'Ich bin Ver-IT-Dienste, zu Ihren Diensten für IT',
+                    verit: 'Ich bin Ver-IT Services, zu Ihren Diensten für IT',
                     about: 'Über <1>mich<1/>',
                     media: 'Student B.Sc <0/>Medien <1>Informatik</1>',
                     text_about: "Nach dem Abschluss meiner Ausbildung habe ich über fünf Jahre hinweg vielfältige Erfahrungen in verschiedenen Bereichen gesammelt. Da ich mich leidenschaftlich für digitale Systeme interessiere, habe ich mich für einen zweiten Bildungsweg entschieden und beschlossen, einen Abschluss im IT-Bereich anzustreben. Schon im akademischen Kontext konnte ich Erfahrungen in diesem Feld sammeln und bin nun bereit, diese Fähigkeiten außerhalb der praktischen Ausbildung an der Universität anzuwenden und zu erweitern.",
