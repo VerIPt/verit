@@ -1,36 +1,37 @@
-
-
 import './index.scss'
 import Pius from '../../assets/images/transparent1.png'
-import Loader from 'react-loaders';
+import { Trans } from 'react-i18next';
+
 
 const About = () => {
     return (
         <>
-        <div className='about' id='about'>
-            <div className='background1' />
-            <div className='about-content'>
-                <h2 className='heading'>About <span>Me</span></h2>
-                <h3>Student B.Sc <br />Media <span className='surname'>Informatics</span></h3>
-                <p>After completing my apprenticeship,
-                    I have gained diverse experiences
-                    in various fields over five years.
-                    Being very passionate about digital systems,
-                    I opted for a second educational path
-                    and thus decided to pursue a degree in IT.
-                    Already within the academic context,
-                    I was able to gain experience in this field
-                    and am now ready to apply and expand these
-                    skills outside of the university's practical training.</p>
-                    
+            <div className='about' id='about'>
+                <div className='background1' />
+                <div className='about-content'>
+                    <h2>
+                        <Trans i18nKey={"about"}>
+                            About <span>Me</span>
+                        </Trans>
+                    </h2>
+
+                    <h3>
+                        <Trans i18nKey={"media"} components={[<br key="0" />, <span className="surname" key="1" />]}>
+                            Student B.Sc <br />Media <span className='surname'>Informatics</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"text_about"} />
+                    </p>
 
 
+
+                </div>
+                <div className='about-img'>
+                    <img src={Pius}></img>
+                </div>
             </div>
-            <div className='about-img'>
-                <img src={Pius}></img>
-            </div>
-        </div>
-        {/* <Loader type='pacman'/> */}
+
         </>
     );
 

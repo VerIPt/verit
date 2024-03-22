@@ -4,6 +4,7 @@ import Logo from '../../assets/images/verit_logo.png';
 import P from '../../assets/images/p.png';
 import './index.scss';
 import { Link } from 'react-router-dom';
+import {Trans } from 'react-i18next';
 
 const Home = () => {
     const el = useRef(null);
@@ -30,13 +31,20 @@ const Home = () => {
         <div className="home" id="home">
 
             <div className="home-content">
-                <h3>Hello, my Name is</h3>
+                <h3>
+                    <Trans i18nKey={"name"}/>
+
+                </h3>
                 <h1><img className='p' src={P} alt=''></img>ius <span className='surname'>Maushart</span></h1>
                 <div className="title-container">
-                    <h3>And I'm a</h3>
+                    <h3>
+                        <Trans i18nKey={"ich_bin"}/>
+                    </h3>
                     <h3 className='software' ref={el}></h3>
                 </div>
-                <p>I am Ver-IT services, at your service for IT</p>
+                <p>
+                    <Trans i18nKey={"verit"}/>    
+                </p>
                 <Link to="/contact" className='flat-button'>CONTACT ME</Link>
                 <div className='background' />
                 <div className='hoverbackground' />

@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import './index.scss';
 import emailjs from '@emailjs/browser'
 import Pacman from 'react-pacman';
+import { Trans } from 'react-i18next';
 
 const Contact = () => {
     const refForm = useRef()
@@ -10,11 +11,11 @@ const Contact = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setStartGame(true);
-        }, 1000); 
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, []);
-   
+
 
     const handleRestartClick = () => {
         setStartGame(false);
@@ -46,8 +47,14 @@ const Contact = () => {
             <div className='contact-page'>
                 <div className='text-zone'>
                     <div className='text'>
-                        <h1>Contact <span>Me</span></h1>
-                        <p>I am interested in freelance opportunities. However, if you have other requests or questions, don't hesitate to contact me using the form below.</p>
+                        <h1>
+                            <Trans i18nKey={"contact"}>
+                                Contact <span>Me</span>
+                            </Trans>
+                        </h1>
+                        <p>
+                            <Trans i18nKey={"contact_text"} />
+                        </p>
                     </div>
                     <div className="contact-form">
                         <form ref={refForm} onSubmit={sendEmail}>
@@ -87,8 +94,8 @@ const Contact = () => {
                 </div>
                 <div className='pacman'>
                     <div className='pacman-frame'>
-                    {startGame && <Pacman gridSize={20} />}
-                    <button onClick={handleRestartClick}>RESTART</button>
+                        {startGame && <Pacman gridSize={20} />}
+                        <button onClick={handleRestartClick}>RESTART</button>
                     </div>
                 </div>
             </div>
