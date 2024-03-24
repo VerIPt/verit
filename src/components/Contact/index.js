@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from 'react';
 import './index.scss';
 import emailjs from '@emailjs/browser'
 import Pacman from 'react-pacman';
+
+
 import { Trans } from 'react-i18next';
 
 const Contact = () => {
