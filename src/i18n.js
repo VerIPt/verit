@@ -13,7 +13,7 @@ i18next
                 translation: {
                     name: 'Hallo, mein Name ist',
                     ich_bin: 'Ich bin',
-                    verit: 'Ich bin Ver-IT Services, zu Ihren Diensten für IT',
+                    verit: 'Ver-IT Services, zu Ihren Diensten für IT',
                     about: 'Über <1>mich<1/>',
                     media: 'Student B.Sc <0/>Medien <1>Informatik</1>',
                     text_about: "Nach dem Abschluss meiner Ausbildung habe ich über fünf Jahre hinweg vielfältige Erfahrungen in verschiedenen Bereichen gesammelt. Da ich mich leidenschaftlich für digitale Systeme interessiere, habe ich mich für einen zweiten Bildungsweg entschieden und beschlossen, einen Abschluss im IT-Bereich anzustreben. Schon im akademischen Kontext konnte ich Erfahrungen in diesem Feld sammeln und bin nun bereit, diese Fähigkeiten außerhalb der praktischen Ausbildung an der Universität anzuwenden und zu erweitern.",
@@ -44,8 +44,8 @@ i18next
             en: {
                 translation: {
                     name: 'Hello, my name is',
-                    ich_bin: 'And i am',
-                    verit: 'I am Ver-IT services, at your service for IT',
+                    ich_bin: 'I am',
+                    verit: 'Ver-IT services, at your service for IT',
                     about: 'Über <1>mich<1/>',
                     media: "Student B.Sc <0/>Media <1>Informatics</1>",
                     text_about: "After completing my apprenticeship,\nI have gained diverse experiences \nin various fields over five years. \nBeing very passionate about digital systems,\nI opted for a second educational path\nand thus decided to pursue a degree in IT.\nAlready within the academic context,\nI was able to gain experience in this field\nand am now ready to apply and expand these\nskills outside of the university's practical training.",
