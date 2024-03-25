@@ -20,6 +20,16 @@ const Portfolio = () => {
                         My <span>Skills</span>
                     </Trans>
                 </h1>
+
+                <h3>
+                    <Trans i18nKey={"cyber"}>
+                        Effiziente <span>C++ Programmierung</span>
+                    </Trans>
+                </h3>
+                <p>
+                    <Trans i18nKey={"cyber_text"} />
+                </p>
+
                 <h3>
                     <Trans i18nKey={"operating"}>
                         System Architecture and <span>Operating Systems</span>
