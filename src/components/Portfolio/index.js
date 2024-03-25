@@ -37,6 +37,14 @@ const Portfolio = () => {
                     <Trans i18nKey={"distributed_text"} />
                 </p>
                 <h3>
+                    <Trans i18nKey={"micro"}>
+                        Effiziente <span>C++ Programmierung</span>
+                    </Trans>
+                </h3>
+                <p>
+                    <Trans i18nKey={"micro_text"} />
+                </p>
+                <h3>
                     <Trans i18nKey={"graphics"}>
                         Distributed <span>Systems</span>
                     </Trans>

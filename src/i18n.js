@@ -36,6 +36,8 @@ i18next
                     meditech_text: 'Erworbenes Wissen in Medientechnologien mit Schwerpunkt auf Bild- und Audiobearbeitung. Dies umfasst Kenntnisse über Filter, Bitraten, Filterkerne und die Prinzipien hinter Bildabtastungsalgorithmen, was einen vielseitigen Kompetenzsatz in der Multimedia-Verarbeitung bietet.',
                     data: 'Data Science <1>Grundkenntnisse</1>',
                     data_text: 'Grundlegende Kenntnisse in Data Science, die durch die Analyse und Ableitung von Erkenntnissen aus dem AOL-Suchdatensatz demonstriert wurden. Mit Kenntnissen in SQL zur Datenabfrage konnte ich spezifische Ereignisse untersuchen und relevante Statistiken erstellen.',
+                    micro: 'Elektrotechnik und <1>Systemintegration</1>',
+                    micro_text: 'Kenntnisse in Elektrotechnik und elektrischer Fehlersuche in Informationssystemen, z. B. Bussysteme, sowie im Löten von elektronischen Bauteilen auf Platinen und Programmieren von Mikrocontrollern.',
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'Ich habe Großes Interesse an einer Anstellung als Werkstudent oder an freiberuflichen Möglichkeiten. Wenn Sie jedoch andere Anfragen oder Fragen haben, zögern Sie nicht, mich über das untenstehende Formular zu kontaktieren.',
 
@@ -68,6 +70,8 @@ i18next
                     meditech_text: 'Acquired knowledge in media technologies, focusing on image and audio processing. This includes learning about filters, bitrates, filter kernels, and the principles behind image sampling algorithms, providing a well-rounded skill set in multimedia processing.',
                     data: 'Data Science <1>Fundamentals</1>',
                     data_text: 'Possess foundational knowledge in data science, demonstrated through analyzing and deriving insights from the AOL search data set. Proficient in SQL for data querying, I have successfully investigated specific events and crafted relevant statistics, showcasing my ability to interpret and manipulate large data sets effectively.',
+                    micro: 'Electrical Engineering and <1>System Integration</1>',
+                    micro_text: 'Skills in electrical engineering and troubleshooting in information systems, e.g. bus systems, as well as soldering electronic components onto circuit boards and programming microcontrollers',
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'I am highly interested in a position as a working student or in freelance opportunities. However, if you have other inquiries or questions, please do not hesitate to contact me using the form below.',
                 }
