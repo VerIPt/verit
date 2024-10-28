@@ -41,7 +41,7 @@ i18next
                     cyber: 'Cyber<1>security</1>',
                     cyber_text: 'Kenntnisse in IT-Sicherheit, erworben durch Online-Kurse und das Studium von Fachbüchern, umfassen ein breites Verständnis verschiedener Bedrohungen und Angriffsstrategien sowie deren Prävention. Diese Expertise trägt dazu bei, potenzielle Sicherheitsrisiken zu identifizieren und effektive Präventionsstrategien zu entwickeln, um digitale Systeme proaktiv zu schützen.',
                     contact: 'Contact <1>Me</1>',
-                    contact_text: 'Ich habe Großes Interesse an einer Anstellung als Werkstudent oder an freiberuflichen Möglichkeiten. Wenn Sie jedoch andere Anfragen oder Fragen haben, zögern Sie nicht, mich über das untenstehende Formular zu kontaktieren.',
+                    contact_text: 'Wenn Sie Fragen haben, zögern Sie nicht, mich über das untenstehende Formular zu kontaktieren.',
 
                 }
             },
@@ -77,7 +77,7 @@ i18next
                     cyber: 'Cyber<1>security</1>',
                     cyber_text: 'Knowledge in IT security, acquired through online courses and the study of specialized books, encompasses a broad understanding of various threats and attack strategies as well as their prevention. This expertise helps in identifying potential security risks and developing effective prevention strategies to proactively protect digital systems.',
                     contact: 'Contact <1>Me</1>',
-                    contact_text: 'I am highly interested in a position as a working student or in freelance opportunities. However, if you have other inquiries or questions, please do not hesitate to contact me using the form below.',
+                    contact_text: 'If you have other inquiries or questions, please do not hesitate to contact me using the form below.',
                 }
             },
 
