@@ -201,18 +201,15 @@ function Emina() {
     }
 
     return (
-        <div>
-            <div>
-                <canvas ref={canvasRef} width={600} height={600} />
-            </div>
-            <div>
-                <button onClick={handleLogo}>try me!</button>
-            </div>
-            <div>
-                <button onClick={handleRotate}>try me!</button>
-            </div>
+        <div style={{
+            backgroundColor: 'black',
+            width: '100vw',
+            height: '100vh',
+            margin: 0
+        }}>
+            <canvas ref={canvasRef} width={600} height={600} />
+            <button onClick={handleLogo}>try me!</button>
         </div>
-
     );
 }
 
