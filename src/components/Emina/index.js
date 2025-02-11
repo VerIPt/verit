@@ -203,6 +203,8 @@ function Emina() {
     return (
         <div style={{
             backgroundColor: 'black',
+            width: '100%',
+            height: '100%',
             margin: 0
         }}>
             <canvas ref={canvasRef} width={600} height={600} />
