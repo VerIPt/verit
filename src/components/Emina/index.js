@@ -203,7 +203,7 @@ function Emina() {
     return (
         <div style={{
             backgroundColor: 'black',
-            width: '100%',
+            width: '150%',
             height: '100%',
             margin: 0
         }}>
