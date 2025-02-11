@@ -217,8 +217,7 @@ function Emina() {
   return (
     <div>
       <canvas ref={canvasRef} width={600} height={600} />
-      <button onClick={handleLogo}>logo</button>
-      <button onClick={handleRotate}>rotate</button>
+      <button onClick={handleLogo}>try me!</button>
     </div>
   );
 }
