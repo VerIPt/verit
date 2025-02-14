@@ -1486,7 +1486,7 @@ function Emina() {
         finalMoveDuration: 2000,
         finalDoneTime: 0,
         circuitStartTime: 0,
-        circuitDuration: 1500
+        circuitDuration: 1500 
     });
 
     function drawRotatedArc(ctx, x, y, radius, lineWidth, glowColor, angleOffset) {
@@ -1549,138 +1549,130 @@ function Emina() {
         const state = animStateRef.current;
         const canvas = canvasRef.current;
         if (!canvas) return;
-
+    
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-
+    
         // 1) Arcs 
         state.arcs.forEach(arc => {
-            if (state.phase === 0) {
-                arc.angle += arc.rotationSpeed;
-            } else if (state.phase === 1) {
-                arc.angle += arc.rotationSpeed;
-                let elapsed = timestamp - state.pulseStartTime;
-                let t = Math.min(elapsed / state.pulseDuration, 1);
-                let scale = 1 + 0.3 * Math.sin(t * Math.PI);
-                arc._pulseLineWidth = arc.lineWidth * scale;
-            } else if (state.phase === 2) {
-                let elapsed = timestamp - state.finalMoveStartTime;
-                let t = Math.min(elapsed / state.finalMoveDuration, 1);
-                let angleDiff = arc.targetAngle - arc.angle;
-                arc.angle += angleDiff * 0.08;
-                let radiusDiff = arc.targetRadius - arc.radius;
-                arc.radius += radiusDiff * 0.08;
-            }
-            else if (state.phase === 3) {
-                let elapsed = timestamp - state.finalDoneTime;
-                let floatSpeed = 0.002;
-                let floatAmp = 5;
-                let pulseSpeed = 0.003;
-                let pulseAmp = 0.05;
-                let floatOffset = Math.sin(elapsed * floatSpeed) * floatAmp;
-                let pulseScale = 1 + pulseAmp * Math.sin(elapsed * pulseSpeed);
-                arc._pulseLineWidth = arc.lineWidth * pulseScale;
-
-                drawRotatedArc(ctx, centerX, centerY + floatOffset,
-                    arc.radius,
-                    arc._pulseLineWidth || arc.lineWidth,
-                    arc.color,
-                    arc.angle
-                );
-                let cElapsed = timestamp - state.finalDoneTime;
-                let cPulse = 1 + 0.3 * Math.sin(cElapsed * 0.003);
-
-                state.circuitLines.forEach(line => {
-                    line._pulseWidth = line.width * cPulse;
-                });
-
-                drawCircuitLines(ctx, state.circuitLines);
-                return;
-            }
-
-            drawRotatedArc(
-                ctx, centerX, centerY,
-                arc.radius,
-                arc._pulseLineWidth ? arc._pulseLineWidth : arc.lineWidth,
-                arc.color,
-                arc.angle
-            );
-        });
-
-        if (state.phase === 1) {
+          if (state.phase === 0) {
+            arc.angle += arc.rotationSpeed;
+          } else if (state.phase === 1) {
+            arc.angle += arc.rotationSpeed;
             let elapsed = timestamp - state.pulseStartTime;
-            if (elapsed > state.pulseDuration) {
-                state.phase = 2;
-                state.finalMoveStartTime = timestamp;
-            }
+            let t = Math.min(elapsed / state.pulseDuration, 1);
+            let scale = 1 + 0.3 * Math.sin(t * Math.PI);
+            arc._pulseLineWidth = arc.lineWidth * scale;
+          } else if (state.phase === 2) {
+            let elapsed = timestamp - state.finalMoveStartTime;
+            let t = Math.min(elapsed / state.finalMoveDuration, 1);
+            let angleDiff = arc.targetAngle - arc.angle;
+            arc.angle += angleDiff * 0.08;
+            let radiusDiff = arc.targetRadius - arc.radius;
+            arc.radius += radiusDiff * 0.08;
+          } 
+          else if (state.phase === 3) {
+            let elapsed = timestamp - state.finalDoneTime;
+            let floatSpeed = 0.002;
+            let floatAmp = 5;
+            let pulseSpeed = 0.003;
+            let pulseAmp = 0.05;
+            let floatOffset = Math.sin(elapsed * floatSpeed) * floatAmp;
+            let pulseScale = 1 + pulseAmp * Math.sin(elapsed * pulseSpeed);
+            arc._pulseLineWidth = arc.lineWidth * pulseScale;
+    
+            drawRotatedArc(ctx, centerX, centerY + floatOffset, 
+              arc.radius, 
+              arc._pulseLineWidth || arc.lineWidth, 
+              arc.color, 
+              arc.angle
+            );
+            return;
+          }
+    
+          drawRotatedArc(
+            ctx, centerX, centerY, 
+            arc.radius,
+            arc._pulseLineWidth ? arc._pulseLineWidth : arc.lineWidth,
+            arc.color,
+            arc.angle
+          );
+        });
+    
+        if (state.phase === 1) {
+          let elapsed = timestamp - state.pulseStartTime;
+          if (elapsed > state.pulseDuration) {
+            state.phase = 2;
+            state.finalMoveStartTime = timestamp;
+          }
         }
         else if (state.phase === 2) {
-            let elapsed = timestamp - state.finalMoveStartTime;
-            if (elapsed > state.finalMoveDuration) {
-                state.phase = 4;
-                state.circuitStartTime = timestamp;
-            }
+          let elapsed = timestamp - state.finalMoveStartTime;
+          if (elapsed > state.finalMoveDuration) {
+            state.phase = 4;
+            state.circuitStartTime = timestamp;
+          }
         }
-
+    
         if (state.phase === 4) {
-            let elapsed = timestamp - state.circuitStartTime;
-            let t = Math.min(elapsed / state.circuitDuration, 1);
-
-            state.circuitLines.forEach(line => {
-                line.progress = t;
-            });
-            drawCircuitLines(ctx, state.circuitLines);
-
-            if (t >= 1) {
-                state.phase = 3;
-                state.finalDoneTime = timestamp;
-            }
+          let elapsed = timestamp - state.circuitStartTime;
+          let t = Math.min(elapsed / state.circuitDuration, 1);
+    
+          state.circuitLines.forEach(line => {
+            line.progress = t;
+          });
+          drawCircuitLines(ctx, state.circuitLines);
+    
+        //   if (t >= 1) {
+        //     state.phase = 3;
+        //     state.finalDoneTime = timestamp;
+        //   }
         }
-
+    
         requestAnimationFrame(animate);
-    }
-
-    useEffect(() => {
+      }
+    
+      useEffect(() => {
         const id = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(id);
-    }, []);
+      }, []);
 
-    function handlePulse() {
+      function handlePulse() {
         const state = animStateRef.current;
         state.phase = 1;
         state.pulseStartTime = performance.now();
-    }
-
-    return (
+      }
+    
+      return (
         <div style={{
-            width: '100%',
-            height: '100vh',
-            background: 'black',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
+          width: '100%',
+          height: '100vh',
+          background: 'black',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
-            <canvas ref={canvasRef} width={1000} height={1000} />
-            <button
-                onClick={handlePulse}
-                style={{
-                    marginTop: '20px',
-                    padding: '10px 20px',
-                    fontSize: '16px',
-                    border: 'none',
-                    background: 'cyan',
-                    color: 'black',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
-                }}>
-                logo
-            </button>
+          <canvas ref={canvasRef} width={1000} height={1000} />
+          <button 
+            onClick={handlePulse}
+            style={{ 
+              marginTop: '20px',
+              padding: '10px 20px',
+              fontSize: '16px',
+              border: 'none',
+              background: 'cyan',
+              color: 'black',
+              borderRadius: '5px',
+              cursor: 'pointer'
+            }}>
+            logo
+          </button>
         </div>
-    );
-}
-
-export default Emina;
+      );
+    }
+    
+    export default Emina;
