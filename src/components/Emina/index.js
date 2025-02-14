@@ -1658,7 +1658,8 @@ function Emina() {
     }
 
     return (
-        <div style={{
+        <div 
+        style={{
             width: '100%',
             height: '100vh',
             background: 'black',
@@ -1668,6 +1669,10 @@ function Emina() {
             justifyContent: 'center'
         }}>
             <canvas ref={canvasRef} width={1000} height={1000} />
+           <div
+           style={{
+            position: 'relative'
+        }}>
             <button
                 onClick={handlePulse}
                 style={{
@@ -1688,7 +1693,7 @@ function Emina() {
                     padding: '10px 20px',
                     fontSize: '16px',
                     border: 'none',
-                    background: 'lime',
+                    background: 'cyan',
                     color: 'black',
                     borderRadius: '5px',
                     cursor: 'pointer'
@@ -1696,6 +1701,7 @@ function Emina() {
             >
                 Download
             </button>
+            </div>
         </div>
     );
 }
