@@ -1658,53 +1658,60 @@ function Emina() {
     }
 
     return (
-        <div 
-        style={{
-            width: '100%',
-            height: '100vh',
-            background: 'black',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
-        }}>
-            <canvas ref={canvasRef} width={1000} height={1000} />
         <div
-        style={{
-            display: 'flex',
-            flexDirection: 'column'
-        }}>
-            <button
-                onClick={handlePulse}
+            style={{
+                width: '100%',
+                height: '100vh',
+                background: 'black',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'flex-start'
+            }}
+        >
+            <canvas ref={canvasRef} width={600} height={600} />
+
+            <div
                 style={{
+                    display: 'flex',
+                    flexDirection: 'column',
                     marginTop: '20px',
-                    padding: '10px 20px',
-                    fontSize: '16px',
-                    border: 'none',
-                    background: 'cyan',
-                    color: 'black',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
-                }}>
-                logo
-            </button>
-            <button
-                onClick={handleDownload}
-                style={{
-                    padding: '10px 20px',
-                    fontSize: '16px',
-                    border: 'none',
-                    background: 'cyan',
-                    color: 'black',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
+                    gap: '10px'
                 }}
             >
-                Download
-            </button>
+                <button
+                    onClick={handlePulse}
+                    style={{
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        border: 'none',
+                        background: 'cyan',
+                        color: 'black',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    logo
+                </button>
+
+                <button
+                    onClick={handleDownload}
+                    style={{
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        border: 'none',
+                        background: 'cyan',
+                        color: 'black',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    Download
+                </button>
             </div>
         </div>
     );
+
 }
 
 export default Emina;
