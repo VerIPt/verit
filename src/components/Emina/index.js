@@ -1,10 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 
-// Deine React-Komponente
 function Emina() {
     const canvasRef = useRef(null);
 
-    // Alle Animationsdaten in einem Ref-Objekt, damit sie sich nicht bei jedem Rendern zurücksetzen.
     const animStateRef = useRef({
         arcs: [
             {
@@ -1488,12 +1486,9 @@ function Emina() {
         finalMoveDuration: 2000,
         finalDoneTime: 0,
         circuitStartTime: 0,
-        circuitDuration: 1500 // 1,5s Zeit für Leitungen
+        circuitDuration: 1500
     });
 
-    // -----------------------------------------------------------
-    // CANVAS-Hilfsfunktionen (Arc, Circuit, Endpoints, etc.)
-    // -----------------------------------------------------------
     function drawRotatedArc(ctx, x, y, radius, lineWidth, glowColor, angleOffset) {
         ctx.beginPath();
         ctx.arc(
@@ -1536,7 +1531,6 @@ function Emina() {
             }
             ctx.stroke();
 
-            // Start- und Endpunkt markieren, wenn gewünscht
             if (line.startPoint) drawEndpoint(ctx, line.startX, line.startY, 6, line.color);
             if (line.endPoint) drawEndpoint(ctx, x, y, 6, line.color);
         });
@@ -1551,13 +1545,10 @@ function Emina() {
         ctx.fill();
     }
 
-    // -----------------------------------------------------------
-    // DIE ANIMATIONS-FUNKTION
-    // -----------------------------------------------------------
     function animate(timestamp) {
-        const state = animStateRef.current; // Kurzreferenz
+        const state = animStateRef.current;
         const canvas = canvasRef.current;
-        if (!canvas) return; // Sicherheitscheck, falls Komponente unmounted
+        if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1565,28 +1556,25 @@ function Emina() {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
 
-        // 1) Arcs updaten + zeichnen
+        // 1) Arcs 
         state.arcs.forEach(arc => {
             if (state.phase === 0) {
-                // zufälliges Drehen
                 arc.angle += arc.rotationSpeed;
             } else if (state.phase === 1) {
-                // Pulse
                 arc.angle += arc.rotationSpeed;
                 let elapsed = timestamp - state.pulseStartTime;
                 let t = Math.min(elapsed / state.pulseDuration, 1);
                 let scale = 1 + 0.3 * Math.sin(t * Math.PI);
                 arc._pulseLineWidth = arc.lineWidth * scale;
             } else if (state.phase === 2) {
-                // Move to final
                 let elapsed = timestamp - state.finalMoveStartTime;
                 let t = Math.min(elapsed / state.finalMoveDuration, 1);
                 let angleDiff = arc.targetAngle - arc.angle;
                 arc.angle += angleDiff * 0.08;
                 let radiusDiff = arc.targetRadius - arc.radius;
                 arc.radius += radiusDiff * 0.08;
-            } else if (state.phase === 3) {
-                // Schwebend + Puls
+            }
+            else if (state.phase === 3) {
                 let elapsed = timestamp - state.finalDoneTime;
                 let floatSpeed = 0.002;
                 let floatAmp = 5;
@@ -1595,14 +1583,24 @@ function Emina() {
                 let floatOffset = Math.sin(elapsed * floatSpeed) * floatAmp;
                 let pulseScale = 1 + pulseAmp * Math.sin(elapsed * pulseSpeed);
                 arc._pulseLineWidth = arc.lineWidth * pulseScale;
-                // Zeichnen + return => rest wird übersprungen
-                drawRotatedArc(ctx, centerX, centerY + floatOffset, arc.radius,
-                    arc._pulseLineWidth || arc.lineWidth, arc.color, arc.angle
+
+                drawRotatedArc(ctx, centerX, centerY + floatOffset,
+                    arc.radius,
+                    arc._pulseLineWidth || arc.lineWidth,
+                    arc.color,
+                    arc.angle
                 );
+                let cElapsed = timestamp - state.finalDoneTime;
+                let cPulse = 1 + 0.3 * Math.sin(cElapsed * 0.003);
+
+                state.circuitLines.forEach(line => {
+                    line._pulseWidth = line.width * cPulse;
+                });
+
+                drawCircuitLines(ctx, state.circuitLines);
                 return;
             }
 
-            // Standard-Zeichnung (wenn phase != 3)
             drawRotatedArc(
                 ctx, centerX, centerY,
                 arc.radius,
@@ -1612,77 +1610,61 @@ function Emina() {
             );
         });
 
-        // 2) Phasen-Übergänge
         if (state.phase === 1) {
             let elapsed = timestamp - state.pulseStartTime;
             if (elapsed > state.pulseDuration) {
                 state.phase = 2;
                 state.finalMoveStartTime = timestamp;
             }
-        } else if (state.phase === 2) {
+        }
+        else if (state.phase === 2) {
             let elapsed = timestamp - state.finalMoveStartTime;
             if (elapsed > state.finalMoveDuration) {
-                // In deinem Code: phase=4 => dann die Circuit-Lines animieren
                 state.phase = 4;
-                state.finalDoneTime = timestamp;
                 state.circuitStartTime = timestamp;
             }
         }
 
-        // 3) Circuit-Lines-Animation in Phase 4
         if (state.phase === 4) {
             let elapsed = timestamp - state.circuitStartTime;
             let t = Math.min(elapsed / state.circuitDuration, 1);
 
             state.circuitLines.forEach(line => {
-                line.progress = t; // 0..1
+                line.progress = t;
             });
             drawCircuitLines(ctx, state.circuitLines);
+
+            if (t >= 1) {
+                state.phase = 3;
+                state.finalDoneTime = timestamp;
+            }
         }
 
-        // Nächster Frame
         requestAnimationFrame(animate);
     }
 
-    // -----------------------------------------------------------
-    // NUTZEN DES ANIMATIONS-LOOPS IN EINEM EFFECT
-    // -----------------------------------------------------------
     useEffect(() => {
-        // Starte die Animation beim Mounten
-        let animationId = requestAnimationFrame(animate);
-
-        // Beim Unmounten die Schleife abbrechen
-        return () => {
-            cancelAnimationFrame(animationId);
-        };
+        const id = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(id);
     }, []);
 
-    // -----------------------------------------------------------
-    // EVENT-HANDLER FÜR DEN BUTTON
-    // -----------------------------------------------------------
     function handlePulse() {
         const state = animStateRef.current;
         state.phase = 1;
         state.pulseStartTime = performance.now();
     }
 
-
     return (
         <div style={{
-            backgroundColor: 'black',
+            width: '100%',
+            height: '100vh',
+            background: 'black',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh',
-            width: '100%'
+            justifyContent: 'center'
         }}>
-            <canvas
-                ref={canvasRef}
-                width={1000}
-                height={1000}
-                style={{ background: 'transparent' }}
-            />
+            <canvas ref={canvasRef} width={1000} height={1000} />
             <button
                 onClick={handlePulse}
                 style={{
@@ -1694,8 +1676,7 @@ function Emina() {
                     color: 'black',
                     borderRadius: '5px',
                     cursor: 'pointer'
-                }}
-            >
+                }}>
                 logo
             </button>
         </div>
