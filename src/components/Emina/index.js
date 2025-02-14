@@ -1669,9 +1669,10 @@ function Emina() {
             justifyContent: 'center'
         }}>
             <canvas ref={canvasRef} width={1000} height={1000} />
-           <div
-           style={{
-            position: 'relative'
+        <div
+        style={{
+            display: 'flex',
+            flexDirection: 'column'
         }}>
             <button
                 onClick={handlePulse}
