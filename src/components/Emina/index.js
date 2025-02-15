@@ -1,50 +1,115 @@
-import React, { useRef, useEffect } from 'react';
-
-let red = 247;
-let green = 177;
-let blue = 0;
-let colorCircuit = getRGBA(1);
-let colorChip = getRGBA(0.3);
-
-function getRGBA(alpha){
-    return `rgba(${red}, ${green}, ${blue}, ${alpha})`; 
-}
+import React, { useRef, useEffect, useState } from 'react';
 
 function Emina() {
+
+    const [redL, setRedL] = useState(247);
+    const [greenL, setGreenL] = useState(177);
+    const [blueL, setBlueL] = useState(0);
+
+    const [redC, setRedC] = useState(247);
+    const [greenC, setGreenC] = useState(177);
+    const [blueC, setBlueC] = useState(0);
+
+    let colorCircuit = getRGBACircuit(1);
+    let colorChip = getRGBACircuit(0.3);
+
+    function getRGBALogo(alpha) {
+        return `rgba(${redL}, ${greenL}, ${blueL}, ${alpha})`;
+    }
+    function getRGBACircuit(alpha) {
+        return `rgba(${redC}, ${greenC}, ${blueC}, ${alpha})`;
+    }
     const canvasRef = useRef(null);
+
 
     const animStateRef = useRef({
         arcs: [
             {
-                color: getRGBA(0.7) , radius: 170, lineWidth: 15,
+                color: getRGBALogo(0.7), radius: 170, lineWidth: 15,
                 angle: 0, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: -2.2, targetRadius: 170
             },
             {
-                color: getRGBA(0.3), radius: 150, lineWidth: 15,
+                color: getRGBALogo(0.3), radius: 150, lineWidth: 15,
                 angle: 1, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: -1.5, targetRadius: 150
             },
             {
-                color: getRGBA(0.5), radius: 130, lineWidth: 15,
+                color: getRGBALogo(0.5), radius: 130, lineWidth: 15,
                 angle: 2, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: -0.8, targetRadius: 130
             },
             {
-                color: getRGBA(0.4), radius: 110, lineWidth: 15,
+                color: getRGBALogo(0.4), radius: 110, lineWidth: 15,
                 angle: 3, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 0.2, targetRadius: 110
             },
             {
-                color: getRGBA(0.7), radius: 90, lineWidth: 15,
+                color: getRGBALogo(0.7), radius: 90, lineWidth: 15,
                 angle: 4, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 1.44, targetRadius: 90
             },
             {
-                color: getRGBA(0.8), radius: 70, lineWidth: 15,
+                color: getRGBALogo(0.8), radius: 70, lineWidth: 15,
                 angle: 5, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 2.29, targetRadius: 70
             },
             {
-                color: getRGBA(1), radius: 50, lineWidth: 15,
+                color: getRGBALogo(1), radius: 50, lineWidth: 15,
                 angle: 6, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 3.14, targetRadius: 50
             }
         ],
         circuitLines: [
+            {
+                startX: 610, startY: 680, color: colorChip, width: 6,
+                segments: [
+                    { length: 15, angleDeg: 0 },
+                    { length: 5, angleDeg: 45 },
+                    { length: 45, angleDeg: 90 },
+                    { length: 5, angleDeg: 135 },
+                    { length: 150, angleDeg: 180 },
+                    { length: 5, angleDeg: 225 },
+                    { length: 13, angleDeg: 270 },
+                    { length: 110, angleDeg: 0 },
+                    { length: 45, angleDeg: -45 },
+                    { length: 10, angleDeg: 0 },
+                    { length: 43, angleDeg: 90 },
+                    { length: 146, angleDeg: 180 },
+                    { length: 6, angleDeg: 270 },
+                    { length: 107, angleDeg: 0 },
+                    { length: 50, angleDeg: -45 },
+                    { length: 36, angleDeg: 90 },
+                    { length: 30, angleDeg: 180 },
+                    { length: 34, angleDeg: -45 },
+                    { length: 18, angleDeg: 90 },
+                    { length: 10, angleDeg: 180 },
+                    { length: 15, angleDeg: -45 },
+                ],
+                progress: 0,
+                startPoint: false,
+                endPoint: false
+            },
+            //chip1
+            {
+                startX: 290, startY: 200, color: colorChip, width: 6,
+                segments: [
+                    { length: 70, angleDeg: 0 },
+                    { length: 5, angleDeg: -45 },
+                    { length: 44, angleDeg: -90 },
+                    { length: 20, angleDeg: -180 },
+                    { length: 59, angleDeg: -225 },
+                    { length: 56, angleDeg: 0 },
+                    { length: 36, angleDeg: -90 },
+                    { length: 12, angleDeg: -180 },
+                    { length: 48, angleDeg: -225 },
+                    { length: 43, angleDeg: 0 },
+                    { length: 31, angleDeg: -90 },
+                    { length: 5, angleDeg: -180 },
+                    { length: 35, angleDeg: -225 },
+                    { length: 25, angleDeg: 0 },
+                    { length: 17, angleDeg: -90 },
+                    { length: 17, angleDeg: -225 },
+                    { length: 10, angleDeg: 0 },
+                    { length: 5, angleDeg: -90 },
+                ],
+                progress: 0,
+                startPoint: false,
+                endPoint: false
+            },
             {
                 startX: 580, startY: 300, color: colorCircuit, width: 4,
                 segments: [
@@ -56,7 +121,6 @@ function Emina() {
                     { length: 170, angleDeg: 270 },
                     { length: 170, angleDeg: 315 },
                     { length: 170, angleDeg: 360 },
-
                 ],
                 progress: 0,
                 startPoint: false,
@@ -73,7 +137,6 @@ function Emina() {
                     { length: 300, angleDeg: 270 },
                     { length: 300, angleDeg: 315 },
                     { length: 300, angleDeg: 360 },
-
                 ],
                 progress: 0,
                 startPoint: false,
@@ -594,33 +657,7 @@ function Emina() {
                 startPoint: true,
                 endPoint: false
             },
-            //chip1
-            {
-                startX: 290, startY: 200, color: colorChip, width: 6,
-                segments: [
-                    { length: 70, angleDeg: 0 },
-                    { length: 5, angleDeg: -45 },
-                    { length: 44, angleDeg: -90 },
-                    { length: 20, angleDeg: -180 },
-                    { length: 59, angleDeg: -225 },
-                    { length: 56, angleDeg: 0 },
-                    { length: 36, angleDeg: -90 },
-                    { length: 12, angleDeg: -180 },
-                    { length: 48, angleDeg: -225 },
-                    { length: 43, angleDeg: 0 },
-                    { length: 31, angleDeg: -90 },
-                    { length: 5, angleDeg: -180 },
-                    { length: 35, angleDeg: -225 },
-                    { length: 25, angleDeg: 0 },
-                    { length: 17, angleDeg: -90 },
-                    { length: 17, angleDeg: -225 },
-                    { length: 10, angleDeg: 0 },
-                    { length: 5, angleDeg: -90 },
-                ],
-                progress: 0,
-                startPoint: false,
-                endPoint: false
-            },
+            
             // umrahmung
             {
                 startX: 380, startY: 150, color: colorCircuit, width: 2,
@@ -991,35 +1028,7 @@ function Emina() {
                 endPoint: true
             },
             // chip2
-            {
-                startX: 610, startY: 680, color: colorChip, width: 6,
-                segments: [
-                    { length: 15, angleDeg: 0 },
-                    { length: 5, angleDeg: 45 },
-                    { length: 45, angleDeg: 90 },
-                    { length: 5, angleDeg: 135 },
-                    { length: 150, angleDeg: 180 },
-                    { length: 5, angleDeg: 225 },
-                    { length: 13, angleDeg: 270 },
-                    { length: 110, angleDeg: 0 },
-                    { length: 45, angleDeg: -45 },
-                    { length: 10, angleDeg: 0 },
-                    { length: 43, angleDeg: 90 },
-                    { length: 146, angleDeg: 180 },
-                    { length: 6, angleDeg: 270 },
-                    { length: 107, angleDeg: 0 },
-                    { length: 50, angleDeg: -45 },
-                    { length: 36, angleDeg: 90 },
-                    { length: 30, angleDeg: 180 },
-                    { length: 34, angleDeg: -45 },
-                    { length: 18, angleDeg: 90 },
-                    { length: 10, angleDeg: 180 },
-                    { length: 15, angleDeg: -45 },
-                ],
-                progress: 0,
-                startPoint: false,
-                endPoint: false
-            },
+            
             {
                 startX: 620, startY: 670, color: colorCircuit, width: 2,
                 segments: [
@@ -1496,7 +1505,25 @@ function Emina() {
         finalMoveDuration: 2000,
         finalDoneTime: 0,
         circuitStartTime: 0,
-        circuitDuration: 1500 
+        circuitDuration: 1500
+    });
+
+    useEffect(() => {
+
+        animStateRef.current.arcs[0].color = getRGBALogo(0.7);
+        animStateRef.current.arcs[1].color = getRGBALogo(0.3);
+        animStateRef.current.arcs[2].color = getRGBALogo(0.5);
+        animStateRef.current.arcs[3].color = getRGBALogo(0.4);
+        animStateRef.current.arcs[4].color = getRGBALogo(0.7);
+        animStateRef.current.arcs[5].color = getRGBALogo(0.8);
+        animStateRef.current.arcs[6].color = getRGBALogo(1);
+
+        animStateRef.current.circuitLines.forEach((line) => {
+            line.color = getRGBACircuit(1);
+        });
+        animStateRef.current.circuitLines[0].color = getRGBACircuit(0.3);
+        animStateRef.current.circuitLines[1].color = getRGBACircuit(0.3);
+
     });
 
     function drawRotatedArc(ctx, x, y, radius, lineWidth, glowColor, angleOffset) {
@@ -1559,131 +1586,199 @@ function Emina() {
         const state = animStateRef.current;
         const canvas = canvasRef.current;
         if (!canvas) return;
-    
+
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-    
+
         // 1) Arcs 
         state.arcs.forEach(arc => {
-          if (state.phase === 0) {
-            arc.angle += arc.rotationSpeed;
-          } else if (state.phase === 1) {
-            arc.angle += arc.rotationSpeed;
-            let elapsed = timestamp - state.pulseStartTime;
-            let t = Math.min(elapsed / state.pulseDuration, 1);
-            let scale = 1 + 0.3 * Math.sin(t * Math.PI);
-            arc._pulseLineWidth = arc.lineWidth * scale;
-          } else if (state.phase === 2) {
-            let elapsed = timestamp - state.finalMoveStartTime;
-            let t = Math.min(elapsed / state.finalMoveDuration, 1);
-            let angleDiff = arc.targetAngle - arc.angle;
-            arc.angle += angleDiff * 0.08;
-            let radiusDiff = arc.targetRadius - arc.radius;
-            arc.radius += radiusDiff * 0.08;
-          } 
-          else if (state.phase === 3) {
-            let elapsed = timestamp - state.finalDoneTime;
-            let floatSpeed = 0.002;
-            let floatAmp = 5;
-            let pulseSpeed = 0.003;
-            let pulseAmp = 0.05;
-            let floatOffset = Math.sin(elapsed * floatSpeed) * floatAmp;
-            let pulseScale = 1 + pulseAmp * Math.sin(elapsed * pulseSpeed);
-            arc._pulseLineWidth = arc.lineWidth * pulseScale;
-    
-            drawRotatedArc(ctx, centerX, centerY + floatOffset, 
-              arc.radius, 
-              arc._pulseLineWidth || arc.lineWidth, 
-              arc.color, 
-              arc.angle
+            if (state.phase === 0) {
+                arc.angle += arc.rotationSpeed;
+            } else if (state.phase === 1) {
+                arc.angle += arc.rotationSpeed;
+                let elapsed = timestamp - state.pulseStartTime;
+                let t = Math.min(elapsed / state.pulseDuration, 1);
+                let scale = 1 + 0.3 * Math.sin(t * Math.PI);
+                arc._pulseLineWidth = arc.lineWidth * scale;
+            } else if (state.phase === 2) {
+                let elapsed = timestamp - state.finalMoveStartTime;
+                let t = Math.min(elapsed / state.finalMoveDuration, 1);
+                let angleDiff = arc.targetAngle - arc.angle;
+                arc.angle += angleDiff * 0.08;
+                let radiusDiff = arc.targetRadius - arc.radius;
+                arc.radius += radiusDiff * 0.08;
+            }
+            else if (state.phase === 3) {
+                let elapsed = timestamp - state.finalDoneTime;
+                let floatSpeed = 0.002;
+                let floatAmp = 5;
+                let pulseSpeed = 0.003;
+                let pulseAmp = 0.05;
+                let floatOffset = Math.sin(elapsed * floatSpeed) * floatAmp;
+                let pulseScale = 1 + pulseAmp * Math.sin(elapsed * pulseSpeed);
+                arc._pulseLineWidth = arc.lineWidth * pulseScale;
+
+                drawRotatedArc(ctx, centerX, centerY + floatOffset,
+                    arc.radius,
+                    arc._pulseLineWidth || arc.lineWidth,
+                    arc.color,
+                    arc.angle
+                );
+                return;
+            }
+
+            drawRotatedArc(
+                ctx, centerX, centerY,
+                arc.radius,
+                arc._pulseLineWidth ? arc._pulseLineWidth : arc.lineWidth,
+                arc.color,
+                arc.angle
             );
-            return;
-          }
-    
-          drawRotatedArc(
-            ctx, centerX, centerY, 
-            arc.radius,
-            arc._pulseLineWidth ? arc._pulseLineWidth : arc.lineWidth,
-            arc.color,
-            arc.angle
-          );
         });
-    
+
         if (state.phase === 1) {
-          let elapsed = timestamp - state.pulseStartTime;
-          if (elapsed > state.pulseDuration) {
-            state.phase = 2;
-            state.finalMoveStartTime = timestamp;
-          }
+            let elapsed = timestamp - state.pulseStartTime;
+            if (elapsed > state.pulseDuration) {
+                state.phase = 2;
+                state.finalMoveStartTime = timestamp;
+            }
         }
         else if (state.phase === 2) {
-          let elapsed = timestamp - state.finalMoveStartTime;
-          if (elapsed > state.finalMoveDuration) {
-            state.phase = 4;
-            state.circuitStartTime = timestamp;
-          }
+            let elapsed = timestamp - state.finalMoveStartTime;
+            if (elapsed > state.finalMoveDuration) {
+                state.phase = 4;
+                state.circuitStartTime = timestamp;
+            }
         }
-    
+
         if (state.phase === 4) {
-          let elapsed = timestamp - state.circuitStartTime;
-          let t = Math.min(elapsed / state.circuitDuration, 1);
-    
-          state.circuitLines.forEach(line => {
-            line.progress = t;
-          });
-          drawCircuitLines(ctx, state.circuitLines);
-    
-        //   if (t >= 1) {
-        //     state.phase = 3;
-        //     state.finalDoneTime = timestamp;
-        //   }
+            let elapsed = timestamp - state.circuitStartTime;
+            let t = Math.min(elapsed / state.circuitDuration, 1);
+
+            state.circuitLines.forEach(line => {
+                line.progress = t;
+            });
+            drawCircuitLines(ctx, state.circuitLines);
+
         }
-    
+
         requestAnimationFrame(animate);
-      }
-    
-      useEffect(() => {
+    }
+
+    useEffect(() => {
         const id = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(id);
-      }, []);
+    }, []);
 
-      function handlePulse() {
+    function handlePulse() {
         const state = animStateRef.current;
         state.phase = 1;
         state.pulseStartTime = performance.now();
-      }
-      
-    
-      return (
-        <div style={{
-          width: '100%',
-          height: '100vh',
-          background: 'black',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <canvas ref={canvasRef} width={1000} height={1000} />
-          <button 
-            onClick={handlePulse}
-            style={{ 
-              marginTop: '20px',
-              padding: '10px 20px',
-              fontSize: '16px',
-              border: 'none',
-              background: colorCircuit,
-              color: 'black',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}>
-            logo
-          </button>
-        </div>
-      );
     }
-    
-    export default Emina;
+
+    const handleLogoColorChange = (e) => {
+        const color = e.target.value;
+        setRedL(parseInt(color.substr(1, 2), 16));
+        setGreenL(parseInt(color.substr(3, 2), 16));
+        setBlueL(parseInt(color.substr(5, 2), 16));
+    };
+
+    const handleCircuitColorChange = (e) => {
+        const color = e.target.value;
+        setRedC(parseInt(color.substr(1, 2), 16));
+        setGreenC(parseInt(color.substr(3, 2), 16));
+        setBlueC(parseInt(color.substr(5, 2), 16));
+    };
+    const [backgroundColor, setBackgroundColor] = useState('#000000');
+
+    const handleBackgroundColorChange = (e) => {
+        setBackgroundColor(e.target.value);
+    };
+    return (
+        <div
+            style={{
+                width: '100%',
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'black'
+            }}
+        >
+            <canvas ref={canvasRef} width={1000} height={1000} />
+
+            {/* Bereich mit Button und Farbauswahl nebeneinander */}
+            <div style={{ alignItems: 'center', marginTop: '20px' }}>
+                <button
+                    onClick={handlePulse}
+                    style={{
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        border: 'none',
+                        background: colorCircuit,
+                        color: 'black',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    logo
+                </button>
+
+                <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
+                    {/* Farbpicker für Logo */}
+                    <div
+                        style={{
+                            backgroundColor: '#222',
+                            padding: '10px',
+                            marginBottom: '10px'
+                        }}
+                    >
+                        <label style={{ color: 'white', marginRight: '10px' }}>Logo-Farbe:</label>
+                        <input
+                            type="color"
+                            value={`#${redL.toString(16).padStart(2, '0')}${greenL.toString(16).padStart(2, '0')}${blueL.toString(16).padStart(2, '0')}`}
+                            onChange={handleLogoColorChange}
+                        />
+                    </div>
+
+                    {/* Farbpicker für Circuit */}
+                    <div
+                        style={{
+                            backgroundColor: '#222',
+                            padding: '10px'
+                        }}
+                    >
+                        <label style={{ color: 'white', marginRight: '10px' }}>Circuit-Farbe:</label>
+                        <input
+                            type="color"
+                            value={`#${redC.toString(16).padStart(2, '0')}${greenC.toString(16).padStart(2, '0')}${blueC.toString(16).padStart(2, '0')}`}
+                            onChange={handleCircuitColorChange}
+                        />
+
+                    </div>
+                    <div
+                        style={{
+                            backgroundColor: '#222',
+                            padding: '10px'
+                        }}
+                    >
+                        <label style={{ color: 'white', marginRight: '10px' }}>Hintergrund:</label>
+                        <input
+                    type="color"
+                    value={backgroundColor}
+                    onChange={handleBackgroundColorChange}
+                    style={{ marginBottom: '10px' }}
+                />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default Emina;
