@@ -1,42 +1,52 @@
 import React, { useRef, useEffect } from 'react';
 
+let red = 247;
+let green = 177;
+let blue = 0;
+let colorCircuit = getRGBA(1);
+let colorChip = getRGBA(0.3);
+
+function getRGBA(alpha){
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`; 
+}
+
 function Emina() {
     const canvasRef = useRef(null);
 
     const animStateRef = useRef({
         arcs: [
             {
-                color: "rgba(0, 255, 255, 0.7)", radius: 170, lineWidth: 15,
+                color: getRGBA(0.7) , radius: 170, lineWidth: 15,
                 angle: 0, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: -2.2, targetRadius: 170
             },
             {
-                color: "rgba(0, 255, 255, 0.3)", radius: 150, lineWidth: 15,
+                color: getRGBA(0.3), radius: 150, lineWidth: 15,
                 angle: 1, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: -1.5, targetRadius: 150
             },
             {
-                color: "rgba(0, 255, 255, 0.5)", radius: 130, lineWidth: 15,
+                color: getRGBA(0.5), radius: 130, lineWidth: 15,
                 angle: 2, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: -0.8, targetRadius: 130
             },
             {
-                color: "rgba(0, 255, 255, 0.4)", radius: 110, lineWidth: 15,
+                color: getRGBA(0.4), radius: 110, lineWidth: 15,
                 angle: 3, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 0.2, targetRadius: 110
             },
             {
-                color: "rgba(0, 255, 255, 0.7)", radius: 90, lineWidth: 15,
+                color: getRGBA(0.7), radius: 90, lineWidth: 15,
                 angle: 4, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 1.44, targetRadius: 90
             },
             {
-                color: "rgba(0, 255, 255, 0.8)", radius: 70, lineWidth: 15,
+                color: getRGBA(0.8), radius: 70, lineWidth: 15,
                 angle: 5, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 2.29, targetRadius: 70
             },
             {
-                color: "rgba(0, 255, 255, 1)", radius: 50, lineWidth: 15,
+                color: getRGBA(1), radius: 50, lineWidth: 15,
                 angle: 6, rotationSpeed: (Math.random() * 0.04) - 0.02, targetAngle: 3.14, targetRadius: 50
             }
         ],
         circuitLines: [
             {
-                startX: 580, startY: 300, color: 'cyan', width: 4,
+                startX: 580, startY: 300, color: colorCircuit, width: 4,
                 segments: [
                     { length: 170, angleDeg: 45 },
                     { length: 170, angleDeg: 90 },
@@ -53,7 +63,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 640, startY: 150, color: 'cyan', width: 4,
+                startX: 640, startY: 150, color: colorCircuit, width: 4,
                 segments: [
                     { length: 300, angleDeg: 45 },
                     { length: 300, angleDeg: 90 },
@@ -70,7 +80,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 700, startY: 500, color: 'cyan', width: 2,
+                startX: 700, startY: 500, color: colorCircuit, width: 2,
                 segments: [
                     { length: 70, angleDeg: 0 },
                     { length: 20, angleDeg: 45 },
@@ -82,7 +92,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 633, startY: 323, color: 'cyan', width: 2,
+                startX: 633, startY: 323, color: colorCircuit, width: 2,
                 segments: [
                     { length: 43, angleDeg: -90 },
                     { length: 37, angleDeg: -45 },
@@ -92,7 +102,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 615, startY: 305, color: 'cyan', width: 2,
+                startX: 615, startY: 305, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: -90 },
                     { length: 28, angleDeg: -45 },
@@ -103,7 +113,7 @@ function Emina() {
             },
             //schräge durchgangslinien rechts
             {
-                startX: 770, startY: 280, color: 'cyan', width: 2,
+                startX: 770, startY: 280, color: colorCircuit, width: 2,
                 segments: [
                     { length: 130, angleDeg: 90 },
                     { length: 60, angleDeg: 45 },
@@ -116,7 +126,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 780, startY: 290, color: 'cyan', width: 2,
+                startX: 780, startY: 290, color: colorCircuit, width: 2,
                 segments: [
                     { length: 115, angleDeg: 90 },
                     { length: 60, angleDeg: 45 },
@@ -129,7 +139,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 790, startY: 300, color: 'cyan', width: 2,
+                startX: 790, startY: 300, color: colorCircuit, width: 2,
                 segments: [
                     { length: 100, angleDeg: 90 },
                     { length: 60, angleDeg: 45 },
@@ -142,7 +152,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 800, startY: 310, color: 'cyan', width: 2,
+                startX: 800, startY: 310, color: colorCircuit, width: 2,
                 segments: [
                     { length: 85, angleDeg: 90 },
                     { length: 60, angleDeg: 45 },
@@ -156,7 +166,7 @@ function Emina() {
 
             // kurzlinien innerhalb der durchgangslinien
             {
-                startX: 810, startY: 335, color: 'cyan', width: 2,
+                startX: 810, startY: 335, color: colorCircuit, width: 2,
                 segments: [
                     { length: 45, angleDeg: 45 },
                 ],
@@ -165,7 +175,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 810, startY: 355, color: 'cyan', width: 2,
+                startX: 810, startY: 355, color: colorCircuit, width: 2,
                 segments: [
                     { length: 45, angleDeg: 45 },
                 ],
@@ -174,7 +184,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 810, startY: 370, color: 'cyan', width: 2,
+                startX: 810, startY: 370, color: colorCircuit, width: 2,
                 segments: [
                     { length: 45, angleDeg: 45 },
                 ],
@@ -183,7 +193,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 810, startY: 390, color: 'cyan', width: 2,
+                startX: 810, startY: 390, color: colorCircuit, width: 2,
                 segments: [
                     { length: 45, angleDeg: 45 },
                 ],
@@ -196,7 +206,7 @@ function Emina() {
             //links von schrägen durchgangslinien
 
             {
-                startX: 800, startY: 550, color: 'cyan', width: 2,
+                startX: 800, startY: 550, color: colorCircuit, width: 2,
                 segments: [
                     { length: 50, angleDeg: -90 },
                 ],
@@ -205,7 +215,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 800, startY: 480, color: 'cyan', width: 2,
+                startX: 800, startY: 480, color: colorCircuit, width: 2,
                 segments: [
                     { length: 25, angleDeg: -90 },
                     { length: 45, angleDeg: -135 },
@@ -215,7 +225,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 840, startY: 590, color: 'cyan', width: 2,
+                startX: 840, startY: 590, color: colorCircuit, width: 2,
                 segments: [
                     { length: 17, angleDeg: 45 },
                 ],
@@ -225,7 +235,7 @@ function Emina() {
             },
             //links von schrägen durchgangslinien ende
             {
-                startX: 640, startY: 340, color: 'cyan', width: 2,
+                startX: 640, startY: 340, color: colorCircuit, width: 2,
                 segments: [
                     { length: 25, angleDeg: 45 },
                 ],
@@ -234,7 +244,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 760, startY: 340, color: 'cyan', width: 2,
+                startX: 760, startY: 340, color: colorCircuit, width: 2,
                 segments: [
                     { length: 55, angleDeg: -225 },
                     { length: 25, angleDeg: -270 },
@@ -248,7 +258,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 780, startY: 460, color: 'cyan', width: 2,
+                startX: 780, startY: 460, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: 90 },
                 ],
@@ -257,7 +267,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 760, startY: 360, color: 'cyan', width: 2,
+                startX: 760, startY: 360, color: colorCircuit, width: 2,
                 segments: [
                     { length: 33, angleDeg: 135 },
                     { length: 10, angleDeg: 90 },
@@ -268,7 +278,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 683, startY: 277, color: 'cyan', width: 2,
+                startX: 683, startY: 277, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: -45 },
                     { length: 25, angleDeg: -90 },
@@ -279,7 +289,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 720, startY: 290, color: 'cyan', width: 2,
+                startX: 720, startY: 290, color: colorCircuit, width: 2,
                 segments: [
                     { length: 25, angleDeg: 0 },
                     { length: 5, angleDeg: 45 },
@@ -292,7 +302,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 730, startY: 305, color: 'cyan', width: 2,
+                startX: 730, startY: 305, color: colorCircuit, width: 2,
                 segments: [
                     { length: 45, angleDeg: 135 },
                     { length: 5, angleDeg: 90 },
@@ -303,7 +313,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 680, startY: 340, color: 'cyan', width: 2,
+                startX: 680, startY: 340, color: colorCircuit, width: 2,
                 segments: [
                     { length: 40, angleDeg: 90 },
                     { length: 40, angleDeg: 45 },
@@ -314,7 +324,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 693, startY: 353, color: 'cyan', width: 2,
+                startX: 693, startY: 353, color: colorCircuit, width: 2,
                 segments: [
                     { length: 20, angleDeg: 90 },
                     { length: 23, angleDeg: 45 },
@@ -325,7 +335,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 700, startY: 430, color: 'cyan', width: 2,
+                startX: 700, startY: 430, color: colorCircuit, width: 2,
                 segments: [
                     { length: 25, angleDeg: 0 },
                     { length: 40, angleDeg: 45 },
@@ -338,7 +348,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 700, startY: 445, color: 'cyan', width: 2,
+                startX: 700, startY: 445, color: colorCircuit, width: 2,
                 segments: [
                     { length: 20, angleDeg: 0 },
                     { length: 20, angleDeg: 45 },
@@ -348,7 +358,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 680, startY: 230, color: 'cyan', width: 2,
+                startX: 680, startY: 230, color: colorCircuit, width: 2,
                 segments: [
                     { length: 15, angleDeg: 135 },
                     { length: 45, angleDeg: 180 },
@@ -360,7 +370,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 660, startY: 230, color: 'cyan', width: 2,
+                startX: 660, startY: 230, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 40, angleDeg: 180 },
@@ -372,7 +382,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 660, startY: 215, color: 'cyan', width: 2,
+                startX: 660, startY: 215, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 45, angleDeg: 180 },
@@ -384,7 +394,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 605, startY: 160, color: 'cyan', width: 2,
+                startX: 605, startY: 160, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 50, angleDeg: 45 },
@@ -402,7 +412,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 660, startY: 200, color: 'cyan', width: 2,
+                startX: 660, startY: 200, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 70, angleDeg: -135 },
@@ -413,7 +423,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 580, startY: 150, color: 'cyan', width: 2,
+                startX: 580, startY: 150, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 60, angleDeg: 90 },
@@ -427,7 +437,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 500, startY: 300, color: 'cyan', width: 2,
+                startX: 500, startY: 300, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 43, angleDeg: -90 },
@@ -440,7 +450,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 490, startY: 300, color: 'cyan', width: 2,
+                startX: 490, startY: 300, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 55, angleDeg: -90 },
@@ -454,7 +464,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 480, startY: 300, color: 'cyan', width: 2,
+                startX: 480, startY: 300, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 65, angleDeg: -90 },
@@ -468,7 +478,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 470, startY: 300, color: 'cyan', width: 2,
+                startX: 470, startY: 300, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 75, angleDeg: -90 },
@@ -482,7 +492,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 530, startY: 165, color: 'cyan', width: 2,
+                startX: 530, startY: 165, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: 90 },
                     { length: 20, angleDeg: 135 },
@@ -494,7 +504,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 450, startY: 165, color: 'cyan', width: 2,
+                startX: 450, startY: 165, color: colorCircuit, width: 2,
                 segments: [
                     { length: 40, angleDeg: 45 },
                     { length: 30, angleDeg: 0 },
@@ -504,7 +514,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 470, startY: 165, color: 'cyan', width: 2,
+                startX: 470, startY: 165, color: colorCircuit, width: 2,
                 segments: [
                     { length: 20, angleDeg: 45 },
                     { length: 25, angleDeg: 0 },
@@ -514,7 +524,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 515, startY: 265, color: 'cyan', width: 2,
+                startX: 515, startY: 265, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 25, angleDeg: 0 },
@@ -526,7 +536,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 515, startY: 280, color: 'cyan', width: 2,
+                startX: 515, startY: 280, color: colorCircuit, width: 2,
                 segments: [
 
                     { length: 20, angleDeg: 0 },
@@ -538,7 +548,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 670, startY: 290, color: 'cyan', width: 2,
+                startX: 670, startY: 290, color: colorCircuit, width: 2,
                 segments: [
                     { length: 15, angleDeg: -225 },
                     { length: 20, angleDeg: 90 },
@@ -551,7 +561,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 670, startY: 390, color: 'cyan', width: 2,
+                startX: 670, startY: 390, color: colorCircuit, width: 2,
                 segments: [
                     { length: 40, angleDeg: -90 },
                     { length: 30, angleDeg: -135 },
@@ -563,7 +573,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 740, startY: 340, color: 'cyan', width: 2,
+                startX: 740, startY: 340, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: -45 },
                     { length: 30, angleDeg: -90 },
@@ -576,7 +586,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 725, startY: 255, color: 'cyan', width: 2,
+                startX: 725, startY: 255, color: colorCircuit, width: 2,
                 segments: [
                     { length: 23, angleDeg: -90 },
                 ],
@@ -586,7 +596,7 @@ function Emina() {
             },
             //chip1
             {
-                startX: 290, startY: 200, color: 'rgba(0, 255, 255, 0.3)', width: 6,
+                startX: 290, startY: 200, color: colorChip, width: 6,
                 segments: [
                     { length: 70, angleDeg: 0 },
                     { length: 5, angleDeg: -45 },
@@ -613,7 +623,7 @@ function Emina() {
             },
             // umrahmung
             {
-                startX: 380, startY: 150, color: 'cyan', width: 2,
+                startX: 380, startY: 150, color: colorCircuit, width: 2,
                 segments: [
                     { length: 60, angleDeg: 90 },
                     { length: 10, angleDeg: 135 },
@@ -626,7 +636,7 @@ function Emina() {
             },
             // pins up - down
             {
-                startX: 380, startY: 160, color: 'cyan', width: 2,
+                startX: 380, startY: 160, color: colorCircuit, width: 2,
                 segments: [
                     { length: 10, angleDeg: 0 },
                     { length: 12, angleDeg: -45 },
@@ -636,7 +646,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 380, startY: 160, color: 'cyan', width: 4,
+                startX: 380, startY: 160, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -645,7 +655,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 380, startY: 170, color: 'cyan', width: 2,
+                startX: 380, startY: 170, color: colorCircuit, width: 2,
                 segments: [
                     { length: 15, angleDeg: 0 },
                     { length: 25, angleDeg: -45 },
@@ -655,7 +665,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 380, startY: 170, color: 'cyan', width: 4,
+                startX: 380, startY: 170, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -664,7 +674,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 380, startY: 180, color: 'cyan', width: 2,
+                startX: 380, startY: 180, color: colorCircuit, width: 2,
                 segments: [
                     { length: 20, angleDeg: 0 },
                     { length: 40, angleDeg: -45 },
@@ -674,7 +684,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 380, startY: 180, color: 'cyan', width: 4,
+                startX: 380, startY: 180, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -683,7 +693,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 380, startY: 190, color: 'cyan', width: 2,
+                startX: 380, startY: 190, color: colorCircuit, width: 2,
                 segments: [
                     { length: 25, angleDeg: 0 },
                     { length: 20, angleDeg: -45 },
@@ -695,7 +705,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 380, startY: 190, color: 'cyan', width: 4,
+                startX: 380, startY: 190, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -704,7 +714,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 380, startY: 200, color: 'cyan', width: 2,
+                startX: 380, startY: 200, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: 0 },
                     { length: 10, angleDeg: -45 },
@@ -716,7 +726,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 380, startY: 200, color: 'cyan', width: 4,
+                startX: 380, startY: 200, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -726,7 +736,7 @@ function Emina() {
             },
             // right to left
             {
-                startX: 360, startY: 217, color: 'cyan', width: 2,
+                startX: 360, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: 90 },
                     { length: 10, angleDeg: 45 },
@@ -740,7 +750,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 360, startY: 217, color: 'cyan', width: 4,
+                startX: 360, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -749,7 +759,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 350, startY: 217, color: 'cyan', width: 2,
+                startX: 350, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 40, angleDeg: 90 },
                     { length: 15, angleDeg: 45 },
@@ -762,7 +772,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 350, startY: 217, color: 'cyan', width: 4,
+                startX: 350, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -771,7 +781,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 340, startY: 217, color: 'cyan', width: 2,
+                startX: 340, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 50, angleDeg: 90 },
                     { length: 20, angleDeg: 45 },
@@ -784,7 +794,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 340, startY: 217, color: 'cyan', width: 4,
+                startX: 340, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -793,7 +803,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 330, startY: 217, color: 'cyan', width: 2,
+                startX: 330, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 120, angleDeg: 90 },
                     { length: 15, angleDeg: 45 },
@@ -804,7 +814,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 330, startY: 217, color: 'cyan', width: 4,
+                startX: 330, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -813,7 +823,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 320, startY: 217, color: 'cyan', width: 2,
+                startX: 320, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 100, angleDeg: 90 },
                     { length: 25, angleDeg: 135 },
@@ -824,7 +834,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 320, startY: 217, color: 'cyan', width: 4,
+                startX: 320, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -833,7 +843,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 310, startY: 217, color: 'cyan', width: 2,
+                startX: 310, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 90, angleDeg: 90 },
                     { length: 35, angleDeg: 135 },
@@ -844,7 +854,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 310, startY: 217, color: 'cyan', width: 4,
+                startX: 310, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -853,7 +863,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 300, startY: 217, color: 'cyan', width: 2,
+                startX: 300, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 70, angleDeg: 90 },
                 ],
@@ -862,7 +872,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 300, startY: 217, color: 'cyan', width: 4,
+                startX: 300, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -871,7 +881,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 290, startY: 217, color: 'cyan', width: 2,
+                startX: 290, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 80, angleDeg: 90 },
                     { length: 10, angleDeg: 45 },
@@ -881,7 +891,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 290, startY: 217, color: 'cyan', width: 4,
+                startX: 290, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -890,7 +900,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 280, startY: 217, color: 'cyan', width: 2,
+                startX: 280, startY: 217, color: colorCircuit, width: 2,
                 segments: [
                     { length: 60, angleDeg: 90 },
                     { length: 70, angleDeg: 135 },
@@ -902,7 +912,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 280, startY: 217, color: 'cyan', width: 4,
+                startX: 280, startY: 217, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -911,7 +921,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 270, startY: 222, color: 'cyan', width: 2,
+                startX: 270, startY: 222, color: colorCircuit, width: 2,
                 segments: [
                     { length: 50, angleDeg: 90 },
                     { length: 70, angleDeg: 135 },
@@ -923,7 +933,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 270, startY: 222, color: 'cyan', width: 4,
+                startX: 270, startY: 222, color: colorCircuit, width: 4,
                 segments: [
                     { length: 5, angleDeg: 90 },
                 ],
@@ -932,7 +942,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 260, startY: 250, color: 'cyan', width: 2,
+                startX: 260, startY: 250, color: colorCircuit, width: 2,
                 segments: [
                     { length: 55, angleDeg: 135 },
                 ],
@@ -941,7 +951,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 260, startY: 265, color: 'cyan', width: 2,
+                startX: 260, startY: 265, color: colorCircuit, width: 2,
                 segments: [
                     { length: 55, angleDeg: 135 },
                 ],
@@ -950,7 +960,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 280, startY: 320, color: 'cyan', width: 2,
+                startX: 280, startY: 320, color: colorCircuit, width: 2,
                 segments: [
                     { length: 15, angleDeg: -90 },
                     { length: 5, angleDeg: -135 },
@@ -966,7 +976,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 290, startY: 500, color: 'cyan', width: 2,
+                startX: 290, startY: 500, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: -180 },
                     { length: 40, angleDeg: -135 },
@@ -982,7 +992,7 @@ function Emina() {
             },
             // chip2
             {
-                startX: 610, startY: 680, color: 'rgba(0, 255, 255, 0.3)', width: 6,
+                startX: 610, startY: 680, color: colorChip, width: 6,
                 segments: [
                     { length: 15, angleDeg: 0 },
                     { length: 5, angleDeg: 45 },
@@ -1011,7 +1021,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 620, startY: 670, color: 'cyan', width: 2,
+                startX: 620, startY: 670, color: colorCircuit, width: 2,
                 segments: [
                     { length: 10, angleDeg: 0 },
                     { length: 15, angleDeg: 45 },
@@ -1028,7 +1038,7 @@ function Emina() {
             },
             // pin 2 up down right
             {
-                startX: 640, startY: 690, color: 'cyan', width: 2,
+                startX: 640, startY: 690, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: 0 },
                     { length: 95, angleDeg: -45 },
@@ -1040,7 +1050,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 640, startY: 690, color: 'cyan', width: 4,
+                startX: 640, startY: 690, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -1050,7 +1060,7 @@ function Emina() {
             },
 
             {
-                startX: 640, startY: 700, color: 'cyan', width: 2,
+                startX: 640, startY: 700, color: colorCircuit, width: 2,
                 segments: [
                     { length: 35, angleDeg: 0 },
                     { length: 95, angleDeg: -45 },
@@ -1062,7 +1072,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 640, startY: 700, color: 'cyan', width: 4,
+                startX: 640, startY: 700, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -1071,7 +1081,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 640, startY: 710, color: 'cyan', width: 2,
+                startX: 640, startY: 710, color: colorCircuit, width: 2,
                 segments: [
                     { length: 50, angleDeg: 0 },
                     { length: 35, angleDeg: 45 },
@@ -1083,7 +1093,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 640, startY: 710, color: 'cyan', width: 4,
+                startX: 640, startY: 710, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -1092,7 +1102,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 640, startY: 720, color: 'cyan', width: 2,
+                startX: 640, startY: 720, color: colorCircuit, width: 2,
                 segments: [
                     { length: 45, angleDeg: 0 },
                     { length: 35, angleDeg: 45 },
@@ -1104,7 +1114,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 640, startY: 720, color: 'cyan', width: 4,
+                startX: 640, startY: 720, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 0 },
                 ],
@@ -1113,7 +1123,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 620, startY: 746, color: 'cyan', width: 2,
+                startX: 620, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 39, angleDeg: 90 },
                     { length: 35, angleDeg: 45 },
@@ -1125,7 +1135,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 620, startY: 746, color: 'cyan', width: 4,
+                startX: 620, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1134,7 +1144,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 610, startY: 746, color: 'cyan', width: 2,
+                startX: 610, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 44, angleDeg: 90 },
                     { length: 45, angleDeg: 45 },
@@ -1146,7 +1156,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 610, startY: 746, color: 'cyan', width: 4,
+                startX: 610, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1155,7 +1165,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 600, startY: 746, color: 'cyan', width: 2,
+                startX: 600, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 50, angleDeg: 90 },
                     { length: 45, angleDeg: 45 },
@@ -1166,7 +1176,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 600, startY: 746, color: 'cyan', width: 4,
+                startX: 600, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1175,7 +1185,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 590, startY: 746, color: 'cyan', width: 2,
+                startX: 590, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 55, angleDeg: 90 },
                     { length: 45, angleDeg: 45 },
@@ -1186,7 +1196,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 590, startY: 746, color: 'cyan', width: 4,
+                startX: 590, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1195,7 +1205,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 580, startY: 746, color: 'cyan', width: 2,
+                startX: 580, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 60, angleDeg: 90 },
                     { length: 45, angleDeg: 45 },
@@ -1205,7 +1215,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 580, startY: 746, color: 'cyan', width: 4,
+                startX: 580, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1214,7 +1224,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 570, startY: 746, color: 'cyan', width: 2,
+                startX: 570, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 65, angleDeg: 90 },
                     { length: 38, angleDeg: 45 },
@@ -1224,7 +1234,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 570, startY: 746, color: 'cyan', width: 4,
+                startX: 570, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1233,7 +1243,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 560, startY: 746, color: 'cyan', width: 2,
+                startX: 560, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 70, angleDeg: 90 },
                     { length: 52, angleDeg: 45 },
@@ -1243,7 +1253,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 560, startY: 746, color: 'cyan', width: 4,
+                startX: 560, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1252,7 +1262,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 550, startY: 746, color: 'cyan', width: 2,
+                startX: 550, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 75, angleDeg: 90 },
                     { length: 65, angleDeg: 45 },
@@ -1266,7 +1276,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 550, startY: 746, color: 'cyan', width: 4,
+                startX: 550, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1275,7 +1285,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 540, startY: 746, color: 'cyan', width: 2,
+                startX: 540, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 45, angleDeg: 90 },
                     { length: 25, angleDeg: 135 },
@@ -1288,7 +1298,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 540, startY: 746, color: 'cyan', width: 4,
+                startX: 540, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1297,7 +1307,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 530, startY: 746, color: 'cyan', width: 2,
+                startX: 530, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 40, angleDeg: 90 },
                     { length: 25, angleDeg: 135 },
@@ -1310,7 +1320,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 530, startY: 746, color: 'cyan', width: 4,
+                startX: 530, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1319,7 +1329,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 520, startY: 746, color: 'cyan', width: 2,
+                startX: 520, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 35, angleDeg: 90 },
                     { length: 25, angleDeg: 135 },
@@ -1330,7 +1340,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 520, startY: 746, color: 'cyan', width: 4,
+                startX: 520, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1339,7 +1349,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 510, startY: 746, color: 'cyan', width: 2,
+                startX: 510, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 30, angleDeg: 90 },
                     { length: 25, angleDeg: 135 },
@@ -1350,7 +1360,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 510, startY: 746, color: 'cyan', width: 4,
+                startX: 510, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1359,7 +1369,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 500, startY: 746, color: 'cyan', width: 2,
+                startX: 500, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 25, angleDeg: 90 },
                     { length: 25, angleDeg: 135 },
@@ -1370,7 +1380,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 500, startY: 746, color: 'cyan', width: 4,
+                startX: 500, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1379,7 +1389,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 490, startY: 746, color: 'cyan', width: 2,
+                startX: 490, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 20, angleDeg: 90 },
                     { length: 85, angleDeg: 135 },
@@ -1391,7 +1401,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 490, startY: 746, color: 'cyan', width: 4,
+                startX: 490, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1400,7 +1410,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 480, startY: 746, color: 'cyan', width: 2,
+                startX: 480, startY: 746, color: colorCircuit, width: 2,
                 segments: [
                     { length: 15, angleDeg: 90 },
                     { length: 85, angleDeg: 135 },
@@ -1412,7 +1422,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 480, startY: 746, color: 'cyan', width: 4,
+                startX: 480, startY: 746, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 90 },
                 ],
@@ -1421,7 +1431,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 460, startY: 720, color: 'cyan', width: 2,
+                startX: 460, startY: 720, color: colorCircuit, width: 2,
                 segments: [
                     { length: 35, angleDeg: 180 },
                     { length: 65, angleDeg: 135 },
@@ -1433,7 +1443,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 460, startY: 720, color: 'cyan', width: 4,
+                startX: 460, startY: 720, color: colorCircuit, width: 4,
                 segments: [
                     { length: 10, angleDeg: 180 },
                 ],
@@ -1442,7 +1452,7 @@ function Emina() {
                 endPoint: false
             },
             {
-                startX: 415, startY: 710, color: 'cyan', width: 2,
+                startX: 415, startY: 710, color: colorCircuit, width: 2,
                 segments: [
                     { length: 35, angleDeg: 135 },
                     { length: 15, angleDeg: 180 },
@@ -1453,7 +1463,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 400, startY: 700, color: 'cyan', width: 2,
+                startX: 400, startY: 700, color: colorCircuit, width: 2,
                 segments: [
                     { length: 65, angleDeg: 180 },
                     { length: 45, angleDeg: 225 },
@@ -1466,7 +1476,7 @@ function Emina() {
                 endPoint: true
             },
             {
-                startX: 390, startY: 690, color: 'cyan', width: 2,
+                startX: 390, startY: 690, color: colorCircuit, width: 2,
                 segments: [
                     { length: 50, angleDeg: 180 },
                     { length: 45, angleDeg: 225 },
@@ -1665,7 +1675,7 @@ function Emina() {
               padding: '10px 20px',
               fontSize: '16px',
               border: 'none',
-              background: 'cyan',
+              background: colorCircuit,
               color: 'black',
               borderRadius: '5px',
               cursor: 'pointer'
