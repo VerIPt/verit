@@ -1,0 +1,223 @@
+.container {
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
+.text-zone1 {
+
+    color: white;
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35%;
+    vertical-align: middle;
+    display: table-cell;
+    max-height: 90%;
+}
+
+.text-zone1 p {
+    font-size: 1rem;
+    animation: slideInFromRight 0.8s ease-out forwards;
+
+}
+
+.text-zone1 h1 {
+    font-size: 5.6rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-right: 135px;
+
+    animation: slideInFromLeft 0.8s ease-out forwards;
+}
+
+.stage-cube-cont {
+    width: 50%;
+    
+    top: 0;
+    padding-top: 8%;
+    margin-left: 0;
+    position: absolute;
+    right: 0;
+    overflow: hidden;
+}
+
+.cubespinner {
+    animation-name: spincube;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 12s;
+    transform-style: preserve-3d;
+    transform-origin: 100px 100px 0;
+    margin-left: calc(50% - 100px);
+
+    div {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ccc;
+        background: rgba(255, 255, 255, 0.4);
+        text-align: center;
+        font-size: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 20px 0px lightyellow;
+    }
+
+    .face1 {
+        transform: translateZ(100px);
+    }
+
+    .face2 {
+        transform: rotateY(90deg) translateZ(100px) rotateZ(270deg);
+    }
+
+    .face3 {
+        transform: rotateY(90deg) rotateX(90deg) translateZ(100px);
+    }
+
+    .face4 {
+        transform: rotateY(180deg) rotateZ(90deg) translateZ(100px);
+    }
+
+    .face5 {
+        transform: rotateY(-90deg) rotateZ(90deg) translateZ(100px);
+    }
+
+    .face6 {
+        transform: rotateX(-90deg) translateZ(100px);
+    }
+}
+
+
+.portfolio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 38%;
+    animation: fadeInImage 1s ease-in-out forwards;
+}
+
+.project {
+    position: relative;
+    margin-bottom: 5%;
+}
+
+.project img {
+    width: 500px;
+    border: 5px solid #a2deeb;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+    animation: fadeInImage 1s ease-in-out forwards;
+}
+
+.project img:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 20px 0px lightyellow;
+}
+
+.project button.view-project-btn {
+    position: absolute;
+    bottom: 0.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+.project h2 {
+    color: white;
+    text-align: center;
+}
+
+
+@media (max-width: 900px) {
+    .text-zone1, .stage-cube-cont, .portfolio {
+        position: static;
+        width: 100%;
+    }
+
+    .text-zone1 {
+        left: 5%;
+        width: 90%;
+        transform: none;
+        
+    }
+
+    .text-zone1 h1 {
+        font-size: 4rem; /* Anpassung der Schriftgröße */
+        margin-right: 20px; /* Anpassung des rechten Margins */
+        margin-left: 20px;
+    }
+
+    .text-zone1 p {
+        font-size: 0.9rem; /* Anpassung der Schriftgröße */
+        margin-right: 20px; /* Anpassung des rechten Margins */
+        margin-left: 20px;
+    }
+    .text-zone1 h3 {
+        font-size: 1rem; /* Anpassung der Schriftgröße */
+        margin-right: 20px; /* Anpassung des rechten Margins */
+        margin-left: 20px;
+    }
+
+    .stage-cube-cont {
+        padding-top: 100px; /* Etwas Abstand nach oben */
+       
+    }
+    .cubespinner{
+        margin-bottom: 100px;
+    }
+
+    .portfolio{
+        margin-top:80% ;
+
+    }
+    .project img {
+        align-items: center;
+        
+        width: 90%; /* Anpassung der Bildbreite */
+        max-width: 500px; /* Maximale Bildbreite festlegen */
+        margin: 4%; /* Zentrierung der Bilder */
+    }
+
+    
+    .project button.view-project-btn {
+       
+        bottom: 5%;
+        
+        
+    }
+
+    
+}
+
+
+
+@keyframes spincube {
+
+    from,
+    to {
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+
+    16% {
+        transform: rotateY(-90deg) rotateZ(90deg);
+    }
+
+    33% {
+        transform: rotateY(-90deg) rotateX(90deg);
+    }
+
+    50% {
+        transform: rotateY(-180deg) rotateZ(90deg);
+    }
+
+    66% {
+        transform: rotateY(-270deg) rotateX(90deg);
+    }
+
+    83% {
+        transform: rotateX(90deg);
+    }
+}

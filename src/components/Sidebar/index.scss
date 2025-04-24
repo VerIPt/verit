@@ -1,0 +1,181 @@
+.nav-bar {
+    background: #181818;
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    min-height: 500px;
+
+}
+
+
+
+.logo {
+    display: block;
+    padding: 8px 0;
+
+    img {
+        display: block;
+        margin: 5px auto;
+        width: 80px;
+        height: auto;
+
+    }
+}
+
+nav {
+    font-size: 25px;
+    display: block;
+    text-align: center;
+    position: absolute;
+    height: 210px;
+
+    width: 100%;
+
+    a {
+        color: #4d4d4e;
+        display: block;
+        line-height: 80px;
+        height: 80px;
+        position: relative;
+        text-decoration: none;
+
+        i {
+            transition: all 0.3s ease-out;
+
+        }
+
+        &:hover {
+            color: #f39f9f;
+
+            svg {
+                opacity: 0;
+            }
+
+            &:after {
+                opacity: 1;
+            }
+        }
+
+        &:after {
+            content: '';
+            font-size: 15px;
+            letter-spacing: 2px;
+            position: absolute;
+            bottom: 0;
+            display: block;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s ease-out;
+        }
+
+    }
+
+    a.home-link {
+        &:after {
+            font-family: 'Coolvetica';
+            content: 'HOME'
+        }
+    }
+
+    a.about-link {
+        &:after {
+            font-family: 'Coolvetica';
+            content: 'ABOUT'
+        }
+    }
+
+    a.contact-link {
+        &:after {
+            font-family: 'Coolvetica';
+            content: 'CONTACT'
+        }
+    }
+
+    a.portfolio-link {
+        &:after {
+            font-family: 'Coolvetica';
+            content: 'SKILLS'
+        }
+    }
+
+    a.active {
+        svg {
+            color: #f39f9f;
+        }
+    }
+}
+
+.sidebar {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: block;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    margin: 0;
+
+    li {
+        a {
+            padding: 7px 0;
+            display: block;
+            font-size: 20px;
+            line-height: 16px;
+
+            &:hover svg {
+                color: #f39f9f
+            }
+        }
+
+    }
+}
+.language select {
+    background-color: #4d4d4e;
+    color: #bdc3c7;
+    padding: 2px;
+    border: 2px solid #f39f9f;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+.bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    left: 36px;
+    top: 36px;
+}
+
+.bm-burger-bars {
+    background: #f39f9f;
+
+}
+
+.bm-cross-button {
+
+    height: 24px;
+    width: 24px;
+
+}
+
+.bm-cross {
+    background: #bdc3c7;
+
+}
+
+.bm-menu {
+    background: #373a47;
+    width: 100px;
+    font-size: 1.15em;
+}
+
+// @media (max-width: 768px) {
+//     .bm-burger-button {
+//         left: auto;
+//         right: 36px;
+//     }
+
+// }

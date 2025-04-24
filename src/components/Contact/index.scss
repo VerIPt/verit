@@ -1,0 +1,192 @@
+.contact-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Poppins";
+    width: 100%;
+    will-change: contents;
+    height: 90%;
+    min-height: 566px;
+    position: absolute;
+    top: 5%;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.text-zone {
+    
+
+    color: white;
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35%;
+    vertical-align: middle;
+    display: table-cell;
+    max-height: 90%;
+}
+
+.text-zone p {
+    font-size: 1.6rem;
+    animation: slideInFromRight 0.8s ease-out forwards;
+
+}
+
+.text-zone h1 {
+    font-size: 5.6rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-right: 135px;
+
+    animation: slideInFromLeft 0.8s ease-out forwards;
+}
+
+.contact-form {
+    align-items: baseline;
+    width: 100%;
+ 
+
+    ul {
+        padding: 0;
+        margin: 0;
+
+        li {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            margin-bottom: 10px;
+            opacity: 0;
+            overflow: hidden;
+            display: block;
+            clear: both;
+           position: relative;
+            animation: fadeInUp 0.8s 0.8s;
+            animation-fill-mode: forwards;
+        }
+
+        li.half {
+            width: 49%;
+            margin-left: 2%;
+            float: left;
+            clear: none;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+
+    input[type='text'],
+    input[type='email'] {
+        width: 100%;
+        border: 0;
+        background: #a2deeb;
+        height: 50px;
+        font-size: 16px;
+        color: black;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        width: 100%;
+        border: 0;
+        background: #a2deeb;
+        height: 50px;
+        font-size: 16px;
+        color: black;
+        padding: 20px;
+        box-sizing: border-box;
+        min-height: 150px;
+    }
+
+    .flat-button {
+        color: #f39f9f;
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-decoration: none;
+        padding: 10px 18px;
+        border: 2px solid;
+        border-radius: 4px;
+        background: 0 0;
+        float: right;
+        text-align: center;
+        animation: fadeIn 1s 0.8s backwards;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: #f39f9f;
+            color: #133051;
+            transition: 0.5s ease-in-out;
+            box-shadow: (0 0 0px #a2deeb);
+        }
+    }
+
+}
+
+.pacman {
+    position: absolute;
+    left: 20%;
+    animation: fadeInImage 1s ease-in-out forwards;
+
+}
+
+
+.button{
+    margin-left: 80%;
+}
+
+button {
+    font-family: 'Poppins';
+    position: absolute;
+    left: 90%;
+    background-color: #a2deeb;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 5px;
+    margin-top: 15px;
+    animation: fadeInImage 1s ease-in-out forwards;
+
+  }
+  
+  button:hover {
+    background-color: #f39f9f;
+  }
+  
+
+
+@media (max-width: 900px) {
+    .pacman {
+       display: none;
+    
+    }
+    
+    
+
+
+    
+
+    .text-zone {
+        
+        left: 5%;
+        width: 90%;
+    }
+
+    .text-zone h1 {
+        font-size: 4rem; /* Kleinere Schriftgröße für kleinere Bildschirme */
+    }
+
+    .text-zone p {
+        font-size: 1.2rem; /* Kleinere Schriftgröße für kleinere Bildschirme */
+    }
+    
+}
+
+  
