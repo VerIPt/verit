@@ -1,4 +1,3 @@
-
 import './index.scss'
 import html from '../../assets/images/logo1.png'
 import css from '../../assets/images/logo2.png'
@@ -21,97 +20,159 @@ const Portfolio = () => {
                     </Trans>
                 </h1>
 
-                <h3>
-                    <Trans i18nKey={"cyber"}>
-                        Effiziente <span>C++ Programmierung</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"cyber_text"} />
-                </p>
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"embedded"}>
+                            Embedded <span>Systems</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"embedded_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"cyber"}>
+                            Cyber <span>Security</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"cyber_text"} />
+                    </p>
+                </div>
 
-                <h3>
-                    <Trans i18nKey={"operating"}>
-                        System Architecture and <span>Operating Systems</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"operating_text"} />
-                </p>
-                <h3>
-                    <Trans i18nKey={"distributed"}>
-                        Distributed <span>Systems</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"distributed_text"} />
-                </p>
-                <h3>
-                    <Trans i18nKey={"micro"}>
-                        Effiziente <span>C++ Programmierung</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"micro_text"} />
-                </p>
-                <h3>
-                    <Trans i18nKey={"graphics"}>
-                        Distributed <span>Systems</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"graphics_text"} />
-                </p>
-                <h3>
-                    <Trans i18nKey={"algo"}>
-                        Algorithmen und  <span>Datenstrukturen</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"algo_text"} />
-                </p>
+                <div className="skill-divider"></div>
 
-                <h3>
-                    <Trans i18nKey={"full"}>
-                        Fullstack <span>Development</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"full_text"} />
-                </p>
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"operating"}>
+                            System Architecture and <span>Operating Systems</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"operating_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"distributed"}>
+                            Distributed <span>Systems</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"distributed_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"micro"}>
+                            Elektrotechnik und <span>Systemintegration</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"micro_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"graphics"}>
+                            Computer-Grafik: <span>Path-Tracer</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"graphics_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"algo"}>
+                            Algorithmen und  <span>Datenstrukturen</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"algo_text"} />
+                    </p>
+                </div>
 
-                <h3>
-                    <Trans i18nKey={"software"}>
-                        Software <span>Architekturen</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"software_text"} />
-                </p>
-                <h3>
-                    <Trans i18nKey={"cpp"}>
-                        Effiziente <span>C++ Programmierung</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"cpp_text"} />
-                </p>
-                <h3>
-                    <Trans i18nKey={"meditech"}>
-                        Effiziente <span>C++ Programmierung</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"meditech_text"} />
-                </p>
-                <h3>
-                    <Trans i18nKey={"data"}>
-                        Effiziente <span>C++ Programmierung</span>
-                    </Trans>
-                </h3>
-                <p>
-                    <Trans i18nKey={"data_text"} />
-                </p>
+                <div className="skill-divider"></div>
+
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"full"}>
+                            Fullstack <span>Development</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"full_text"} />
+                    </p>
+                </div>
+
+                <div className="skill-divider"></div>
+
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"software"}>
+                            Software <span>Architekturen</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"software_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"cpp"}>
+                            Effiziente <span>C++ Programmierung</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"cpp_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"meditech"}>
+                            Medien <span>Technologien</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"meditech_text"} />
+                    </p>
+                </div>
+                
+                <div className="skill-divider"></div>
+                
+                <div className="skill-section">
+                    <h3>
+                        <Trans i18nKey={"data"}>
+                            Data Science <span>Grundkenntnisse</span>
+                        </Trans>
+                    </h3>
+                    <p>
+                        <Trans i18nKey={"data_text"} />
+                    </p>
+                </div>
             </div>
             <div className='stage-cube-cont'>
                 <div className='cubespinner'>

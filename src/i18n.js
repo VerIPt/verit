@@ -40,6 +40,8 @@ i18next
                     micro_text: 'Kenntnisse in Elektrotechnik und elektrischer Fehlersuche in Informationssystemen, z. B. Bussysteme, sowie im Löten von elektronischen Bauteilen auf Platinen und Programmieren von Mikrocontrollern.',
                     cyber: 'Cyber<1>security</1>',
                     cyber_text: 'Kenntnisse in IT-Sicherheit, erworben durch Online-Kurse und das Studium von Fachbüchern, umfassen ein breites Verständnis verschiedener Bedrohungen und Angriffsstrategien sowie deren Prävention. Diese Expertise trägt dazu bei, potenzielle Sicherheitsrisiken zu identifizieren und effektive Präventionsstrategien zu entwickeln, um digitale Systeme proaktiv zu schützen.',
+                    embedded: 'Embedded <1>Systems</1>',
+                    embedded_text: 'Fundierte Erfahrung in der Embedded-Software-Entwicklung mit Fokus auf Treiberprogrammierung und Systemvalidierung. Ich besitze Kenntnisse für die Entwicklung und Anpassung von C-Treibern mittels Python sowie die Device-Tree-Validierung für Datenloggersysteme. Meine Expertise umfasst die Integration von Tests in Build-Prozesse und die Optimierung von UIO-Treiber-Handling in komplexen C/C++-Klassenstrukturen. Durch meine Arbeit mit Hardware-naher Software habe ich ein tiefes Verständnis für die Interaktion zwischen Hardware und Software in ressourcenbeschränkten Umgebungen entwickelt.',
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'Wenn Sie Fragen haben, zögern Sie nicht, mich über das untenstehende Formular zu kontaktieren.',
 
@@ -76,6 +78,8 @@ i18next
                     micro_text: 'Skills in electrical engineering and troubleshooting in information systems, e.g. bus systems, as well as soldering electronic components onto circuit boards and programming microcontrollers',
                     cyber: 'Cyber<1>security</1>',
                     cyber_text: 'Knowledge in IT security, acquired through online courses and the study of specialized books, encompasses a broad understanding of various threats and attack strategies as well as their prevention. This expertise helps in identifying potential security risks and developing effective prevention strategies to proactively protect digital systems.',
+                    embedded: 'Embedded <1>Systems</1>',
+                    embedded_text: 'Solid experience in embedded software development with a focus on driver programming and system validation. I have proficiency in developing and adapting C drivers using Python as well as validating device trees for data logger systems. My expertise includes integrating tests into build processes and optimizing UIO driver handling in complex C/C++ class structures. Through my work with hardware-level software, I have developed a deep understanding of the interaction between hardware and software in resource-constrained environments.',
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'If you have other inquiries or questions, please do not hesitate to contact me using the form below.',
                 }
