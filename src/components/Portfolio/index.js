@@ -1,10 +1,10 @@
 import './index.scss'
-import html from '../../assets/images/logo1.png'
-import css from '../../assets/images/logo2.png'
+import arch from '../../assets/images/arch.png'
 import cpp from '../../assets/images/cpp.png'
 import java from '../../assets/images/java.png'
 import react from '../../assets/images/react.png'
 import js from '../../assets/images/js.png'
+import pyhton from '../../assets/images/python-logo-only.png'
 import raytracer from '../../assets/images/ray_tracer.png'
 import louhaus from '../../assets/images/louhaus.png'
 import treemap from '../../assets/images/treemap.png'
@@ -177,13 +177,13 @@ const Portfolio = () => {
             <div className='stage-cube-cont'>
                 <div className='cubespinner'>
                     <div className='face1'>
-                        <img src={html} alt="" />
+                        <img src={pyhton} alt="" />
                     </div>
                     <div className='face2'>
                         <img src={cpp} alt="" />
                     </div>
                     <div className='face3'>
-                        <img src={css} alt="" />
+                        <img src={arch} alt="" />
                     </div>
                     <div className='face4'>
                         <img src={react} alt="" />
