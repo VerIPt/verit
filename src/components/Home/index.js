@@ -14,27 +14,26 @@ const Home = () => {
     useEffect(() => {
         const options = {
             strings: ['IT-Student', 'Software Engineer', 'Embedded-Developer', 'Web-Designer'],
-            typeSpeed: 100,
-            backSpeed: 100,
-            backDelay: 1000,
+            typeSpeed: 150,
+            backSpeed: 25,
+            backDelay: 3500,
+            startDelay: 800,
             loop: true,
             showCursor: false,
+            smartBackspace: true,
         };
         typed.current = new Typed(el.current, options);
 
         return () => {
-
             typed.current.destroy();
         };
     }, []);
 
     return (
         <div className="home" id="home">
-
             <div className="home-content">
                 <h3>
                     <Trans i18nKey={"name"}/>
-
                 </h3>
                 <h1><img className='p' src={P} alt=''></img>ius <span className='surname'>Maushart</span></h1>
                 <div className="title-container">

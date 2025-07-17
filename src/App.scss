@@ -28,6 +28,13 @@ textarea{
   height: 100vh;
 }
 
+@media (max-width: 900px) {
+  .App {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
 
 // .loader-active{
 //   display:block;

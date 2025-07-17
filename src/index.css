@@ -13,3 +13,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+    overflow-x: hidden;
+  }
+}
+
