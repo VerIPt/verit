@@ -12,11 +12,17 @@
     top: 5%;
     margin: 0 auto;
     overflow: auto;
+
+    background: linear-gradient(135deg, 
+        #0f2940 0%, 
+        #133051 25%, 
+        #1a3d5c 50%, 
+        #133051 75%, 
+        #0f2940 100%
+    );
 }
 
 .text-zone {
-    
-
     color: white;
     position: absolute;
     left: 15%;
@@ -26,12 +32,21 @@
     vertical-align: middle;
     display: table-cell;
     max-height: 90%;
+
+    .text {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
 }
 
 .text-zone p {
     font-size: 1.6rem;
     animation: slideInFromRight 0.8s ease-out forwards;
-
 }
 
 .text-zone h1 {
@@ -46,7 +61,13 @@
 .contact-form {
     align-items: baseline;
     width: 100%;
- 
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
     ul {
         padding: 0;
@@ -61,7 +82,7 @@
             overflow: hidden;
             display: block;
             clear: both;
-           position: relative;
+            position: relative;
             animation: fadeInUp 0.8s 0.8s;
             animation-fill-mode: forwards;
         }
@@ -88,6 +109,18 @@
         color: black;
         padding: 0 20px;
         box-sizing: border-box;
+
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+
+        &:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #f39f9f;
+            box-shadow: 0 0 0 3px rgba(243, 159, 159, 0.1);
+            transform: translateY(-2px);
+        }
     }
 
     textarea {
@@ -100,6 +133,18 @@
         padding: 20px;
         box-sizing: border-box;
         min-height: 150px;
+
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+
+        &:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #f39f9f;
+            box-shadow: 0 0 0 3px rgba(243, 159, 159, 0.1);
+            transform: translateY(-2px);
+        }
     }
 
     .flat-button {
@@ -117,25 +162,26 @@
         animation: fadeIn 1s 0.8s backwards;
         white-space: nowrap;
 
+        background: linear-gradient(135deg, #f39f9f 0%, #ff6b6b 100%);
+        border: none;
+        color: #133051;
+        font-weight: 700;
+        transition: all 0.3s ease;
+
         &:hover {
-            background-color: #f39f9f;
-            color: #133051;
-            transition: 0.5s ease-in-out;
-            box-shadow: (0 0 0px #a2deeb);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(243, 159, 159, 0.3);
         }
     }
-
 }
 
 .pacman {
     position: absolute;
     left: 20%;
     animation: fadeInImage 1s ease-in-out forwards;
-
 }
 
-
-.button{
+.button {
     margin-left: 80%;
 }
 
@@ -154,27 +200,17 @@ button {
     margin-top: 15px;
     animation: fadeInImage 1s ease-in-out forwards;
 
-  }
-  
-  button:hover {
-    background-color: #f39f9f;
-  }
-  
-
+    &:hover {
+        background-color: #f39f9f;
+    }
+}
 
 @media (max-width: 900px) {
     .pacman {
-       display: none;
-    
+        display: none;
     }
-    
-    
-
-
-    
 
     .text-zone {
-        
         left: 5%;
         width: 90%;
     }
@@ -186,7 +222,5 @@ button {
     .text-zone p {
         font-size: 1.2rem; /* Kleinere Schriftgröße für kleinere Bildschirme */
     }
-    
 }
 
-  

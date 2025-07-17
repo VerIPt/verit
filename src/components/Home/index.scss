@@ -1,13 +1,17 @@
-
 .home {
   font-family: "Poppins";
   line-height: 0;
   color: white;
   min-height: 100vh;
   position: relative;
-  background-color: #133051;
+  background: linear-gradient(135deg, 
+    #0f2940 0%, 
+    #133051 25%, 
+    #1a3d5c 50%, 
+    #133051 75%, 
+    #0f2940 100%
+  );
   z-index: 0;
-
 }
 
 .flat-button {
@@ -17,16 +21,27 @@
   font-weight: 600;
   letter-spacing: 4px;
   text-decoration: none;
-  padding: 10px 18px;
-  border: 2px solid;
+  padding: 12px 24px;
+  border: 2px solid #f39f9f;
+  border-radius: 8px;
   animation: fadeIn 1s 0.8s backwards;
   white-space: nowrap;
   z-index: 1000;
-  &:hover{
-    background-color: #f39f9f;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    background: linear-gradient(135deg, #f39f9f 0%, #ff6b6b 100%);
     color: #133051;
-    transition: 0.5s ease-in-out;
-    box-shadow:(0 0 30px #a2deeb);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(243, 159, 159, 0.3);
+    border-color: transparent;
+  }
+  
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -44,12 +59,35 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: url('../../assets/images/galaxy2.jpg');
+  background: linear-gradient(135deg, 
+    rgba(19, 48, 81, 0.8) 0%, 
+    rgba(26, 61, 92, 0.9) 50%, 
+    rgba(15, 41, 64, 0.8) 100%
+  ),
+  url('../../assets/images/webp/galaxy2.webp');
   background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
   clip-path: polygon(-10% 72%, 100% -26%, 150% 62%, 25% 102%);
   z-index: -100;
   animation: moveBackground 20s ease-in-out infinite alternate;
-  transition: ease-in-out 0.5s;
+  transition: all 0.5s ease;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+      rgba(243, 159, 159, 0.1) 0%, 
+      transparent 30%, 
+      transparent 70%, 
+      rgba(162, 222, 235, 0.1) 100%
+    );
+    z-index: 1;
+  }
 }
 
 .p {
@@ -61,10 +99,11 @@
 
 .home-img img {
   width: 35vw;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
   
-  animation: fadeInImage 1s ease-in-out forwards, pulse1 6s ease-in-out infinite;
+  animation: fadeInImage 1s ease-in-out forwards, logoGlow 4s ease-in-out infinite;
 }
-
 
 .home {
   display: flex;
@@ -167,7 +206,6 @@
   .home-img img {
     padding-top: 30%;
     min-width: 200px;
-    
   }
   .background {
     animation: moveBackground 160s ease-in-out infinite alternate;
@@ -255,4 +293,30 @@
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));
 
   }
+}
+
+/* Verbesserte Animationen und Hover-Effekte */
+.home-content {
+    // ...existing code...
+    
+    h1, h3, p {
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateX(5px);
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
+/* Pulse Animation für Logo */
+@keyframes logoGlow {
+    0%, 100% {
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+        transform: translateY(0);
+    }
+    50% {
+        filter: drop-shadow(0 12px 35px rgba(243, 159, 159, 0.2));
+        transform: translateY(-8px);
+    }
 }

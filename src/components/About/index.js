@@ -1,5 +1,7 @@
 import './index.scss'
 import Pius from '../../assets/images/transparent1.png'
+import PiusWebP from '../../assets/images/webp/transparent1.webp'
+import OptimizedImage from '../OptimizedImage'
 import { Trans } from 'react-i18next';
 
 
@@ -28,7 +30,12 @@ const About = () => {
 
                 </div>
                 <div className='about-img'>
-                    <img src={Pius}></img>
+                    <OptimizedImage 
+                        src={Pius} 
+                        webpSrc={PiusWebP}
+                        alt="Pius Maushart - Professionelles Porträt"
+                        loading="lazy"
+                    />
                 </div>
             </div>
 

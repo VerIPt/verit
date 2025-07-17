@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Typed from 'typed.js';
 import Logo from '../../assets/images/verit_logo.png';
 import P from '../../assets/images/p.png';
+import OptimizedImage from '../OptimizedImage';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import {Trans } from 'react-i18next';
@@ -50,7 +51,12 @@ const Home = () => {
                 <div className='hoverbackground' />
             </div>
             <div className="home-img">
-                <img src={Logo} alt="logo"></img>
+                <OptimizedImage 
+                    src={Logo} 
+                    alt="Ver-IT Logo - Pius Maushart Portfolio"
+                    loading="eager"
+                    width="35vw"
+                />
             </div>
         </div>
     );

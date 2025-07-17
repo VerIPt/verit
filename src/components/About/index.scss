@@ -3,13 +3,33 @@
     color: white;
     position: relative;
     min-height: 100vh;
-    background-image: url('../../assets/images/galaxy2.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    animation: moveBackground 20s ease-in-out infinite alternate;
+    background: linear-gradient(135deg, 
+        #0f2940 0%, 
+        #133051 25%, 
+        #1a3d5c 50%, 
+        #133051 75%, 
+        #0f2940 100%
+    );
     z-index: 0;
     
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 70% 30%, 
+            rgba(243, 159, 159, 0.1) 0%, 
+            transparent 50%
+        ),
+        radial-gradient(circle at 30% 70%, 
+            rgba(162, 222, 235, 0.1) 0%, 
+            transparent 50%
+        );
+        z-index: 1;
+        pointer-events: none;
+    }
 }
 
 
@@ -28,10 +48,22 @@
     animation: fadeInImage 1s ease-in-out backwards;
 }
 
-.about-img img {
-    width: 35vw;
-    animation: fadeInImage 1s ease-in-out forwards;
-    filter: drop-shadow(0 0 20px rgba(148, 205, 252, 0.432));
+.about-img {
+    position: relative;
+    z-index: 2;
+    
+    img {
+        width: 35vw;
+        animation: fadeInImage 1s ease-in-out forwards;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.4));
+        }
+    }
 }
 
 .about {
@@ -42,7 +74,30 @@
 
 .about-content {
     margin-left: 3%;
-
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(243, 159, 159, 0.05) 0%, 
+            transparent 50%, 
+            rgba(162, 222, 235, 0.05) 100%
+        );
+        border-radius: 20px;
+        z-index: -1;
+    }
 }
 
 .about-content h3 {
