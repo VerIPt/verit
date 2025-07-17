@@ -1,6 +1,5 @@
 
-
-  .container {
+.container {
     font-family: 'Poppins';
     width: 100%;
     will-change: contents;
@@ -13,6 +12,15 @@
     z-index: 1;
     transform-style: preserve-3d;
     animation: fadeIn 1s forwards;
-  }
-  
+}
 
+@media (max-width: 900px) {
+    .container {
+        position: relative;
+        height: auto;
+        min-height: 100vh;
+        top: 0;
+        overflow-y: auto;
+        padding-bottom: 60px;
+    }
+}
