@@ -45,8 +45,11 @@ const Home = () => {
                 <p>
                     <Trans i18nKey={"verit"}/>    
                 </p>
-                <Link to="/contact" className='flat-button'>CONTACT ME</Link>
-                <div className='background' />
+                <div className='buttons-container'>
+                    <Link to="/contact" className='flat-button'>CONTACT ME</Link>
+                    <Link to="/portfolio" className='flat-button'>PORTFOLIO</Link>
+                    <div className='background' />
+                </div>
                 <div className='hoverbackground' />
             </div>
             <div className="home-img">

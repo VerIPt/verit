@@ -14,6 +14,20 @@
   z-index: 0;
 }
 
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  animation: fadeIn 1s 0.8s backwards;
+  
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+  }
+}
+
 .flat-button {
   position: relative;
   color: #f39f9f;
@@ -24,7 +38,6 @@
   padding: 12px 24px;
   border: 2px solid #f39f9f;
   border-radius: 8px;
-  animation: fadeIn 1s 0.8s backwards;
   white-space: nowrap;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.05);
@@ -143,6 +156,7 @@
   font-size: 1.6rem;
   animation: slideInFromLeft 0.8s ease-out forwards;
   margin-bottom: 4rem;
+  white-space: pre-line;
 }
 
 .software {
@@ -246,7 +260,7 @@
     font-size: 1.4rem;
     line-height: 1.6;
     margin-bottom: 3rem;
-    text-align: justify;
+    text-align: center;
   }
 
   .software {

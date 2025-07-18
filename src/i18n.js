@@ -13,7 +13,7 @@ i18next
                 translation: {
                     name: 'Hallo, mein Name ist',
                     ich_bin: 'Ich bin',
-                    verit: 'Ver-IT Services, zu Ihren Diensten für IT',
+                    verit: 'Websites, Code-Lösungen, Web-Apps - \nVer-IT Services, zu Ihren Diensten für IT',
                     about: 'Über <1>mich</1>',
                     media: 'Student B.Sc <0/>Medien <1>Informatik</1>',
                     text_about: "Nach meiner Ausbildung zum Kfz-Mechatroniker und 5 Jahren Berufserfahrung in verschiedenen Bereichen entschied ich mich für ein IT-Studium, da mich digitale Systeme begeistern. Parallel zum Studium sammelte ich zuerst erste Einblicke als Tutor in die Lehre des Programmierens und anschließend knapp ein Jahr Erfahrung als Werkstudent in der Embedded-Software-Entwicklung. Diese praktische Erfahrung ergänzte mein theoretisches Wissen aus dem Studium und gab mir wertvolle Einblicke in die Hardware-Software-Interaktion eingebetteter Systeme. Ich bin bereit, meine kombinierten Fähigkeiten aus Studium und Praxis als Werkstudent weiter auszubauen.",
@@ -52,7 +52,7 @@ i18next
                 translation: {
                     name: 'Hello, my name is',
                     ich_bin: 'I am',
-                    verit: 'Ver-IT services, at your service for IT',
+                    verit: 'Websites, code solutions, web apps - \nVer-IT services, at your service for IT',
                     about: 'About <1>Me</1>',
                     media: "Student B.Sc <0/>Media <1>Informatics</1>",
                     text_about: "After completing my training as an automotive mechatronics technician and gaining 5 years of professional experience in various areas, I decided to pursue IT studies, as I am passionate about digital systems. Alongside my studies, I first gained initial insights as a tutor teaching programming, and subsequently almost a year of experience as a working student in embedded software development. This practical experience complemented my theoretical knowledge from my studies and gave me valuable insights into hardware-software interaction in embedded systems. I am ready to further develop my combined skills from studies and practical experience as a working student.",
