@@ -1,0 +1,145 @@
+.impressum-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Poppins";
+    width: 100%;
+    will-change: contents;
+    height: 90%;
+    min-height: 566px;
+    position: absolute;
+    top: 5%;
+    margin: 0 auto;
+    overflow: auto;
+
+    background: linear-gradient(135deg, 
+        #0f2940 0%, 
+        #133051 25%, 
+        #1a3d5c 50%, 
+        #133051 75%, 
+        #0f2940 100%
+    );
+
+    .text-zone {
+        color: white;
+        position: absolute;
+        left: 15%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 70%;
+        vertical-align: middle;
+        display: table-cell;
+        max-height: 90%;
+        overflow-y: auto;
+
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+        h1 {
+            font-size: 3rem;
+            font-family: 'Coolvetica';
+            color: #a2deeb; /* Schönes Hellblau für die Hauptüberschrift */
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 0; /* Kein Abstand zum nächsten Element */
+            text-align: left; /* Linksbündig */
+            text-shadow: 0 0 10px rgba(162, 222, 235, 0.5);
+        }
+    }
+
+    .impressum-content {
+        color: #fff;
+        font-size: 14px;
+        line-height: 1.6;
+        text-align: left; /* Alles linksbündig anordnen */
+
+        h2 {
+            color: #a2deeb; /* Gleiches Hellblau für "Angaben gemäß § 5 TMG" */
+            font-size: 22px;
+            margin: 0 0 30px 0; /* Kein Abstand oben, direkt unter h1 */
+            font-family: 'Coolvetica';
+            text-align: left; /* Linksbündig, direkt unter h1 */
+            text-shadow: 0 0 8px rgba(162, 222, 235, 0.4);
+        }
+
+        h3 {
+            color: #f39f9f;
+            font-size: 18px;
+            margin: 30px 0 15px 0;
+            font-family: 'Coolvetica';
+            text-align: left;
+        }
+
+        h4 {
+            color: #f39f9f;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            font-family: 'Coolvetica';
+            text-align: left;
+        }
+
+        p {
+            margin: 0 0 20px 0;
+            text-align: left;
+        }
+
+        a {
+            color: #ffd700;
+            text-decoration: none;
+            
+            &:hover {
+                color: #f39f9f;
+                text-decoration: underline;
+            }
+        }
+
+        .impressum-section {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(162, 222, 235, 0.2);
+            text-align: left;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .impressum-page {
+        .text-zone {
+            position: initial;
+            width: 90%;
+            margin: 20px auto;
+            transform: none;
+            padding: 20px;
+            box-sizing: border-box;
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .impressum-content {
+            font-size: 13px;
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 16px;
+            }
+
+            h4 {
+                font-size: 14px;
+            }
+        }
+    }
+}

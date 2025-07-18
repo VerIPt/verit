@@ -277,6 +277,13 @@
             const [showInfoText, setShowInfoText] = useState(false);
             const [currentInfoText, setCurrentInfoText] = useState('');
 
+            useEffect(() => {
+                window.parent.postMessage({
+                    type: 'AUGUSTUS_MENU_STATE',
+                    showMainMenu: showStartButton
+                }, '*');
+            }, [showStartButton]);
+
             const introMessage = "Salve! Ich bin Augustus, der erste Kaiser Roms. Ich werde euch heute mitnehmen auf eine faszinierende Reise durch die römische Geschichte. Am Ende könnt ihr auf die einzelnen Jahreszahlen klicken, um noch mehr Details zu erfahren. Lasst uns beginnen!";
 
             const timeline = [

@@ -118,8 +118,52 @@ nav {
         }
     }
 
+    a.historia-link {
+        &:after {
+            font-family: 'Coolvetica';
+            content: 'HISTORIA'
+        }
+    }
+
     a.active {
         svg {
+            color: #f39f9f;
+        }
+    }
+}
+
+.impressum-link {
+    position: absolute;
+    bottom: 180px;
+    width: 100%;
+    text-align: center;
+    
+    .impressum-nav-link {
+        color: #4d4d4e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        padding: 8px 0;
+        font-size: 11px;
+        line-height: 1.1;
+        transition: all 0.3s ease-out;
+        
+        svg {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        
+        span {
+            font-family: 'Coolvetica';
+            letter-spacing: 1px;
+        }
+        
+        &:hover {
+            color: #f39f9f;
+        }
+        
+        &.active {
             color: #f39f9f;
         }
     }

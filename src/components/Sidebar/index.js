@@ -3,7 +3,7 @@ import { slide as Menu } from 'react-burger-menu';
 import './index.scss'
 import LogoS from '../../assets/images/Logo_ohneService.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faUser, faEnvelope, faCode } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faEnvelope, faCode, faLandmark, faFileContract } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import React, { useState } from 'react';
 import i18n from '../../i18n';
@@ -48,10 +48,20 @@ const Sidebar = () => {
                     <NavLink exact="true" activeclassname="active" className="portfolio-link" to="/portfolio" onClick={closeMenu}>
                         <FontAwesomeIcon icon={faCode} color='#4d4d4e' />
                     </NavLink>
+                    <NavLink exact="true" activeclassname="active" className="historia-link" to="/historia-romana" onClick={closeMenu}>
+                        <FontAwesomeIcon icon={faLandmark} color='#4d4d4e' />
+                    </NavLink>
                     <NavLink exact="true" activeclassname="active" className="contact-link" to="/contact" onClick={closeMenu}>
                         <FontAwesomeIcon icon={faEnvelope} color='#4d4d4e' />
                     </NavLink>
                 </nav>
+
+                <div className='impressum-link'>
+                    <NavLink exact="true" activeclassname="active" className="impressum-nav-link" to="/impressum" onClick={closeMenu}>
+                        <FontAwesomeIcon icon={faFileContract} color='#4d4d4e' />
+                        <span>Impressum</span>
+                    </NavLink>
+                </div>
 
                 <ul className='sidebar'>
                     <li>
