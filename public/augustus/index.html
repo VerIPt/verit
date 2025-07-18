@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Augustus Timeline</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: monospace;
+            background: #133051;
+            color: #f39f9f;
+        }
+
+        @keyframes fadeInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slide-in-left {
+            from {
+                transform: translateX(100%);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-in-left {
+            animation: slide-in-left 1.2s ease-out forwards;
+        }
+
+        @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .cursor-blink {
+            animation: cursor-blink 1s infinite;
+        }
+
+        @keyframes terminal-glow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 5px currentColor;
+            }
+
+            50% {
+                text-shadow: 0 0 10px currentColor;
+            }
+        }
+
+        .terminal-glow {
+            animation: terminal-glow 2s ease-in-out infinite;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar-track {
+            background: #133051;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar-thumb {
+            background: #f39f9f;
+            border-radius: 4px;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar-thumb:hover {
+            background: #ff6b6b;
+        }
+
+        .augustus-container {
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            transition: none !important;
+        }
+
+        /* Responsive*/
+        .augustus-ascii {
+            font-size: clamp(6px, 1.5vw, 12px);
+            line-height: 1;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+        }
+
+        @media (max-width: 768px) {
+            .augustus-ascii {
+                font-size: clamp(3px, 2vw, 8px);
+            }
+
+            .speech-bubble {
+                max-width: 90vw !important;
+                font-size: 14px !important;
+                padding: 1rem !important;
+            }
+
+            .timeline-years {
+                height: 5rem !important;
+                padding: 0.5rem !important;
+            }
+
+            .console-bar {
+                height: 8rem !important;
+                bottom: 20pt !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .augustus-ascii {
+                font-size: clamp(2px, 3vw, 6px);
+            }
+
+            .speech-bubble {
+                font-size: 12px !important;
+                padding: 0.75rem !important;
+            }
+
+            .timeline-years {
+                height: 4rem !important;
+                padding: 0.25rem !important;
+            }
+
+            .console-bar {
+                height: 6rem !important;
+                bottom: 50pt !important;
+            }
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            background: #f39f9f;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            background: #f39f9f;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+
+        .timeline-button {
+            background: linear-gradient(135deg, rgba(243, 159, 159, 0.2), rgba(19, 48, 81, 0.9));
+            border: 1px solid rgba(243, 159, 159, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-button:hover {
+            background: linear-gradient(135deg, rgba(243, 159, 159, 0.4), rgba(19, 48, 81, 0.9));
+            border-color: rgba(243, 159, 159, 0.6);
+            box-shadow: 0 4px 12px rgba(243, 159, 159, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .timeline-button.active {
+            background: linear-gradient(135deg, rgba(243, 159, 159, 0.5), rgba(19, 48, 81, 0.9));
+            border-color: rgba(243, 159, 159, 0.8);
+            box-shadow: 0 0 16px rgba(243, 159, 159, 0.4);
+        }
+
+        /* Custom color overrides for VerIT theme */
+        .bg-gray-800 {
+            background-color: #133051 !important;
+        }
+
+        .bg-black {
+            background-color: #0a1a2a !important;
+        }
+
+        .border-gray-600 {
+            border-color: rgba(243, 159, 159, 0.3) !important;
+        }
+
+        /* Only green colors changed to orange, keeping rose colors */
+        .border-green-600, .border-green-400 {
+            border-color: #ff9f40 !important;
+        }
+
+        .bg-green-600 {
+            background-color: #ff9f40 !important;
+        }
+
+        .bg-green-500 {
+            background-color: #ff8c00 !important;
+        }
+
+        .text-green-400 {
+            color: #ff9f40 !important;
+        }
+
+        .text-green-300 {
+            color: #ffb366 !important;
+        }
+
+        .text-green-500 {
+            color: #ff8c00 !important;
+        }
+
+        .text-amber-400 {
+            color: #ff9f40 !important;
+        }
+
+        /* Fix speech bubble arrow */
+        .border-t-green-400 {
+            border-top-color: #ff9f40 !important;
+        }
+
+        /* Make Augustus ASCII art more prominent with orange glow */
+        .augustus-ascii {
+            color: #ff9f40;
+            text-shadow: 0 0 10px rgba(255, 159, 64, 0.5);
+        }
+
+        .text-white {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const AugustusTerminal = () => {
+            
+            const [currentStep, setCurrentStep] = useState(0);
+            const [showFullAugustus, setShowFullAugustus] = useState(false);
+            const [showIntroPhase, setShowIntroPhase] = useState(false);
+            const [introText, setIntroText] = useState('');
+            const [zoomToFace, setZoomToFace] = useState(false);
+            const [showTimeline, setShowTimeline] = useState(false);
+            const [currentText, setCurrentText] = useState('');
+            const [yearsShown, setYearsShown] = useState([]);
+            const [showTerminalLoading, setShowTerminalLoading] = useState(false);
+            const [typedCommand, setTypedCommand] = useState('');
+            const [showStartButton, setShowStartButton] = useState(true);
+            const [speedMultiplier, setSpeedMultiplier] = useState(0.5);
+            const [isTimelineComplete, setIsTimelineComplete] = useState(false);
+            const [introComplete, setIntroComplete] = useState(false);
+            const [isSkipped, setIsSkipped] = useState(false);
+            const [showInfoText, setShowInfoText] = useState(false);
+            const [currentInfoText, setCurrentInfoText] = useState('');
+
+            const introMessage = "Salve! Ich bin Augustus, der erste Kaiser Roms. Ich werde euch heute mitnehmen auf eine faszinierende Reise durch die römische Geschichte. Am Ende könnt ihr auf die einzelnen Jahreszahlen klicken, um noch mehr Details zu erfahren. Lasst uns beginnen!";
+
+            const timeline = [
+                { 
+                    year: '753 v.Chr.', 
+                    keyword: 'Gründung', 
+                    text: 'Hier beginnt unsere Geschichte - Romulus gründet Rom am Tiber!',
+                    info_text: 'Der Sage nach gründete Romulus am 21. April 753 v.Chr. die Stadt Rom, nachdem er seinen Zwillingsbruder Remus getötet hatte. Die Zwillinge waren der Legende nach Söhne des Kriegsgottes Mars und wurden von einer Wölfin gesäugt. Romulus wurde der erste König Roms und regierte bis 716 v.Chr. Archäologische Funde bestätigen tatsächlich eine Besiedlung des Palatin-Hügels um diese Zeit. Rom entwickelte sich aus verschiedenen Siedlungen auf den sieben Hügeln zu einer Stadt und wurde zunächst von Königen regiert.'
+                },
+                { 
+                    year: '510 v.Chr.', 
+                    keyword: 'Republik', 
+                    text: 'Lucius Junius Brutus vertreibt Tarquinius Superbus ins Exil. Die römische Republik entsteht!',
+                    info_text: 'Nach dem Sturz des letzten Königs Tarquinius Superbus ("der Stolze") wurde Rom zur Republik. Lucius Junius Brutus, ein Neffe des Königs, führte den Aufstand an, nachdem Tarquinius\' Sohn Sextus Lucretia vergewaltigt hatte. Die Monarchie wurde abgeschafft und durch ein System mit zwei Konsuln ersetzt, die nur für ein Jahr regierten. Der Senat gewann an Macht, und es entstanden komplexe Institutionen der Gewaltenteilung. Die Römer schworen, nie wieder einen König zu dulden - ein Eid, der fast 500 Jahre lang gehalten wurde.'
+                },
+                { 
+                    year: '494 v.Chr.', 
+                    keyword: 'Plebs', 
+                    text: 'Erste Secessio plebis - die Plebejer erkämpfen sich politische Rechte.',
+                    info_text: 'Die Plebejer (das "einfache Volk") zogen sich aus Protest gegen die Privilegien der Patrizier (Adligen) auf den Heiligen Berg zurück und verweigerten den Militärdienst. Diese "Secessio plebis" war ein friedlicher, aber wirkungsvoller Streik, da Rom ohne die Plebejer nicht funktionieren konnte. Als Kompromiss erhielten die Plebejer das Recht, eigene Vertreter zu wählen - die Volkstribunen -, die ihre Interessen schützen sollten. Dies war der Beginn eines jahrhundertelangen Kampfes der Plebejer um politische Gleichberechtigung, der schließlich zur Entstehung der Zwölftafelgesetze (450 v.Chr.) führte.'
+                },
+                { 
+                    year: '399 v.Chr.', 
+                    keyword: 'Gallier', 
+                    text: 'Die Gallier unter Brennus erobern und plündern Rom. Ein schwarzer Tag!',
+                    info_text: 'Ein keltischer Stamm unter dem Häuptling Brennus besiegte die Römer an der Allia und eroberte Rom. Die meisten Römer flohen auf das Kapitol, während die Stadt geplündert wurde. Brennus soll beim Wiegen des Lösegeldes "Vae victis!" ("Wehe den Besiegten!") gerufen und sein Schwert auf die Waage gelegt haben. Die Gallier blieben mehrere Monate in Rom, bevor sie gegen eine hohe Lösegeldzahlung abzogen. Diese Demütigung prägte das römische Bewusstsein nachhaltig und verstärkte ihre Entschlossenheit, militärisch nie wieder so verwundbar zu sein.'
+                },
+                { 
+                    year: '264-241 v.Chr.', 
+                    keyword: '1. Punischer Krieg', 
+                    text: 'Der Erste Punische Krieg beginnt. Rom kämpft gegen Karthago um Sizilien.',
+                    info_text: 'Der erste große Konflikt zwischen Rom und Karthago entbrannte um die Kontrolle Siziliens. Karthago war eine mächtige Handelsstadt in Nordafrika mit einer starken Flotte, während Rom eine Landmacht war. Rom musste erstmals eine Kriegsflotte aufbauen und lernte Seekriegführung. Nach anfänglichen Erfolgen erlitt Rom bei den Ägadischen Inseln eine schwere Niederlage, konnte aber schließlich 241 v.Chr. siegreich aus dem Krieg hervorgehen. Karthago musste Sizilien räumen und hohe Kriegsentschädigungen zahlen. Dies war Roms erster Schritt zur Kontrolle des Mittelmeers.'
+                },
+                { 
+                    year: '219-201 v.Chr.', 
+                    keyword: '2. Punischer Krieg', 
+                    text: 'Hannibal überquert die Alpen mit Elefanten. Der Zweite Punische Krieg beginnt!',
+                    info_text: 'Hannibal, der geniale karthagische Feldherr, überquerte 218 v.Chr. mit etwa 90.000 Soldaten, 12.000 Reitern und 37 Kriegselefanten die Alpen - ein militärisches Meisterwerk. Von seinem Vater Hamilkar zur Rache an Rom erzogen, führte er einen 16-jährigen Krieg gegen Rom. Seine Strategie war es, Rom durch Siege in Italien zu isolieren und Verbündete abzuwerben. Hannibal gewann legendäre Schlachten wie Trebia, Trasimenischer See und Cannae, konnte aber Rom nie direkt erobern. Der Krieg endete erst, als Scipio Africanus 202 v.Chr. Hannibal bei Zama besiegte.'
+                },
+                { 
+                    year: '216 v.Chr.', 
+                    keyword: 'Cannae', 
+                    text: 'Katastrophe bei Cannae! Hannibal vernichtet fast das gesamte römische Heer.',
+                    info_text: 'Die Schlacht von Cannae gilt als Hannibals größter Triumph und eine der vernichtendsten Niederlagen in der römischen Geschichte. Mit nur 50.000 Mann umzingelte Hannibal ein 86.000 Mann starkes römisches Heer durch ein geniales Doppelzangenmanöver. Etwa 50.000 Römer starben, darunter 80 Senatoren und der Konsul Lucius Aemilius Paullus. Die Verluste waren so hoch, dass Rom jahrelang Probleme hatte, neue Legionen aufzustellen. Trotz dieses Sieges konnte Hannibal Rom nicht erobern, da die Stadt stark befestigt war und viele Verbündete Rom treu blieben.'
+                },
+                { 
+                    year: '202 v.Chr.', 
+                    keyword: 'Zama', 
+                    text: 'Scipio Africanus besiegt Hannibal bei Zama. Karthago ist besiegt!',
+                    info_text: 'Publius Cornelius Scipio, später "Africanus" genannt, besiegte Hannibal in der entscheidenden Schlacht bei Zama in Nordafrika. Scipio hatte Hannibals Taktiken studiert und wandte sie gegen ihn an. Entscheidend war, dass Scipio numidische Reiter als Verbündete gewann, die traditionell für Karthago kämpften. Hannibals Kriegselefanten wurden gegen ihn gewendet, und seine Armee wurde vernichtet. Diese Niederlage beendete den Zweiten Punischen Krieg und Hannibals Karriere. Karthago musste schwere Friedensbedingungen akzeptieren und war fortan keine Bedrohung mehr für Rom.'
+                },
+                { 
+                    year: '149-146 v.Chr.', 
+                    keyword: '3. Punischer Krieg', 
+                    text: 'Dritter Punischer Krieg - Cato fordert: "Carthago delenda est!"',
+                    info_text: 'Marcus Porcius Cato der Ältere beendete jede Senatsrede mit "Carthago delenda est!" ("Karthago muss zerstört werden!"). Obwohl Karthago militärisch keine Bedrohung mehr darstellte, fürchteten die Römer eine wirtschaftliche Erholung der Stadt. Als Karthago sich gegen numidische Angriffe verteidigte, nahm Rom dies zum Anlass für einen neuen Krieg. Der Dritte Punische Krieg war eher eine Belagerung als ein echter Krieg. Die Karthager leisteten drei Jahre lang verzweifelten Widerstand, aber 146 v.Chr. fiel die Stadt schließlich an Scipio Aemilianus.'
+                },
+                { 
+                    year: '146 v.Chr.', 
+                    keyword: 'Zerstörung', 
+                    text: 'Karthago wird zerstört. Auch Korinth fällt - Rom herrscht über das Mittelmeer.',
+                    info_text: 'In einem Jahr der Entscheidung zerstörte Rom beide Zentren der Mittelmeerwelt: Karthago in Afrika und Korinth in Griechenland. Karthago wurde dem Erdboden gleichgemacht, die Überlebenden versklavt, und der Boden soll mit Salz bestreut worden sein (historisch umstritten). Gleichzeitig wurde Korinth, das reichste Handelszentrum Griechenlands, nach einem Aufstand zerstört. Diese Doppelzerstörung markierte Roms unbestrittene Herrschaft über das Mittelmeer, das die Römer fortan "Mare Nostrum" ("Unser Meer") nannten. Rom war nun die einzige Supermacht der antiken Welt.'
+                },
+                { 
+                    year: '132 v.Chr.', 
+                    keyword: 'Pergamon', 
+                    text: 'Pergamon wird Rom vererbt - ein reicher Gewinn für das Reich!',
+                    info_text: 'König Attalus III. von Pergamon vermachte sein Reich testamentarisch an Rom, da er keine Erben hatte und befürchtete, dass das Reich nach seinem Tod im Chaos versinken würde. Pergamon war eines der reichsten hellenistischen Königreiche in Kleinasien, berühmt für seine Bibliothek und Kunstschätze. Die Erbschaft brachte Rom enormen Reichtum, führte aber auch zu sozialen Spannungen, da die Beute ungleich verteilt wurde und damit zum ersten mal seit langem ein gemeinsamer gefährlicher äußerer Feind fehlte der die Bevölkerung einte. Tiberius Gracchus wollte das pergamenische Vermögen für seine Landreformen nutzen, was zu seinem Konflikt mit dem Senat beitrug.'
+                },
+                { 
+                    year: '132 v.Chr.', 
+                    keyword: 'Gracchus', 
+                    text: 'Tiberius Gracchus versucht Landreformen. Er wird ermordet - die Republik wankt.',
+                    info_text: 'Tiberius Gracchus erkannte die wachsende Kluft zwischen Arm und Reich und die Verdrängung der Kleinbauern durch Latifundien (Großgrundbesitz mit Sklaven). Als Volkstribun wollte er Staatsland an landlose Bürger verteilen, stieß aber auf erbitterten Widerstand des Senats und der Reichen. Als er sich um eine zweite Amtszeit bewarb (verfassungswidrig), griffen Senatoren zu Gewalt. Tiberius und 300 seiner Anhänger wurden erschlagen - das erste Mal, dass politische Gewalt in Rom angewendet wurde. Dies markierte den Beginn der Krise der Republik.'
+                },
+                { 
+                    year: '122 v.Chr.', 
+                    keyword: 'Gaius', 
+                    text: 'Gaius Gracchus setzt das Werk seines Bruders fort. Auch er stirbt gewaltsam.',
+                    info_text: 'Gaius Gracchus wurde zehn Jahre nach seinem Bruder Tiberius ebenfalls Volkstribun und führte noch radikalere Reformen durch. Er verteilte verbilligtes Getreide an die Stadtbevölkerung (erste Sozialpolitik Roms), reformierte das Gerichtswesen und stärkte die Rechte der Ritter gegen den Senat. Seine Maßnahmen waren populär, aber seine Macht bedrohte die traditionelle Ordnung. Als seine Anhänger und Gegner bewaffnet aufeinandertrafen, wurde der Senat-Notstand ausgerufen. Gaius beging Selbstmord, um der Gefangennahme zu entgehen. 3.000 seiner Anhänger wurden hingerichtet.'
+                },
+                { 
+                    year: '111 v.Chr.', 
+                    keyword: 'Marius', 
+                    text: 'Marius reformiert das Heer gegen die Numider. Berufssoldaten statt Bürgermiliz.',
+                    info_text: 'Gaius Marius revolutionierte das römische Militärwesen grundlegend. Während des Krieges gegen den numidischen König Jugurtha schaffte er die Eigentumsqualifikation für den Militärdienst ab und rekrutierte erstmals landlose Proletarier. Diese "Marius-Reformen" schufen ein Berufsheer mit standardisierter Ausrüstung, längerer Dienstzeit (16 Jahre) und Veteranenversorgung. Die Soldaten erhielten Landschenkungen nach dem Dienst und waren ihren Feldherren persönlich verpflichtet. Dies stärkte die militärische Effizienz, machte aber die Armee zu einem politischen Machtfaktor und bereitete den Weg für spätere Bürgerkriege.'
+                },
+                { 
+                    year: '91 v.Chr.', 
+                    keyword: 'Bündnis', 
+                    text: 'Bundesgenossenkrieg - Italiker kämpfen um römisches Bürgerrecht.',
+                    info_text: 'Die italischen Bundesgenossen (socii) hatten Rom jahrhundertelang militärisch unterstützt, aber nicht die vollen Rechte römischer Bürger. Sie stellten die Hälfte der römischen Armee, konnten aber nicht wählen oder Ämter bekleiden. Als der Tribun Marcus Livius Drusus ihnen das Bürgerrecht verleihen wollte, wurde er ermordet. Daraufhin erhoben sich die Italiker im Bundesgenossenkrieg (91-88 v.Chr.) und gründeten einen eigenen Staat mit der Hauptstadt Corfinium. Rom musste nachgeben und verlieh schrittweise allen Italikern das Bürgerrecht. Dies war ein wichtiger Schritt zur Einigung Italiens unter römischer Führung.'
+                },
+                { 
+                    year: '80er v.Chr.', 
+                    keyword: 'Sulla', 
+                    text: 'Sulla marschiert gegen Rom. Proskriptionen und Bürgerkrieg.',
+                    info_text: 'Lucius Cornelius Sulla führte den ersten Marsch auf Rom durch und leitete damit eine neue Phase der Gewalt ein. Der Konflikt zwischen Sulla und Marius um das Kommando gegen Mithridates VI. eskalierte zum Bürgerkrieg. Nach seinem Sieg führte Sulla die berüchtigten Proskriptionen durch - öffentliche Todeslisten, die jeden vogelfrei machten. Tausende von Rittern und Senatoren wurden ermordet, ihr Besitz konfisziert. Als Diktator reformierte Sulla die Verfassung, stärkte den Senat und schwächte die Volkstribunen. 79 v.Chr. legte er überraschend alle Ämter nieder und zog sich zurück.'
+                },
+                { 
+                    year: '76 v.Chr.', 
+                    keyword: 'Spartacus', 
+                    text: 'Spartacus-Aufstand! Gladiatoren und Sklaven rebellieren gegen Rom.',
+                    info_text: 'Spartacus, ein thrakischer Gladiator, führte den größten Sklavenaufstand der römischen Geschichte an. Aus der Gladiatorenschule in Capua ausgebrochen, sammelte er über 100.000 Sklaven, Gladiatoren und freie Arme um sich. Seine Armee besiegte mehrere römische Legionen und plünderte Italien zwei Jahre lang. Spartacus erwies sich als brillanter Feldherr und Organisator. Der Aufstand endete 71 v.Chr., als Marcus Licinius Crassus Spartacus\' Armee vernichtete. 6.000 Überlebende wurden entlang der Via Appia gekreuzigt. Der Aufstand erschütterte Rom und zeigte die Verwundbarkeit des auf Sklaverei basierenden Systems.'
+                },
+                { 
+                    year: '60 v.Chr.', 
+                    keyword: 'Triumvirat', 
+                    text: 'Erstes Triumvirat: Pompeius, Crassus und mein Adoptivvater Caesar.',
+                    info_text: 'Das Erste Triumvirat war ein geheimes Bündnis zwischen Pompeius Magnus, Marcus Licinius Crassus und Gaius Julius Caesar. Pompeius war der erfolgreiche Feldherr, Crassus der reichste Mann Roms, und Caesar der aufstrebende Politiker. Sie einigten sich, ihre Macht zu bündeln und den Senat zu umgehen. Caesar wurde Konsul und erhielt das Kommando in Gallien, Pompeius bekam Land für seine Veteranen, und Crassus erhielt lukrative Geschäfte. Das Triumvirat war verfassungswidrig, aber effektiv. Es zeigte, dass die Republik nicht mehr funktionierte und mächtige Individuen wichtiger waren als Institutionen.'
+                },
+                { 
+                    year: '50er v.Chr.', 
+                    keyword: 'Gallien', 
+                    text: 'Caesar erobert Gallien. "Gallia est omnis divisa in partes tres..."',
+                    info_text: 'Julius Caesar führte zwischen 58 und 50 v.Chr. die Eroberung Galliens durch - eines der größten militärischen Unternehmungen der Antike. Er unterwarf über 40 Stämme, gründete Städte und brachte etwa eine Million Quadratkilometer unter römische Kontrolle. Seine "Commentarii de Bello Gallico" dokumentierten den Krieg und dienten auch der Selbstdarstellung. Caesar besiegte 52 v.Chr. Vercingetorix bei Alesia und beendete den gallischen Widerstand. Die Eroberung brachte enormen Reichtum und militärischen Ruhm, machte Caesar aber auch zu einer Bedrohung für die Republik. Gallien blieb 500 Jahre römisch und wurde stark romanisiert.'
+                },
+                { 
+                    year: '53 v.Chr.', 
+                    keyword: 'Carrhae', 
+                    text: 'Crassus stirbt bei Carrhae gegen die Parther. Das Triumvirat zerbricht.',
+                    info_text: 'Marcus Licinius Crassus suchte militärischen Ruhm und Reichtum im Krieg gegen die Parther. Bei Carrhae (heute Harran, Türkei) wurde sein Heer von der parthischen Reiterei unter Surena vernichtend geschlagen. 20.000 Römer starben, 10.000 wurden gefangen genommen. Crassus selbst wurde getötet, angeblich wurde ihm geschmolzenes Gold in den Mund gegossen. Die Niederlage war ein Trauma für Rom und zeigte die Grenzen römischer Expansion im Osten. Mit Crassus\' Tod zerbrach das Erste Triumvirat, und die Spannungen zwischen Caesar und Pompeius nahmen zu.'
+                },
+                { 
+                    year: '49 v.Chr.', 
+                    keyword: 'Rubikon', 
+                    text: 'Caesar überschreitet den Rubikon. "Alea iacta est!" - der Bürgerkrieg beginnt.',
+                    info_text: 'Der Rubikon war ein kleiner Fluss, der die Grenze zwischen Gallien und Italien markierte. Römische Feldherren durften ihn mit Truppen nicht überschreiten. Als der Senat Caesar befahl, seine Legionen zu entlassen und als Privatmann nach Rom zurückzukehren, überschritt er am 10. Januar 49 v.Chr. mit der XIII. Legion den Rubikon. Dabei soll er "Alea iacta est!" ("Die Würfel sind gefallen!") gerufen haben. Dies war eine Kriegserklärung an die Republik und den Beginn des Bürgerkriegs gegen Pompeius und den Senat. "Den Rubikon überschreiten" wurde zur Metapher für eine unwiderrufliche Entscheidung.'
+                },
+                { 
+                    year: '48 v.Chr.', 
+                    keyword: 'Pharsalus', 
+                    text: 'Caesar besiegt Pompeius bei Pharsalus. Pompeius flieht nach Ägypten.',
+                    info_text: 'Die Schlacht von Pharsalus war die entscheidende Schlacht des Bürgerkriegs zwischen Caesar und Pompeius. Obwohl Pompeius über mehr Truppen verfügte, siegte Caesar durch überlegene Taktik und die Erfahrung seiner Veteranen. Pompeius\' Reiterei wurde geschlagen, und seine Armee löste sich auf. Caesar zeigte seine berühmte "clementia" (Milde), indem er römische Gefangene begnadigte. Pompeius floh nach Ägypten, wo er aber ermordet wurde, bevor Caesar eintraf. Der Sieg machte Caesar zum Herrscher der römischen Welt und leitete das Ende der Republik ein.'
+                },
+                { 
+                    year: '44 v.Chr.', 
+                    keyword: 'Iden', 
+                    text: 'Caesar wird an den Iden des März ermordet. "Et tu, Brute?" Ein dunkler Tag...',
+                    info_text: 'Am 15. März 44 v.Chr. (den Iden des März) wurde Julius Caesar von einer Verschwörung um Marcus Junius Brutus und Gaius Cassius Longinus ermordet. Die Verschwörer sahen sich als Befreier der Republik und wollten die Diktatur beenden. Caesar wurde vor dem Senat in der Kurie des Pompeius mit 23 Dolchstichen getötet. Seine letzten Worte sollen "Et tu, Brute?" ("Auch du, Brutus?") gewesen sein. Die Ermordung stürzte Rom ins Chaos, da die Verschwörer keinen Plan für die Zeit nach dem Attentat hatten. Statt die Republik zu retten, lösten sie neue Bürgerkriege aus.'
+                },
+                { 
+                    year: '43 v.Chr.', 
+                    keyword: 'Rache', 
+                    text: 'Zweites Triumvirat: Antonius, Lepidus und ich. Wir rächen Caesar.',
+                    info_text: 'Das Zweite Triumvirat wurde von Marcus Antonius, Marcus Aemilius Lepidus und Octavian (dem späteren Augustus) gebildet, um Caesar zu rächen. Anders als das erste war dieses Triumvirat offiziell und gesetzlich anerkannt. Die drei Männer teilten die römische Welt untereinander auf und führten Proskriptionen durch, um ihre Feinde zu eliminieren. Ihr berühmtestes Opfer war Cicero, der gegen Antonius gewettert hatte. Das Triumvirat war auf fünf Jahre befristet und diente hauptsächlich der Rache an Caesars Mördern und der Machtstabilisierung.'
+                },
+                { 
+                    year: '42 v.Chr.', 
+                    keyword: 'Philippi', 
+                    text: 'Schlacht bei Philippi - Brutus und Cassius sind besiegt und tot.',
+                    info_text: 'Bei Philippi in Mazedonien fand die entscheidende Schlacht zwischen den Triumvirn (Antonius und Octavian) und Caesars Mördern (Brutus und Cassius) statt. Die Schlacht wurde in zwei Phasen geführt: In der ersten starb Cassius, weil er fälschlicherweise glaubte, Brutus sei gefallen. Drei Wochen später wurde auch Brutus\' Armee besiegt, und er beging Selbstmord mit den Worten: "Tugend, du warst nur ein Wort!" Mit dem Tod der beiden Hauptverschwörer war Caesar gerächt, aber die Republik war endgültig tot. Die Sieger teilten die Welt unter sich auf: Antonius erhielt den Osten, Octavian den Westen.'
+                },
+                { 
+                    year: '31 v.Chr.', 
+                    keyword: 'Actium', 
+                    text: 'Ich besiegte Antonius und Kleopatra bei Actium. Die Republik war am Ende.',
+                    info_text: 'Die Seeschlacht von Actium war die letzte Schlacht der römischen Republik. Octavian besiegte die vereinte Flotte von Marcus Antonius und Kleopatra VII. vor der Westküste Griechenlands. Antonius hatte sich mit der ägyptischen Königin verbündet und im Osten ein Gegenreich aufgebaut. Die Schlacht war vorentscheidend gewonnen, als Kleopatra mit ihren Schiffen floh und Antonius ihr folgte. Octavian wurde zum Alleinherrscher der römischen Welt. Ein Jahr später eroberte er Ägypten; Antonius und Kleopatra begingen Selbstmord. Dies war das Ende der hellenistischen Welt und der Beginn der Kaiserzeit.'
+                },
+                { 
+                    year: '30 v.Chr.', 
+                    keyword: 'Ägypten', 
+                    text: 'Ägypten wird römische Provinz. Antonius und Kleopatra sind tot.',
+                    info_text: 'Die Eroberung Ägyptens durch Octavian beendete die ptolemäische Herrschaft, die seit Alexander dem Großen 300 Jahre bestanden hatte. Ägypten war das reichste Land der Antike und wurde zur Privatprovinz des Kaisers. Antonius und Kleopatra begingen Selbstmord: Antonius stürzte sich ins Schwert, Kleopatra ließ sich angeblich von einer Kobra beißen. Caesarion, der angebliche Sohn Caesars und Kleopatras, wurde ermordet. Ägypten wurde zur wichtigsten Kornkammer Roms und finanzierte das Imperium. Die Schätze der Pharaonen füllten die römische Staatskasse und ermöglichten Octavians spätere Reformen.'
+                },
+                { 
+                    year: '27 v.Chr.', 
+                    keyword: 'Augustus', 
+                    text: 'Der Senat verlieh mir den Titel Augustus. Das Kaiserreich begann!',
+                    info_text: 'Am 16. Januar 27 v.Chr. verlieh der Senat Octavian den Titel "Augustus" ("der Erhabene"). Offiziell "restaurierte" Augustus die Republik, tatsächlich etablierte er aber eine neue Staatsform - das Prinzipat. Er behielt die republikanischen Institutionen bei, konzentrierte aber die reale Macht in seinen Händen. Augustus war "princeps" (Erster Bürger), nicht König oder Diktator. Er kontrollierte die Außenpolitik, das Militär und die Finanzen. Seine Herrschaft brachte Frieden (Pax Romana), Wohlstand und kulturelle Blüte. Das Prinzipat erwies sich als dauerhaft und überdauerte die Republik um Jahrhunderte.'
+                },
+                { 
+                    year: '9 n.Chr.', 
+                    keyword: 'Varus', 
+                    text: 'Varusschlacht im Teutoburger Wald. "Varus, gib mir meine Legionen zurück!"',
+                    info_text: 'Die Varusschlacht war eine der schwersten Niederlagen der römischen Geschichte. Publius Quinctilius Varus führte drei Legionen (XVII., XVIII., XIX.) ins Germanien, um das Gebiet zu romanisieren. Der Cheruskerfürst Arminius, der als römischer Bürger und Offizier ausgebildet worden war, lockte die Römer in einen Hinterhalt im Teutoburger Wald. Über 20.000 Römer starben, Varus beging Selbstmord. Augustus soll geschrien haben: "Varus, gib mir meine Legionen zurück!" Die Niederlage beendete die römische Expansion nach Germanien und machte den Rhein zur Dauergrenze. Die drei Legionsnummern wurden nie wieder verwendet.'
+                },
+                { 
+                    year: '14 n.Chr.', 
+                    keyword: 'Augustus\'Tod', 
+                    text: 'Meine Herrschaft endete hier. Tiberius wird mein Nachfolger.',
+                    info_text: 'Augustus starb am 19. August 14 n.Chr. in Nola bei Neapel im Alter von 75 Jahren. Er hatte 45 Jahre lang geherrscht und das römische Reich grundlegend transformiert. Seine letzten Worte sollen gewesen sein: "Habe ich meine Rolle gut gespielt? Dann klatscht Beifall!" Sein Adoptivssohn Tiberius wurde sein Nachfolger. Augustus wurde vergöttlicht und als "Divus Augustus" verehrt. Sein Mausoleum und seine Res Gestae (Tatenbericht) dokumentierten seine Leistungen. Er hatte aus einem zerrissenen Bürgerkriegsland ein stabiles Weltreich gemacht und die Grundlagen für 200 Jahre Pax Romana gelegt.'
+                },
+                { 
+                    year: '64 n.Chr.', 
+                    keyword: 'Brand', 
+                    text: 'Nero lässt Rom brennen. Die Christen werden zu Sündenböcken gemacht.',
+                    info_text: 'Der große Brand von Rom wütete sechs Tage und sieben Nächte im Juli 64 n.Chr. Zehn der 14 Stadtbezirke wurden zerstört, Hunderttausende wurden obdachlos. Die Legende, dass Nero "fiedelte, während Rom brannte", ist falsch - er war in Antium und kehrte sofort zurück, um Hilfsmaßnahmen zu organisieren. Um von Gerüchten abzulenken, er habe das Feuer legen lassen, machte Nero die Christen zu Sündenböcken. Es folgte die erste systematische Christenverfolgung: Christen wurden gekreuzigt, verbrannt oder wilden Tieren vorgeworfen. Nero nutzte die Katastrophe auch, um seine prunkvolle Domus Aurea zu bauen.'
+                },
+                { 
+                    year: '68 n.Chr.', 
+                    keyword: 'Nero', 
+                    text: 'Nero stirbt. "Qualis artifex pereo!" - Welch ein Künstler geht zugrunde!',
+                    info_text: 'Nero wurde 68 n.Chr. vom Senat zum Staatsfeind erklärt, nachdem Aufstände in Gallien und Spanien seine Herrschaft erschüttert hatten. Als sich auch die Prätorianergarde gegen ihn wandte, floh er aus Rom. In einer Villa außerhalb der Stadt beging er Selbstmord, unterstützt von seinem Freigelassenen Epaphroditos. Seine letzten Worte waren: "Qualis artifex pereo!" ("Welch ein Künstler geht zugrunde!"). Nero sah sich als Künstler und Musiker und hatte regelmäßig öffentliche Auftritte absolviert. Mit seinem Tod endete die julisch-claudische Dynastie, und das Vierkaiserjahr begann.'
+                },
+                { 
+                    year: '69 n.Chr.', 
+                    keyword: 'Vierkaiserjahr', 
+                    text: 'Galba, Otho, Vitellius, Vespasian - vier Kaiser in einem Jahr!',
+                    info_text: 'Das Jahr 69 n.Chr. ging als "Vierkaiserjahr" in die Geschichte ein. Nach Neros Tod kämpften vier Männer um die Macht: Galba wurde von der Prätorianergarde ermordet, Otho besiegte Galba, wurde aber von Vitellius geschlagen und beging Selbstmord. Vitellius regierte nur wenige Monate, bevor Vespasian aus dem Osten mit seinen Legionen anrückte. Die Kämpfe zeigten, dass das Militär den Kaiser machte - wie Tacitus schrieb: "Das Geheimnis des Prinzipats war enthüllt: Kaiser konnten auch anderswo als in Rom gemacht werden." Vespasian begründete die flavische Dynastie und brachte Stabilität zurück.'
+                },
+                { 
+                    year: '79 n.Chr.', 
+                    keyword: 'Vesuv', 
+                    text: 'Der Vesuv bricht aus. Pompeji und Herculaneum werden begraben.',
+                    info_text: 'Am 24. August 79 n.Chr. brach der Vesuv aus und begrub Pompeji, Herculaneum und Stabiae unter Asche und Lava. Der Ausbruch war so plötzlich, dass die Menschen keine Zeit zur Flucht hatten. Plinius der Jüngere beschrieb die Katastrophe in Briefen an Tacitus. Sein Onkel Plinius der Ältere kam bei einem Rettungsversuch ums Leben. Die Städte blieben 1700 Jahre unter der Asche verborgen, bis ihre Entdeckung im 18. Jahrhundert. Die perfekte Konservierung gibt uns heute einzigartige Einblicke in das römische Alltagsleben des 1. Jahrhunderts.'
+                },
+                { 
+                    year: '80 n.Chr.', 
+                    keyword: 'Kolosseum', 
+                    text: 'Das Kolosseum wird eröffnet. "Panem et circenses" für das Volk!',
+                    info_text: 'Das Kolosseum (Amphitheatrum Flavium) wurde von Kaiser Titus eröffnet mit 100-tägigen Spielen. Der größte Amphitheater der Antike fasste 50.000 Zuschauer und war ein Meisterwerk der Ingenieurskunst. Gladiatorenkämpfe, Tierhetzen und Seeschlachten unterhielten die Massen. Die Spiele dienten der politischen Kontrolle - "Panem et circenses" (Brot und Spiele) sollten das Volk ruhig halten. Das Kolosseum hatte ein ausklappbares Sonnensegel und ein komplexes Untergeschoss für Tiere und Bühnentechnik. Es blieb 400 Jahre in Betrieb und wurde zum Symbol römischer Macht und Grausamkeit.'
+                },
+                { 
+                    year: '98 n.Chr.', 
+                    keyword: 'Trajan', 
+                    text: 'Trajan wird Kaiser. Das Reich erreicht seine größte Ausdehnung.',
+                    info_text: 'Marcus Ulpius Traianus war der erste Kaiser nichtrömischer Herkunft (er stammte aus Spanien) und wurde als "Optimus Princeps" (bester Princeps) bezeichnet. Er führte erfolgreiche Kriege gegen die Daker (101-102 und 105-106 n.Chr.) und eroberte das goldreiche Dakien. Seine Trajansäule in Rom dokumentiert diese Siege. Später eroberte er Armenien und Mesopotamien von den Parthern. Unter Trajan erreichte das römische Reich seine größte Ausdehnung - von Schottland bis zum Persischen Golf. Er war auch ein großer Bauherr: Trajansforum, Trajansmarkt und Trajansthermen prägten Rom. Sein Ruhm war so groß, dass spätere Kaiser den Wunsch erhielten: "Glücklicher als Augustus, besser als Trajan!"'
+                },
+                { 
+                    year: '117 n.Chr.', 
+                    keyword: 'Hadrian', 
+                    text: 'Hadrian wird Kaiser. Der Hadrianswall entsteht in Britannia. Das Reich ist am größten!',
+                    info_text: 'Publius Aelius Hadrianus war ein Renaissance-Mensch der Antike: Kaiser, Architekt, Dichter und Reisender. Er verbrachte mehr als die Hälfte seiner Regierungszeit auf Reisen durch die Provinzen und stärkte die Grenzen. Sein berühmtestes Bauwerk ist der Hadrianswall (122-128 n.Chr.), eine 120 km lange Befestigungsanlage quer durch Nordengland. Hadrian gab Trajans Eroberungen im Osten auf und konzentrierte sich auf Konsolidierung. Er gründete Antinoupolis in Ägypten und baute das Pantheon in Rom neu. Sein Lieblingsjüngling Antinous wurde nach seinem Tod vergöttlicht. Hadrian war hochgebildet, sprach fließend Griechisch und förderte die Künste.'
+                },
+                { 
+                    year: '161 n.Chr.', 
+                    keyword: 'Philosoph', 
+                    text: 'Marcus Aurelius wird Kaiser. Der Philosoph auf dem Thron.',
+                    info_text: 'Marcus Aurelius war der letzte der großen Adoptivkaiser und der einzige Philosoph auf dem Kaiserthron. Als überzeugter Stoiker schrieb er seine berühmten "Selbstbetrachtungen" (Meditationes) während der Feldzüge an der Donau. Paradoxerweise musste der friedliebende Philosoph fast seine ganze Regierungszeit Krieg führen - gegen die Parther im Osten und die Markomannen im Norden. Eine Pest verwüstete das Reich, und erste Christenverfolgungen fanden statt. Trotz aller Krisen blieb er seinen stoischen Prinzipien treu. Seine Herrschaft markierte das Ende der Pax Romana. Sein Sohn Commodus wurde sein Nachfolger und leitete den Niedergang ein.'
+                },
+                { 
+                    year: '212 n.Chr.', 
+                    keyword: 'Caracalla', 
+                    text: 'Caracalla verleiht allen freien Reichsbewohnern das Bürgerrecht.',
+                    info_text: 'Kaiser Caracalla (Marcus Aurelius Antoninus) erließ 212 n.Chr. die Constitutio Antoniniana, die allen freien Bewohnern des Reiches das römische Bürgerrecht verlieh. Dies war eine Revolution: Aus einem Stadtstaat war ein Weltreich geworden, aus Römern wurden alle Reichsbewohner. Die Motive waren vermutlich steuerpolitisch - Bürger zahlten höhere Steuern, besonders die Erbschaftssteuer. Caracalla war für seine Grausamkeit berüchtigt - er ermordete seinen Bruder Geta und dessen Anhänger. Er baute die größten Thermen Roms und führte Krieg gegen die Parther. 217 n.Chr. wurde er selbst von einem Offizier ermordet. Die Bürgerrechtsverleihung blieb sein wichtigstes Vermächtnis.'
+                },
+                { 
+                    year: '234-284 n.Chr.', 
+                    keyword: 'Chaos', 
+                    text: 'Soldatenkaiserzeit beginnt. 50 Jahre Chaos und Legitimationsprobleme.',
+                    info_text: 'Die Soldatenkaiserzeit war eine Zeit des Chaos und der Krise. In 50 Jahren regierten über 50 Kaiser, die meisten nur wenige Monate. Das Reich zerfiel fast: Gallien und Britannien spalteten sich als "Gallisches Sonderreich" ab, Palmyra beherrschte den Osten. Germanische Stämme überfielen die Grenzen, die Parther griffen im Osten an. Die Wirtschaft kollabierte durch Inflation und Währungsverfall. Pest und Hungersnöte verwüsteten die Provinzen. Kaiser kämpften gegeneinander, während das Reich auseinanderfiel. Erst Kaiser wie Aurelian (270-275) und schließlich Diokletian (284-305) konnten die Krise überwinden und das Reich stabilisieren.'
+                },
+                { 
+                    year: '284-306 n.Chr.', 
+                    keyword: 'Tetrarchie', 
+                    text: 'Diokletian teilt das Reich. Tetrarchie - vier Kaiser regieren.',
+                    info_text: 'Diokletian revolutionierte die Reichsorganisation durch die Tetrarchie ("Viererherrschaft"). Das Reich wurde unter vier Kaisern aufgeteilt: zwei Augusti (Senior-Kaiser) und zwei Caesares (Junior-Kaiser). Diokletian regierte den Osten, Maximian den Westen. Die Caesares Galerius und Constantius sollten nach 20 Jahren nachfolgen. Dieses System sollte Bürgerkriege verhindern und die Verwaltung verbessern. Diokletian führte auch umfassende Reformen durch: Trennung von Zivil- und Militärverwaltung, Preisedikt gegen Inflation, Steuersystem-Reform. Er leitete die letzte große Christenverfolgung ein. 305 n.Chr. dankte er freiwillig ab - einzigartig in der römischen Geschichte.'
+                },
+                { 
+                    year: '311 n.Chr.', 
+                    keyword: 'Konstantin', 
+                    text: 'Konstantin wird Alleinherrscher. "In hoc signo vinces!"',
+                    info_text: 'Konstantin der Große wurde nach dem Zusammenbruch der Tetrarchie zum Alleinherrscher. Entscheidend war sein Sieg über Maxentius 312 n.Chr. an der Milvischen Brücke bei Rom. Vor der Schlacht soll er eine Vision gehabt haben: Ein Kreuz am Himmel mit der Inschrift "In hoc signo vinces" ("In diesem Zeichen wirst du siegen"). Konstantin ließ das Christusmonogramm Chi-Rho auf die Schilde malen und siegte. Dies war der Wendepunkt für das Christentum. Konstantin wurde der erste christliche Kaiser (getauft erst auf dem Sterbebett), gründete Konstantinopel als neue Hauptstadt und leitete die Christianisierung des Reiches ein.'
+                },
+                { 
+                    year: '313 n.Chr.', 
+                    keyword: 'Toleranz', 
+                    text: 'Toleranzedikt von Mailand - das Christentum wird legal.',
+                    info_text: 'Das Toleranzedikt von Mailand (313 n.Chr.) beendete die Christenverfolgungen und gewährte allen Religionen im Reich freie Religionsausübung. Konstantin und sein Co-Kaiser Licinius proklamierten: "Sowohl den Christen als auch allen anderen soll freie Vollmacht gegeben werden, der Religion zu folgen, die jeder für sich selbst wählt." Konfiszierte Kirchengüter mussten zurückgegeben werden. Das Edikt war ein Meilenstein der Religionsfreiheit. Praktisch bedeutete es den Beginn der Privilegierung des Christentums: Konstantin beschenkte die Kirche reich, baute Basiliken und berief 325 n.Chr. das Konzil von Nicäa ein, um theologische Streitigkeiten zu schlichten.'
+                },
+                { 
+                    year: '330 n.Chr.', 
+                    keyword: 'Byzanz', 
+                    text: 'Konstantinopel wird gegründet. "Nova Roma" am Bosporus.',
+                    info_text: 'Konstantin gründete 330 n.Chr. auf dem Gelände des alten Byzanz eine neue Hauptstadt: Konstantinopel ("Stadt des Konstantin"). Die Stadt wurde als "Nova Roma" (Neues Rom) konzipiert und sollte das christliche Gegengewicht zum heidnischen Rom bilden. Die Lage am Bosporus war strategisch ideal: Kontrolle über den Handel zwischen Europa und Asien, zwischen Schwarzem Meer und Mittelmeer. Konstantin ließ prächtige Gebäude errichten: Hagia Sophia, Hippodrom, Kaiserpalast. Die Stadt hatte einen eigenen Senat und kostenloses Brot für die Bevölkerung. Konstantinopel wurde zum Zentrum des Oströmischen Reiches und blieb über 1000 Jahre lang eine der wichtigsten Städte der Welt.'
+                },
+                { 
+                    year: '378 n.Chr.', 
+                    keyword: 'Adrianopel', 
+                    text: 'Schlacht von Adrianopel - Kaiser Valens stirbt gegen die Goten.',
+                    info_text: 'Die Schlacht von Adrianopel (378 n.Chr.) war eine der schwersten Niederlagen der römischen Geschichte. Kaiser Valens fiel mit zwei Dritteln seiner Armee gegen die Westgoten unter Fritigern. Die Goten waren auf der Flucht vor den Hunnen und hatten um Aufnahme ins Reich gebeten. Schlechte Behandlung durch römische Beamte führte zum Aufstand. Valens unterschätzte die Gegner und griff ohne Verstärkung an. Die gotische Reiterei vernichtete die römischen Legionen. Der Historiker Ammianus Marcellinus verglich die Niederlage mit Cannae. Die Schlacht markierte den Beginn der Völkerwanderung und zeigte, dass Rom nicht mehr unbesiegbar war.'
+                },
+                { 
+                    year: '394 n.Chr.', 
+                    keyword: 'Staatsreligion', 
+                    text: 'Das Christentum wird Staatsreligion. Die alten Götter weichen dem Kreuz.',
+                    info_text: 'Kaiser Theodosius I. machte das Christentum 394 n.Chr. zur alleinigen Staatsreligion und verbot alle heidnischen Kulte. Das Edikt "Cunctos populos" (380 n.Chr.) hatte bereits das Christentum gefördert, aber 394 erfolgte das endgültige Verbot des Heidentums. Olympische Spiele wurden abgeschafft, Tempel geschlossen oder zerstört, heidnische Feste verboten. Der Sieg über den Usurpator Eugenius bei Frigidus wurde als Triumph des Christentums gefeiert. Dies war das Ende der religiösen Vielfalt des Römischen Reiches. Theodosius war der letzte Kaiser, der das gesamte Reich regierte - nach seinem Tod 395 n.Chr. wurde es endgültig geteilt.'
+                },
+                { 
+                    year: '410 n.Chr.', 
+                    keyword: 'Alarich', 
+                    text: 'Alarich plündert Rom. Die Ewige Stadt ist nicht mehr ewig.',
+                    info_text: 'Alarich I., König der Westgoten, plünderte am 24. August 410 n.Chr. Rom - zum ersten Mal seit 800 Jahren wurde die Ewige Stadt von fremden Truppen erobert. Alarich war ursprünglich römischer Offizier gewesen und forderte Land für sein Volk. Nach gescheiterten Verhandlungen belagerte er Rom dreimal. Die Plünderung dauerte drei Tage, aber Alarich befahl, Kirchen zu schonen und Zivilisten nicht zu töten. Trotzdem war der Schock im gesamten Reich riesig. Hieronymus schrieb: "Die Stimme stockt mir, und Schluchzen unterbricht meine Worte. Erobert ist die Stadt, die den Erdkreis erobert hat." Alarich starb wenige Monate später, aber die Aura der Unbesiegbarkeit Roms war gebrochen.'
+                },
+                { 
+                    year: '455 n.Chr.', 
+                    keyword: 'Vandalen', 
+                    text: 'Vandalen plündern Rom. Das Westreich zerfällt.',
+                    info_text: 'Die Vandalen unter König Geiserich plünderten Rom 455 n.Chr. noch gründlicher als die Goten. Sie kamen aus Nordafrika, das sie seit 429 n.Chr. beherrschten. Kaiser Petronius Maximus war ermordet worden, und Rom war schutzlos. Papst Leo I. konnte nur erreichen, dass keine Morde und Brandstiftungen stattfanden. Die Vandalen plünderten 14 Tage lang systematisch: Kaiserpalast, Tempel, Privatvillen. Sie nahmen Kaiser Valentinians Witwe und Töchter als Geiseln mit. Der Begriff "Vandalismus" geht auf diese Plünderung zurück. Das Westreich zerfiel zusehends: Gallien, Spanien und Nordafrika waren verloren, nur Italien blieb nominell römisch.'
+                },
+                { 
+                    year: '476 n.Chr.', 
+                    keyword: 'Ende', 
+                    text: 'Odoaker setzt Romulus Augustulus ab. Das Weströmische Reich endet.',
+                    info_text: 'Am 4. September 476 n.Chr. setzte der germanische Heerführer Odoaker den letzten weströmischen Kaiser Romulus Augustulus ab. Der 16-jährige Kaiser wurde ironisch "Augustulus" (kleiner Augustus) genannt. Odoaker schickte die Reichsinsignien nach Konstantinopel und erklärte, ein Kaiser im Westen sei unnötig. Er herrschte als "König der Völker" über Italien. Dies gilt traditionell als Ende des Weströmischen Reiches, obwohl der Übergang fließend war. Odoaker respektierte römische Gesetze und Institutionen. Das Oströmische Reich bestand als Byzantinisches Reich weitere 1000 Jahre fort. Die Idee Roms lebte im Heiligen Römischen Reich weiter.'
+                },
+                { 
+                    year: '1453 n.Chr.', 
+                    keyword: 'Osmanen', 
+                    text: 'Konstantinopel fällt an die Osmanen. Das letzte Erbe Roms stirbt.',
+                    info_text: 'Am 29. Mai 1453 eroberte Sultan Mehmed II. Konstantinopel und beendete damit das Byzantinische Reich - das letzte Erbe Roms. Kaiser Konstantin XI. Palaiologos fiel bei der Verteidigung der Stadt. Die Osmanen setzten riesige Kanonen ein, darunter die berühmte "Basilika". Die Hagia Sophia wurde zur Moschee umgewandelt. Mit dem Fall Konstantinopels endete die über 2000-jährige Kontinuität des Römischen Reiches. Viele byzantinische Gelehrte flohen nach Westeuropa und brachten griechische Handschriften mit, was die Renaissance förderte. Der osmanische Sultan nannte sich fortan "Kaiser der Römer" (Kayser-i Rum), doch die römische Tradition war endgültig beendet.'
+                },
+                { 
+                    year: '', 
+                    keyword: 'Ewigkeit', 
+                    text: 'Aber die Idee von Rom... sie lebt ewig weiter. "Urbs Aeterna!... Jetzt könnt ihr euch nochmal alle Punkte anschauen, um noch detailliertere Infos zu bekommen."',
+                    info_text: 'Rom wurde zur ewigen Idee, die über das Ende des Reiches hinaus fortwirkt. Das Heilige Römische Reich (800-1806) berief sich auf die römische Tradition, ebenso Napoleon und Hitler. Die römische Rechtsprechung bildet die Grundlage europäischer Gesetze. Lateinisch war jahrhundertelang die Wissenschaftssprache. Römische Architektur inspirierte das Kapitol in Washington und unzählige Regierungsgebäude weltweit. Der Titel "Kaiser" stammt von "Caesar", ebenso "Zar" und "Kaiser". Die Idee der Republik, des Senats, der Gewaltenteilung prägt moderne Demokratien. "SPQR" (Senatus Populusque Romanus) schmückt noch heute Roms Wappen. Rom ist nicht nur Geschichte, sondern lebendige Tradition - "Urbs Aeterna", die ewige Stadt.'
+                }];
+
+            const augustusFullAscii = `                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                     . .:---------=*###***++=----::::----=--=-...                                                                                                                                                                                                                                                                                                               
+                                                      ...:--------=+*####**++==--:-:------===:...                                                                                                                                                                                                                                                                                                               
+                                                         .:------:-=+**###***+++==-------===*+ ..                                                                                                                                                                                                                                                                                                               
+                                                       .  .::----::-==++***##***++===-=====+*#:  . .                                                                                                                             .   ....      ...                                                                                                                                                              
+                                                            .---------==+*##******+====-=++**#+..                                                                                                                                   ...... ....:.. . ....                                                                                                                                                       
+                                                           . .:----------=+********+-=++++*##**- ...                                                                                                                               ..:-::-=+*%%%%##=:...                                                                                                                                                        
+                                                            .. .------------==+***==+++++*###*#+.  .                                                                                                                  .. .... ....=*#####%#*#######*###+--:...... .                                                                                                                                             
+                                                           ...  .:-------------=+=+==++*+**###*+. ..                                                                                                                 ..  .....-+******#%#*=+*+#*####*########+:..  .                                                                                                                                            
+                                                                  .:-------:---======+++***###**- . .                                                                                                                 .....-=+=++-=***--+*#*-:+#*#%%%#%%%%####**+-...                                                                                                                                           
+                                                                 ...::----------======+****####*= .                                                                                                               .   . .=**##*#*+:=*####%##+.-##*#%%*%%%#*%@%**%##=... ..                                                                                                                                      
+                                                                 ...:::::------------==+****###**..                                                                                                             .    ...+**##*#**#+*####****-.-*****+-**##=*%%#*%%#%*..... ..                                                                                                                                   
+                                                                  ..::::::::-:-------===+***####*-. .  .                                                                                                          ...:+****++****+=+=====---::-=+==+--=+-*+:++##*#%%%%+:.....                                                                                                                                   
+                                                                  .:::::::-----------===+*#*####**..                                                                                                          .    .++**+---==+=::-==-==--::--:::--:.::--:+--=*#*=*####%#-...                                                                                                                                   
+                                                                  .::::::::-----------==+*#######*-.                                                                                                            ..:*=+=-==--:--:..:--:...:-=-:--:---:.::-::=--=***==*##%%#*:. . .                                                                                                                               
+                                                                ...:::::::::-------=====+*#######*..                                                                                                          . .=+-=--*=:::--..::-:.-*#+=-:::::*#%###*=-=--=.-+++::*#*%%##:...                                                                                                                                
+                                                                 . .::::::::::-------====+**######*-.                                                                                                          .-==--++:=+-:::-:..:+######***##%%%#####***##%%##*++*.:=**####-..                                                                                                                                
+                                                                 .  .:::::::::--------====+***#####+.  ..                                                                                                   . .:----:--::=-:..::---=**####################***########=:.=+**##- .                                                                                                                               
+                                                                 .   ::::::::::::-------===+***#####-..  .                                                                                                   .:-----:-=:.--::-==+*##################%##%%#######**#**###=+***#+.                                                                                                                                
+                                                                  .. .::::::::::::-------===+**####**. ..                                                                                                  . .-:--:--:--.-:-=+****#####%%%%%######%%%%%@@@%%%#####*#**+***##**#:                                                                                                                                
+                                                                    ..::::::::::::------=====+**#####=.. .                                                                                                . .:-::-::--:-:--=++****#########%%*###*#########%%%%%####*+=-+*++***=                                                                                                                                
+                                                                  .  ..::::::::::::------=-==++****##*: .                                                                                                 ...:::-:::---:---===+***********####*##*********###%%%###*+++--==-+==-.                                                                                                                               
+                                                                    . .::::::::::--:--------=++*****##*...                                                                                                 ..:::::::--:-:--+*######*++++*********+--======++*#%%%##**++-::-::*+:.                                                                                                                               
+                                                                      .::::::::::::::-------===+***####+. .                                                                                                .:::::::---:-:-=++****==---------=+**#*-:::-::::::----+*#**+-:::-:=+:.                  .      .                                                                                                     
+                                                                      .::::::::::::::--------==++**#####=..                                                                                                .:::::::::::----===---::::...:----=#%%#=:-::::::-=-:----=***+:::-:===...                 .  ...  .                                                                                                   
+                                                                  . . .::::::::::::::--------==++**######= ..                                                                                              .::::::--:::::----=--:::::::::::::=#%%#=-::::----::-::---+***====--==:..                  ....... .                                                                                                  
+                                                                  . .. ::::::::::::-::-------==++***######+..                                                                                              ..::::--:-:::-------:------::::::-=##%%#+-::---:--=+--=**+**###+==+++...  .              ...:---==:.                                                                                                 
+                                                                       .::::::::::::::-------==++****######+... .                                                                                           .:---:------------:::---------=+=-*#%%#%%*+++===+*%%%%%%#**##%+++*###*-....           . ::====**+=..   .                                                                                            
+                                                                       .::::::::::::::::------==++**#########...                                                                                          . .::-----::-----::---::::---==+*+=-+#%%###%%%##%%%%%@@@%%##**##*+*+=::.::.               .:---+***+:...                                                                                              
+                                                                        .::::::::::::-::------==++***########*:..                                                                                            .:::-::----=----=*******###*+==--=*%%%%%%%%%%%%%%%%%%##******+=-:.:.:.:..             ...::-+*+*+.   ..                                                                                            
+                                                                        .::::::::::::::::------=++***#########*: ....                                                                                      ..::.:-::-----==+*#%%%%%%%%%%*===-=*#%@%%%%%##%%%##*********+*+=-::.::..:.                ..:-=+*++:. . .                                                                                            
+                                                                       ..::::::::::::::::-----==+++***#########*:.   .                                                                                    .::::--:::------===+**#%%%%%%%#+---+##%%%%%######%%#*+++++***++==:..:=-.....                .:-=++**+.. .                                                                                             
+                                                                        .:::::::::::::::::-----===+++***########*...                                                                                      :::::::-------------=-=+*##%%%#+-=--=*#####%#***###**+====++++++#=..:==:-..                 .:===+***+:.                                                                                              
+                                                                        ..:::::::::::::::::-----===++****########+.                                                                                      .::::::::----------------=*##***=-----------=*+++**###*++++=+****+-.:=+==...              . .::-==++***+...                                                                                            
+                                                                       . .::::::::::::::::::-----==+++****########-..                                                                                     .:.:::::..:-------==----==+*****--::::----:-##*+***##****++****++*=**==....               . .::-==+****-..                                                                                            
+                                                                         ..::::::::::::::::-------==+=+****########:..                                                                                     ...::::..:--------------===*##*::::::::-+*%@@@%#**###****+*****+*#+*+... .              . ..:.:-==++**-..                                                                                            
+                                                                        . .:::::::::::::::::-------==++******######+..                                                                                   ....:.:-:...:-------------==*###+=-:::--=#%%%%%%%%%#####*******++##*#= ..                 . . .:::::-=--=:.                                                                                            
+                                                                      ..  .::::::::::::::--:--------==++******####*#-                                                                                        ....:::::-------==--===++++===------====*#+==**#*###*******-::--....                 .    ..::-=+**+-..                                                                                            
+                                                                       . . .:::::::::::::------------==++*****#######:                                                                                     .  ..::.:::--=----=--=======-----::::::=++=-:::-=+*###******+...... .                     .. .:::=+***:.                                                                                             
+                                                                       .   .::::::::::::--------------==++*****######*..                                                                                  ..  .. .:-----=------==---==---:----=+****###%%*+++**********-....  . .                  ..    ..:-=+**-.                                                                                             
+                                                                          . .:::::::::::-:-----------==-==+*****######+. . .                                                                                    ....:---==-------=--======-===-----===*#%%###******+++=..                                 ..:=++**..                                                                                            
+                                                                        .  . .::::::::::::------------=====++***#######:.  .                                                                                          .-=------------=+=------:-+***#%%#######****++==:.                                   .:-=+**=.                                                                                            
+                                                                          . ..::::::::::::-------------=====++***######-...                                                                                        ....:-====---=-==-=+==---=+#####%%%@@@%%##***+++==:... .                              . ..-=++*+:                                                                                            
+                                                                              .:::::::::::-------------======++***#####+.. ..   .                                                                                    ..:---======-------=--=++********##%##***++====-.  ..                              . . .:-=+**-... .                                                                                       
+                                                                               .:::::::::::-------------====+++***######*:.......                                                                                     .::---==========------===========++*++===-===**.  ..                               .  .:-=++*+..   .                                                                                      
+                                                                              . .::::::-::---------------====+++***######%%##*=:.  .....                                                                              .:::-----==============-------::-----=======+**:.                                  . . .:=++**-. .                                                                                        
+                                                                              .  .---:::-:::--------------====+++****##%%%%%%%%####+-:. . .  .                                                                        .:-::-------=======+=======================+##+.                                    .  .:-=++*+.  ..                                                                                      
+                                                                             . .. .:--:::::----------------====++++***##%%%%%%%%%######*-... .                                                                        .::::::--:------===-=================--===+###=  .  .                                  ..-=++**:...                                                                                       
+                                                                              .  . .:--:::------------------=====+++**#%%%%%%%%@%%%%%#####*=........ .    ......                                                     ..::::::::::::::---===============-----===++***-.    .                                   .:-=+**=.                                                                                         
+                                                                                   ..----:------------------=======++**#%%%%%%%%%%%%%########*=.:-.. ... ...:--::.... . .                                            ..::::::::::-----:::::----------------===*****+.                                         .:-=++**: ..                                                                                      
+                                                                                   ...:---------------------=======++*##%#%%%%%%%%%%%%%####**###*-:-+*+:::++===---==++-:....                                          .::::::::::::----------:::::::----====+******=                                           .:-++**=...                                                                                      
+                                                                                    ...:----------------------=====+**######%%%%%%%%%%%%####**####*+--+=::+-+:-----=+++++:..                                          .::::---:::::::--------::::::---=====+******+:                                          ..:-=+***..                                                                                       
+                                                                                     ...:----------------------====+**##########################***##*=:=*####***+===++++*=..                                      . ..::::----::::::::-:::-----::::-====+*+**#**+=..                                          ..:=++**=..                                                                                      
+                                                                                        .:----------------------==++***##########*****#############*#*##*+#%%%%%##+====+*+*+........  ....    .        ..      .    ..::::::-----:::::::::-:::---:::-===+****#*#*+-.                                           ..:-=+***:                                                                                       
+                                                                                      .. .:-------::---------------==+************+++*********##########*#**%#%%%%##+--===+++-. .  ........ ......    . ..        ..::::-------------:::::::::::--:--==++***##***+:.                                            ..:=++**=.                                                                                      
+                                                                                    .  .  .--------::----------------===+++++=+++=====++*******###############%%%%###+--===-++*=-+*###%%#+++###***++==::.       ..:--::::---------------------------=++++***##***+:.                                          .  .:-=+**+.                                                                                      
+                                                                                           .:-:--::---------------------=====---------=====++*****###########*%%%@%%##*-:=-*=-++==*****#****####**+*#+++**. ...:------::::-------------------------=++*****##****=. .   .                                      . ..-=+***- .  .                                                                                 
+                                                                                         ....:--::::::----------------------:--:--------=-=====+****##*#*###%*#%%%%%###+-=--==*+*=-==+##****#####%%###+-=+*------==-----:::-------=--------------=+=+++++*##****+=..   ...                                    .   .:-++**+ .                                                                                    
+                                                                                           . ..-----:::::--------------------::-=-----------=====+******#####%*%%%%%###*-+*.===-+==:---=#####%%#*#######%%##*++++++++===--:-----===------=-------======+*##******+. .  .........                                . .:-=++**: . .                                                                                 
+                                                                                               .:-----::--------------------------------------=====++++***####*##%#%##%*-=+*==---=**#*=-=###########%%%%%%%###*++++***+++=--=======------===----======+**********+=--:-=*#*++-:........  .. .. ...               ...-=++*#=. . .                                                                                
+                                                                                               ...:----------------------------------------------======++*****+*#####%#+-=+=++*=::-**#%*-=###*#%%###%%%%%###*#*#*****+++***++======------=====+======+******#***+*=---:=*++*****###*=-:.  .    . ..               ..:-=+***...                                                                                  
+                                                                                               . . ..-------------------------------------------------===+****+=*####%#+====+==+=:::-+##=:=##*####%#+**#**=#%####*++********+=========----+***+++==+**##***#******#*-----=*#*=+*#%#*+***#*+-:.. ..             . . .:-=++**=. .                                                                                 
+                                                                                                     .:----------------------------------------------::-=++*++-=*#*+%%#++*+=+-+==#=::-#%*:-*##****+*%#%%%%%%**#%###+-+*##****++++**+=====++*#*#*+++**#%#####**##*####*-::--+#=*+=****####*=*#+.. .                  .:=++***.. .                                                                                
+                                                                                                     . .:-----------------------------------------::::---===++-+*#++#%#===+===-++*##::*%%+:-#%%###**+++*%%%%%%**####*---+*#**********##%%%#%%%####**#%%######*#####%%#***=::+%#**==##*#####*+-.. .                  .:-=+**#-...                                                                                
+                                                                                                      .. .:-----------------------------------=---:::------==-:+**-=+*+-**-=++--+####==#%#=:..:-----*%#%%%%%%%%%%#####%#=:--+*###%%##%#%%%%%%%%%%####%%#########%%%%%#**#*+:-*%%%#+-*######*#=..  .  .               .-=++***...                                                                                
+                                                                                                     .. .. .:--::::-----------------------======-:-----------.:+**:-+*=-==*+::::::-*##+#%%#=:::.....:+##%#**+==*#######%%%#=:::-++**###%%######*++***######%%%%%%%%%#*****=:.=*%%%#+*#*#%#=+###+:.......             .:-=++*#-..                                                                                
+                                                                                                             ..----:::------::----------=======---====------:.:=*+:-++--=--**#*=::::=#*##%%%%%##**+-:.-+##*=:++=+*###*#%%%%%%%%*=+**--=***+====+-:==+===*###%####****#*==**=::=#%%#*##%%%%+:=*####**++=-.  .. .. ......-=++**+..                                                                                
+                                                                                                           .  ...:----:----------------=======---======----::.:===:=++:-=-=+*+**##*=::++#%%%%%%%%%%*+:..:-+**+***+=-=*#%%%%%%#**#*:---==-:......:--+**+=.:::-*##*#*+=-+#####*-:=##%#*#%%%%%#+--*##*---=+**=.... ....  .:==+***:.                                                                                
+                                                                                                             .  ....:--------------------====---=+++=+=---::..--=---+-:-:--+=+==*####=.=#%%%%%%%%%%%##+-:.......:-**#%%%%%%#*+-:-.=#+::::-::....::::=+*+...:.:-+**+*%%%%%#####+.-+%#*==+**%%#*#*+++*=++**+++++=-:.   ...-=+***=.                                                                                
+                                                                                                                         .                                      .   . ..:---:::::::::----==++++=--=##-------------====++++++***++++++++=:::=+.:::-=++=:::-=+++++**##*###*#*####*+=-=*+-+##**#**#####%####**+---::-----===+*++++-==-=*###*-=+*####:..                                                            `;
+
+
+            useEffect(() => {
+                if (!showStartButton && !isSkipped) {
+                    const command = './historia_romana.exe';
+                    let i = 0;
+
+                    setShowTerminalLoading(true);
+
+                    const typeCommand = setInterval(() => {
+                        if (i <= command.length) {
+                            setTypedCommand(command.slice(0, i));
+                            i++;
+                        } else {
+                            clearInterval(typeCommand);
+
+                            setTimeout(() => {
+                                setShowTerminalLoading(false);
+                                setShowFullAugustus(true);
+                                
+
+                                setShowIntroPhase(true);
+
+                        
+                                setTimeout(() => {
+                                    setZoomToFace(true);
+                                }, 1500);
+
+                            
+                                setTimeout(() => {
+                                    let i = 0;
+                                    setIntroText('');
+                                    
+                                    const typeIntro = setInterval(() => {
+                                        if (i < introMessage.length) {
+                                            setIntroText(introMessage.slice(0, i + 1));
+                                            i++;
+                                        } else {
+                                            clearInterval(typeIntro);
+                                           
+                                            setTimeout(() => {
+                                                setIntroComplete(true);
+                                                setShowFullAugustus(false);
+                                                setShowIntroPhase(false);
+                                                setShowTimeline(true);
+                                            }, 10000 * speedMultiplier);
+                                        }
+                                    }, 100 * speedMultiplier);
+                                }, 2500);
+                            }, 1000 * speedMultiplier);
+                        }
+                    }, 100 * speedMultiplier);
+
+                    return () => clearInterval(typeCommand);
+                }
+            }, [showStartButton, speedMultiplier, introMessage, isSkipped]);
+
+
+            useEffect(() => {
+                if (showTimeline && introComplete && currentStep < timeline.length && !isTimelineComplete) {
+                    const timer = setTimeout(() => {
+                        setYearsShown(prev => [...prev, timeline[currentStep].year]);
+
+                        const text = timeline[currentStep].text;
+                        let i = 0;
+                        setCurrentText('');
+
+                        const typeWriter = setInterval(() => {
+                            if (i < text.length) {
+                                setCurrentText(text.slice(0, i + 1));
+                                i++;
+                            } else {
+                                clearInterval(typeWriter);
+                                setTimeout(() => {
+                                    if (currentStep < timeline.length - 1) {
+                                        setCurrentStep(currentStep + 1);
+                                    } else {
+                                        setIsTimelineComplete(true);
+                                    }
+                                }, 3000 * speedMultiplier);
+                            }
+                        }, 50 * speedMultiplier);
+
+                        return () => clearInterval(typeWriter);
+                    }, currentStep === 0 ? (1000 * speedMultiplier) : (4000 * speedMultiplier));
+
+                    return () => clearTimeout(timer);
+                }
+            }, [currentStep, showTimeline, introComplete, isTimelineComplete, speedMultiplier]);
+
+            useEffect(() => {
+                if (showTimeline && yearsShown.length > 0 && !isTimelineComplete) {
+                    const timelineContainer = document.querySelector('[data-timeline="years"]');
+                    if (timelineContainer) {
+                        setTimeout(() => {
+                            timelineContainer.scrollLeft = timelineContainer.scrollWidth;
+                        }, 100);
+                    }
+                }
+            }, [yearsShown, isTimelineComplete]);
+
+            const restartAnimation = () => {
+                const timers = [];
+                for (let i = 1; i < 99999; i++) {
+                    clearTimeout(i);
+                    clearInterval(i);
+                }
+                
+                setCurrentStep(0);
+                setShowTerminalLoading(false);
+                setShowFullAugustus(false);
+                setShowIntroPhase(false);
+                setIntroText('');
+                setIntroComplete(false);
+                setZoomToFace(false);
+                setShowTimeline(false);
+                setCurrentText('');
+                setYearsShown([]);
+                setTypedCommand('');
+                setShowStartButton(true);
+                setIsTimelineComplete(false);
+                setIsSkipped(false);
+                setShowInfoText(false);
+                setCurrentInfoText('');
+            };
+
+            const startAnimation = () => {
+                setShowStartButton(false);
+            };
+
+            const skipToTimeline = () => {
+                for (let i = 1; i < 99999; i++) {
+                    clearTimeout(i);
+                    clearInterval(i);
+                }
+                
+                setIsSkipped(true);
+                setShowStartButton(false);
+                setShowTerminalLoading(false);
+                setShowFullAugustus(false);
+                setShowIntroPhase(false);
+                setIntroText('');
+                setIntroComplete(true);
+                setZoomToFace(true);
+                setShowTimeline(true);
+                setTypedCommand('./historia_romana.exe');
+                
+                setYearsShown(timeline.map(item => item.year));
+                setCurrentStep(timeline.length - 1);
+                setCurrentText('');
+                setIsTimelineComplete(true);
+            };
+
+            const jumpToStep = (stepIndex) => {
+                if (isTimelineComplete) {
+                    setCurrentStep(stepIndex);
+                    setCurrentText(timeline[stepIndex].text);
+                    setCurrentInfoText(timeline[stepIndex].info_text);
+                    setShowInfoText(true);
+                }
+            };
+
+            const closeInfoText = () => {
+                setShowInfoText(false);
+                setCurrentInfoText('');
+            };
+
+            return React.createElement('div', {
+                className: "w-full h-screen bg-black text-green-400 font-mono overflow-hidden relative"
+            }, [
+
+                showStartButton && React.createElement('div', {
+                    key: 'startScreen',
+                    className: "absolute inset-0 flex flex-col items-center justify-center bg-black z-50 p-8"
+                }, [
+                    React.createElement('h1', {
+                        key: 'mainTitle',
+                        className: "text-6xl md:text-8xl text-amber-400 terminal-glow mb-12 text-center font-bold tracking-wider",
+                        style: { fontFamily: 'Cinzel, serif' }
+                    }, 'HISTORIA ROMANA'),
+                    React.createElement('div', {
+                        key: 'speedControl',
+                        className: "mb-8 text-center"
+                    }, [
+                        React.createElement('h2', {
+                            key: 'speedTitle',
+                            className: "text-green-400 text-lg mb-4"
+                        }, 'Geschwindigkeit wählen:'),
+                        React.createElement('div', {
+                            key: 'speedSlider',
+                            className: "flex flex-col items-center space-y-4"
+                        }, [
+                            React.createElement('input', {
+                                key: 'slider',
+                                type: 'range',
+                                min: '0.1',
+                                max: '0.8',
+                                step: '0.1',
+                                value: speedMultiplier,
+                                onChange: (e) => setSpeedMultiplier(parseFloat(e.target.value)),
+                                className: "w-64 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                            }),
+                            React.createElement('div', {
+                                key: 'speedLabels',
+                                className: "flex justify-between w-64 text-xs text-green-300"
+                            }, [
+                                React.createElement('span', { key: 'slow' }, 'Schnell'),
+                                React.createElement('span', { key: 'medium' }, 'Mittel'),
+                                React.createElement('span', { key: 'fast' }, 'Langsam')
+                            ]),
+                            React.createElement('div', {
+                                key: 'speedValue',
+                                className: "text-green-400 font-bold"
+                            }, `Geschwindigkeit: ${(100 - (speedMultiplier - 0.1) * 100 / 0.7).toFixed(0)}%`)
+                        ])
+                    ]),
+                    React.createElement('button', {
+                        key: 'startBtn',
+                        onClick: startAnimation,
+                        className: "bg-green-600 text-black px-8 py-4 rounded-lg hover:bg-green-500 transition-colors font-bold text-xl shadow-lg border-2 border-green-400 uppercase tracking-wider mb-4"
+                    }, 'Starten'),
+                    React.createElement('button', {
+                        key: 'skipBtn',
+                        onClick: skipToTimeline,
+                        className: "text-yellow-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition-colors font-bold text-lg shadow-lg border-2 border-gray-400 uppercase tracking-wider"
+                    }, 'Animation überspringen')
+                ]),
+
+                !showStartButton && React.createElement('div', {
+                    key: 'header',
+                    className: "bg-gray-800 text-white p-2 text-xs sm:text-sm border-b border-gray-600"
+                },
+                    React.createElement('div', {
+                        className: "flex items-center space-x-1 sm:space-x-2"
+                    }, [
+                        React.createElement('div', { key: 'red', className: "w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full" }),
+                        React.createElement('div', { key: 'yellow', className: "w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full" }),
+                        React.createElement('div', { key: 'green', className: "w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full" }),
+                        React.createElement('span', { key: 'title', className: "ml-2 sm:ml-4 truncate" }, 'augustus@roma:~$ historia_romana.exe')
+                    ])
+                ),
+
+                !showStartButton && React.createElement('div', {
+                    key: 'consoleBar',
+                    className: "console-bar absolute bottom-0 left-0 right-0 h-40 sm:h-48 bg-black border-t-2 border-green-600 z-30"
+                }, [
+
+                    React.createElement('div', {
+                        key: 'timelineYears',
+                        'data-timeline': 'years',
+                        className: `timeline-years flex items-start justify-start h-28 sm:h-32 px-2 sm:px-4 space-x-3 sm:space-x-6 z-40 relative pt-3 sm:pt-6 mb-1 sm:mb-2 ${!showTimeline ? 'opacity-0' : 'opacity-100'}`,
+                        style: {
+                            overflowX: 'auto',
+                            scrollBehavior: 'smooth',
+                            whiteSpace: 'nowrap',
+                            transition: 'opacity 0.5s ease'
+                        }
+                    },
+                        showTimeline ? yearsShown.map((year, index) =>
+                            React.createElement('button', {
+                                key: index,
+                                onClick: () => jumpToStep(index),
+                                disabled: !isTimelineComplete,
+                                className: `flex flex-col items-center whitespace-nowrap flex-shrink-0 transition-all duration-500 timeline-button ${index === currentStep ? 'active' : ''} ${!isTimelineComplete ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`,
+                                style: {
+                                    opacity: 1,
+                                    minWidth: '100px',
+                                    padding: '8px 12px',
+                                    borderRadius: '8px',
+                                    backgroundColor: index === currentStep ? 'rgba(255, 159, 64, 0.1)' : 'transparent',
+                                    border: index === currentStep ? '2px solid #ff9f40' : '2px solid transparent',
+                                    transform: 'translateX(0)',
+                                    animation: `fadeInFromRight 0.8s ease-out both`
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'year',
+                                    className: `text-yellow-400 font-bold text-sm sm:text-xl mb-0.5 sm:mb-1 ${index === currentStep ? 'text-yellow-300' : 'text-yellow-400'}`
+                                }, year),
+                                React.createElement('div', {
+                                    key: 'keyword',
+                                    className: `text-cyan-300 text-xs sm:text-sm font-medium ${index === currentStep ? 'text-cyan-200' : 'text-cyan-300'}`
+                                }, timeline[index]?.keyword || '')
+                            ])
+                        ) : []
+                    ),
+
+
+                    React.createElement('div', {
+                        key: 'prompt',
+                        className: "absolute bottom-1 sm:bottom-2 left-2 sm:left-4 right-2 sm:right-4 z-40"
+                    },
+                        React.createElement('div', {
+                            className: "bg-gray-900 border border-green-600 p-1 sm:p-2 rounded text-xs sm:text-sm"
+                        }, [
+                            React.createElement('span', {
+                                key: 'promptText',
+                                className: "text-green-500"
+                            }, 'augustus@roma:~$ '),
+                            React.createElement('span', {
+                                key: 'status',
+                                className: "ml-1 sm:ml-2 text-green-400 terminal-glow"
+                            }, [
+                                showTerminalLoading ? [
+                                    typedCommand,
+                                    React.createElement('span', {
+                                        key: 'cursor',
+                                        className: "text-yellow-400 cursor-blink"
+                                    }, '▋')
+                                ] : showTimeline ? [
+                                    currentStep >= timeline.length ? 'Historia completa!' : 'Loading historia...',
+                                    React.createElement('span', {
+                                        key: 'cursor2',
+                                        className: "text-yellow-400 cursor-blink"
+                                    }, '▋')
+                                ] : showFullAugustus ? [
+                                    'Initializing...',
+                                    React.createElement('span', {
+                                        key: 'cursor3',
+                                        className: "text-yellow-400 cursor-blink"
+                                    }, '▋')
+                                ] : null
+                            ])
+                        ])
+                    )
+                ]),
+
+
+                !showStartButton && React.createElement('div', {
+                    key: 'augustusContainer',
+                    className: "absolute top-8 left-0 right-0 bottom-40 sm:bottom-48 flex items-center justify-center px-2 augustus-container"
+                },
+                    React.createElement('div', {
+                        className: `augustus-container ${
+                            showTimeline || zoomToFace ? 'transform scale-75 sm:scale-150 translate-y-8 sm:translate-y-16' : 
+                            showFullAugustus ? 'transform scale-50 sm:scale-100' :
+                            'transform scale-50 sm:scale-100 opacity-0'
+                        }`,
+                        style: {
+                            transition: 'none'
+                        }
+                    },
+                        React.createElement('pre', {
+                            className: "augustus-ascii text-amber-400 whitespace-pre overflow-hidden"
+                        }, augustusFullAscii)
+                    )
+                ),
+
+                !showStartButton && ((showIntroPhase && introText) || (showTimeline && currentText)) && React.createElement('div', {
+                    key: 'speech',
+                    className: "absolute left-1/2 top-1/4 transform -translate-x-1/2 z-50"
+                },
+                    React.createElement('div', {
+                        className: "speech-bubble bg-gray-900 border-2 border-green-400 rounded-lg p-3 sm:p-6 relative max-w-xs sm:max-w-2xl mx-2"
+                    }, [
+                        React.createElement('div', {
+                            key: 'arrow1',
+                            className: "absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 sm:border-l-8 border-r-4 sm:border-r-8 border-t-4 sm:border-t-8 border-transparent border-t-gray-900"
+                        }),
+                        React.createElement('div', {
+                            key: 'arrow2',
+                            className: "absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 sm:border-l-8 border-r-4 sm:border-r-8 border-t-4 sm:border-t-8 border-transparent border-t-green-400"
+                        }),
+                        React.createElement('div', {
+                            key: 'text',
+                            className: "text-green-300 text-sm sm:text-lg leading-relaxed text-center"
+                        }, showIntroPhase ? introText : currentText)
+                    ])
+                ),
+
+                showInfoText && React.createElement('div', {
+                    key: 'infoOverlay',
+                    className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                    onClick: closeInfoText
+                }, [
+                    React.createElement('div', {
+                        key: 'backdrop',
+                        className: "absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+                    }),
+                    React.createElement('div', {
+                        key: 'infoContent',
+                        className: "relative bg-gray-900 border-2 border-green-400 rounded-lg p-6 max-w-4xl max-h-[80vh] overflow-y-auto",
+                        onClick: (e) => e.stopPropagation()
+                    }, [
+                        React.createElement('button', {
+                            key: 'closeBtn',
+                            onClick: closeInfoText,
+                            className: "absolute top-2 right-2 text-green-400 hover:text-green-300 text-2xl font-bold w-8 h-8 flex items-center justify-center"
+                        }, '×'),
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: "text-yellow-400 text-xl sm:text-2xl font-bold mb-4 pr-8"
+                        }, `${timeline[currentStep]?.year} - ${timeline[currentStep]?.keyword}`),
+                        React.createElement('div', {
+                            key: 'infoTextContent',
+                            className: "text-amber-400 text-base sm:text-lg leading-relaxed"
+                        }, currentInfoText)
+                    ])
+                ]),
+
+                !showStartButton && React.createElement('button', {
+                    key: 'backBtn',
+                    onClick: restartAnimation,
+                    className: "fixed top-12 sm:top-16 left-2 sm:left-4 bg-gray-600 bg-opacity-50 text-gray-300 px-2 sm:px-3 py-1 sm:py-2 rounded hover:bg-gray-500 hover:bg-opacity-70 transition-all font-bold text-sm sm:text-base z-40"
+                }, '←'),
+
+                !showStartButton && showTimeline && currentStep >= timeline.length && React.createElement('button', {
+                    key: 'restart',
+                    onClick: restartAnimation,
+                    className: "fixed top-2 sm:top-4 right-2 sm:right-4 bg-green-600 text-black px-3 sm:px-6 py-2 sm:py-3 rounded hover:bg-green-500 transition-colors font-bold text-sm sm:text-lg shadow-lg border-2 border-green-400 z-50"
+                }, '↻ restart historia')
+            ]);
+        };
+
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(AugustusTerminal));
+    </script>
+</body>
+
+</html>

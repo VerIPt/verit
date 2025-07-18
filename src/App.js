@@ -7,6 +7,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Portfolio from './components/Portfolio';
 import Emina from './components/Emina';
+import AugustusHTML from './components/Augustus/AugustusHTML';
 
 import './i18n.js'
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='/portfolio' element={<Portfolio  />} />
           <Route path='/contact' element={<Contact  />} />
           <Route path='/emina' element={<Emina  />} />
+          <Route path='/historia-romana' element={<AugustusHTML  />} />
           </Route>
         
       </Routes>

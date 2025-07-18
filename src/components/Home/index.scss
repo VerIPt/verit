@@ -366,9 +366,7 @@
   }
 }
 
-/* Verbesserte Animationen und Hover-Effekte */
 .home-content {
-    // ...existing code...
     
     h1, h3, p {
         transition: all 0.3s ease;
@@ -380,7 +378,6 @@
     }
 }
 
-/* Pulse Animation für Logo */
 @keyframes logoGlow {
     0%, 100% {
         filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
