@@ -143,6 +143,95 @@
 }
 
 
+/* New styles for additional portfolio sections */
+
+.websites-section, .projects-section {
+    margin-bottom: 40px;
+    
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #f39f9f;
+        margin-bottom: 10px;
+    }
+    
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        color: #a2deeb;
+    }
+}
+
+.section-divider {
+    height: 2px;
+    background: linear-gradient(to right, rgba(243, 159, 159, 0), rgba(243, 159, 159, 0.7), rgba(243, 159, 159, 0));
+    margin: 40px 0;
+    width: 100%;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.portfolio-websites, .portfolio-projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.project {
+    background: rgba(19, 48, 81, 0.3);
+    border: 1px solid rgba(162, 222, 235, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-5px);
+        border-color: rgba(243, 159, 159, 0.6);
+        box-shadow: 0 10px 30px rgba(243, 159, 159, 0.2);
+    }
+    
+    h3 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #f39f9f;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    
+    img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .view-project-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #f39f9f, #a2deeb);
+        color: #133051;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 159, 159, 0.4);
+        }
+    }
+}
+
+
 @media (max-width: 900px) {
     .text-zone1, .stage-cube-cont, .portfolio {
         position: static;
@@ -153,55 +242,63 @@
         left: 5%;
         width: 90%;
         transform: none;
-        
     }
 
     .text-zone1 h1 {
-        font-size: 4rem; /* Anpassung der Schriftgröße */
-        margin-right: 20px; /* Anpassung des rechten Margins */
+        font-size: 3rem;
+        margin-right: 20px;
         margin-left: 20px;
+    }
+    
+    .websites-section, .projects-section {
+        margin-left: 20px;
+        margin-right: 20px;
+        
+        h2 {
+            font-size: 2rem;
+        }
+        
+        p {
+            font-size: 1rem;
+        }
+    }
+    
+    .portfolio-websites, .portfolio-projects {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .project {
+        padding: 15px;
+        
+        h3 {
+            font-size: 1.2rem;
+        }
+        
+        img {
+            height: 150px;
+        }
     }
 
     .text-zone1 p {
-        font-size: 0.9rem; /* Anpassung der Schriftgröße */
-        margin-right: 20px; /* Anpassung des rechten Margins */
+        font-size: 0.9rem;
+        margin-right: 20px;
         margin-left: 20px;
     }
+    
     .text-zone1 h3 {
-        font-size: 1rem; /* Anpassung der Schriftgröße */
-        margin-right: 20px; /* Anpassung des rechten Margins */
+        font-size: 1rem;
+        margin-right: 20px;
         margin-left: 20px;
     }
 
     .stage-cube-cont {
-        padding-top: 100px; /* Etwas Abstand nach oben */
-       
+        padding-top: 100px;
     }
+    
     .cubespinner{
-        margin-bottom: 100px;
+        margin-bottom: 50px;
     }
-
-    .portfolio{
-        margin-top:80% ;
-
-    }
-    .project img {
-        align-items: center;
-        
-        width: 90%; /* Anpassung der Bildbreite */
-        max-width: 500px; /* Maximale Bildbreite festlegen */
-        margin: 4%; /* Zentrierung der Bilder */
-    }
-
-    
-    .project button.view-project-btn {
-       
-        bottom: 5%;
-        
-        
-    }
-
-    
 }
 
 

@@ -8,12 +8,78 @@ import pyhton from '../../assets/images/python-logo-only.png'
 import raytracer from '../../assets/images/ray_tracer.png'
 import louhaus from '../../assets/images/louhaus.png'
 import treemap from '../../assets/images/treemap.png'
+import kristenTransporte from '../../assets/images/kristen-transporte.png'
+import spenglereiHolderied from '../../assets/images/spenglerei-holderied.png'
 import { Trans } from 'react-i18next';
 
 const Portfolio = () => {
     return (
         <div className="container" >
+            {/* Websites Section First */}
             <div className="text-zone1">
+                <h1>
+                    Portfolio & <span>Projekte</span>
+                </h1>
+                
+                <div className="websites-section">
+                    <h2>Beispiel Websites</h2>
+                    <p>Hier sind einige Beispiele meiner Web-Entwicklungsarbeiten:</p>
+                    
+                    <div className='portfolio-websites'>
+                        <div className='project'>
+                            <h3>Kristen Transporte</h3>
+                            <a href="https://www.kristen-transporte.de/" target="_blank" rel="noopener noreferrer">
+                                <img className='kristen-transporte' src={kristenTransporte} alt="Kristen Transporte Website" />
+                                <button className='view-project-btn'>Website besuchen</button>
+                            </a>
+                        </div>
+                        
+                        <div className='project'>
+                            <h3>Spenglerei Holderied</h3>
+                            <a href="https://spenglerei-holderied.de/" target="_blank" rel="noopener noreferrer">
+                                <img className='spenglerei-holderied' src={spenglereiHolderied} alt="Spenglerei Holderied Website" />
+                                <button className='view-project-btn'>Website besuchen</button>
+                            </a>
+                        </div>
+                        
+                        <div className='project'>
+                            <h3>The Louhaus Band</h3>
+                            <a href="https://www.louhausband.de/" target="_blank" rel="noopener noreferrer">
+                                <img className='louhaus' src={louhaus} alt="The Louhaus Band Website" />
+                                <button className='view-project-btn'>Website besuchen</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="section-divider"></div>
+                
+                {/* Programming Projects */}
+                <div className="projects-section">
+                    <h2>Programmier-Projekte</h2>
+                    <p>Technische Projekte und Implementierungen:</p>
+                    
+                    <div className='portfolio-projects'>
+                        <div className='project'>
+                            <h3>Path-tracer in Java</h3>
+                            <a href="https://github.com/VerIPt/path-tracer" target="_blank" rel="noopener noreferrer">
+                                <img className='pathtracer' src={raytracer} alt="Path-tracer in Java" />
+                                <button className='view-project-btn'>GitHub ansehen</button>
+                            </a>
+                        </div>
+                        <div className='project'>
+                            <h3>Treemap in C++</h3>
+                            <a href="https://github.com/VerIPt/treemap" target="_blank" rel="noopener noreferrer">
+                                <img className='treemap' src={treemap} alt="Treemap Implementation" />
+                                <button className='view-project-btn'>GitHub ansehen</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="section-divider"></div>
+
+                {/* Skills Section */}
                 <h1>
                     <Trans i18nKey={"skills"}>
                         My <span>Skills</span>
@@ -193,29 +259,6 @@ const Portfolio = () => {
                     </div>
                     <div className='face6'>
                         <img src={js} alt="" />
-                    </div>
-                </div>
-                <div className='portfolio'>
-                    <div className='project'>
-                        <h2>Path-tracer in Java</h2>
-                        <a href="https://github.com/VerIPt/path-tracer">
-                            <img className='pathtracer' src={raytracer} alt="Path-tracer in Java" />
-                            <button className='view-project-btn'>View Project</button>
-                        </a>
-                    </div>
-                    <div className='project'>
-                        <h2>Treemap implemented in C++</h2>
-                        <a href="https://github.com/VerIPt/treemap">
-                            <img className='treemap' src={treemap} alt="" />
-                            <button className='view-project-btn'>View Project</button>
-                        </a>
-                    </div>
-                    <div className='project'>
-                        <h2>Website The Louhaus Band</h2>
-                        <a href="https://www.louhausband.de/">
-                            <img className='louhaus' src={louhaus} alt="" />
-                            <button className='view-project-btn'>View Project</button>
-                        </a>
                     </div>
                 </div>
             </div>
