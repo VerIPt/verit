@@ -11,7 +11,13 @@ import treemap from '../../assets/images/treemap.png'
 import kristenTransporte from '../../assets/images/kristen-transporte.png'
 import spenglereiHolderied from '../../assets/images/spenglerei-holderied.png'
 import augustusImage from '../../assets/images/image_augustus.png'
+// WebP optimierte Versionen
+import louhausWebP from '../../assets/images/webp/louhaus.webp'
+import kristenTransporteWebP from '../../assets/images/webp/kristen-transporte.webp'
+import spenglereiHolderiedWebP from '../../assets/images/webp/spenglerei-holderied.webp'
+import augustusImageWebP from '../../assets/images/webp/image_augustus.webp'
 import BackgroundWaves from '../BackgroundWaves'
+import OptimizedWebsiteImage from '../OptimizedWebsiteImage'
 import { Trans } from 'react-i18next';
 
 const Portfolio = () => {
@@ -46,7 +52,12 @@ const Portfolio = () => {
                                 </Trans>
                             </h3>
                             <a href="https://www.kristen-transporte.de/" target="_blank" rel="noopener noreferrer">
-                                <img className='kristen-transporte' src={kristenTransporte} alt="Kristen Transporte Website" />
+                                <OptimizedWebsiteImage 
+                                    className='kristen-transporte' 
+                                    src={kristenTransporte}
+                                    webpSrc={kristenTransporteWebP}
+                                    alt="Kristen Transporte Website" 
+                                />
                                 <button className='view-project-btn'>
                                     <Trans i18nKey={"visit_website"}>
                                         Website besuchen
@@ -62,7 +73,12 @@ const Portfolio = () => {
                                 </Trans>
                             </h3>
                             <a href="https://spenglerei-holderied.de/" target="_blank" rel="noopener noreferrer">
-                                <img className='spenglerei-holderied' src={spenglereiHolderied} alt="Spenglerei Holderied Website" />
+                                <OptimizedWebsiteImage 
+                                    className='spenglerei-holderied' 
+                                    src={spenglereiHolderied}
+                                    webpSrc={spenglereiHolderiedWebP}
+                                    alt="Spenglerei Holderied Website" 
+                                />
                                 <button className='view-project-btn'>
                                     <Trans i18nKey={"visit_website"}>
                                         Website besuchen
@@ -78,7 +94,12 @@ const Portfolio = () => {
                                 </Trans>
                             </h3>
                             <a href="https://www.louhausband.de/" target="_blank" rel="noopener noreferrer">
-                                <img className='louhaus' src={louhaus} alt="The Louhaus Band Website" />
+                                <OptimizedWebsiteImage 
+                                    className='louhaus' 
+                                    src={louhaus}
+                                    webpSrc={louhausWebP}
+                                    alt="The Louhaus Band Website" 
+                                />
                                 <button className='view-project-btn'>
                                     <Trans i18nKey={"visit_website"}>
                                         Website besuchen
@@ -142,7 +163,12 @@ const Portfolio = () => {
                                 </Trans>
                             </h3>
                             <a href="/augustus" target="_blank" rel="noopener noreferrer">
-                                <img className='augustus-timeline' src={augustusImage} alt="Augustus Timeline" />
+                                <OptimizedWebsiteImage 
+                                    className='augustus-timeline' 
+                                    src={augustusImage}
+                                    webpSrc={augustusImageWebP}
+                                    alt="Augustus Timeline" 
+                                />
                                 <button className='view-project-btn'>
                                     <Trans i18nKey={"visit_website"}>
                                         Website besuchen

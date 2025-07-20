@@ -1,14 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
+import TriangularGridBackground from '../TriangularGridBackground';
 
 function Emina() {
 
-    const [redL, setRedL] = useState(247);
-    const [greenL, setGreenL] = useState(177);
-    const [blueL, setBlueL] = useState(0);
+    const redL = 247;
+    const greenL = 177;
+    const blueL = 0;
 
-    const [redC, setRedC] = useState(247);
-    const [greenC, setGreenC] = useState(177);
-    const [blueC, setBlueC] = useState(0);
+    const redC = 255;
+    const greenC = 255;
+    const blueC = 255;
 
     let colorCircuit = getRGBACircuit(1);
     let colorChip = getRGBACircuit(0.3);
@@ -657,7 +658,7 @@ function Emina() {
                 startPoint: true,
                 endPoint: false
             },
-            
+
             // umrahmung
             {
                 startX: 380, startY: 150, color: colorCircuit, width: 2,
@@ -1028,7 +1029,7 @@ function Emina() {
                 endPoint: true
             },
             // chip2
-            
+
             {
                 startX: 620, startY: 670, color: colorCircuit, width: 2,
                 segments: [
@@ -1679,103 +1680,97 @@ function Emina() {
         state.pulseStartTime = performance.now();
     }
 
-    const handleLogoColorChange = (e) => {
-        const color = e.target.value;
-        setRedL(parseInt(color.substr(1, 2), 16));
-        setGreenL(parseInt(color.substr(3, 2), 16));
-        setBlueL(parseInt(color.substr(5, 2), 16));
-    };
-
-    const handleCircuitColorChange = (e) => {
-        const color = e.target.value;
-        setRedC(parseInt(color.substr(1, 2), 16));
-        setGreenC(parseInt(color.substr(3, 2), 16));
-        setBlueC(parseInt(color.substr(5, 2), 16));
-    };
-    const [backgroundColor, setBackgroundColor] = useState('#000000');
-
-    const handleBackgroundColorChange = (e) => {
-        setBackgroundColor(e.target.value);
-    };
     return (
         <div
             style={{
+                position: 'relative',
                 width: '100%',
                 height: '100vh',
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: 'black'
             }}
         >
-            <canvas ref={canvasRef} width={1000} height={1000} />
+            {/* Triangular Grid Background */}
+            <TriangularGridBackground
+                primaryColor={{ r: redL, g: greenL, b: blueL }}
+            />
 
-            {/* Bereich mit Button und Farbauswahl nebeneinander */}
-            <div style={{ alignItems: 'center', marginTop: '20px' }}>
+            {/* Canvas und Button Container */}
+            <div style={{
+                position: 'relative',
+                zIndex: 20,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '100%',
+                paddingTop: '0px',
+                paddingBottom: '50px'
+            }}>
+                {/* Logo Canvas - nach oben verschoben */}
+                <canvas ref={canvasRef} width={1000} height={1000} />
+
                 <button
                     onClick={handlePulse}
                     style={{
-                        padding: '10px 20px',
+                        position: 'absolute',
+                        bottom: '5%',
+                        left: '49%',
+                        transform: 'translateX(-50%)',
+                        padding: '18px 40px',
                         fontSize: '16px',
-                        border: 'none',
-                        background: colorCircuit,
-                        color: 'black',
-                        borderRadius: '5px',
-                        cursor: 'pointer'
+                        fontWeight: '600',
+                        border: `2px solid rgba(${redL}, ${greenL}, ${blueL}, 0.3)`,
+                        background: `linear-gradient(135deg, 
+            rgba(${redL}, ${greenL}, ${blueL}, 0.1) 0%, 
+            rgba(${redL}, ${greenL}, ${blueL}, 0.05) 50%, 
+            rgba(${redL}, ${greenL}, ${blueL}, 0.1) 100%)`,
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        color: `rgb(${redL}, ${greenL}, ${blueL})`,
+                        borderRadius: '50px',
+                        cursor: 'pointer',
+                        boxShadow: `
+            0 8px 32px rgba(${redL}, ${greenL}, ${blueL}, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+        `,
+                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '2px',
+                        overflow: 'visible',
+                        outline: 'none',
+                        zIndex: 25,
+                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px'
                     }}
+                // ← HIER: Alle Event-Handler entfernt, nur onClick bleibt
                 >
-                    logo
+                    Mehr erfahren
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{
+                            marginLeft: '8px',
+                            transition: 'transform 0.3s ease'
+                        }}
+                    >
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
                 </button>
-
-                <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
-                    {/* Farbpicker für Logo */}
-                    <div
-                        style={{
-                            backgroundColor: '#222',
-                            padding: '10px',
-                            marginBottom: '10px'
-                        }}
-                    >
-                        <label style={{ color: 'white', marginRight: '10px' }}>Logo-Farbe:</label>
-                        <input
-                            type="color"
-                            value={`#${redL.toString(16).padStart(2, '0')}${greenL.toString(16).padStart(2, '0')}${blueL.toString(16).padStart(2, '0')}`}
-                            onChange={handleLogoColorChange}
-                        />
-                    </div>
-
-                    {/* Farbpicker für Circuit */}
-                    <div
-                        style={{
-                            backgroundColor: '#222',
-                            padding: '10px'
-                        }}
-                    >
-                        <label style={{ color: 'white', marginRight: '10px' }}>Circuit-Farbe:</label>
-                        <input
-                            type="color"
-                            value={`#${redC.toString(16).padStart(2, '0')}${greenC.toString(16).padStart(2, '0')}${blueC.toString(16).padStart(2, '0')}`}
-                            onChange={handleCircuitColorChange}
-                        />
-
-                    </div>
-                    <div
-                        style={{
-                            backgroundColor: '#222',
-                            padding: '10px'
-                        }}
-                    >
-                        <label style={{ color: 'white', marginRight: '10px' }}>Hintergrund:</label>
-                        <input
-                    type="color"
-                    value={backgroundColor}
-                    onChange={handleBackgroundColorChange}
-                    style={{ marginBottom: '10px' }}
-                />
-
-                    </div>
-                </div>
             </div>
         </div>
     );
