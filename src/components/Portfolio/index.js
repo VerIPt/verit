@@ -10,6 +10,7 @@ import louhaus from '../../assets/images/louhaus.png'
 import treemap from '../../assets/images/treemap.png'
 import kristenTransporte from '../../assets/images/kristen-transporte.png'
 import spenglereiHolderied from '../../assets/images/spenglerei-holderied.png'
+import augustusImage from '../../assets/images/image_augustus.png'
 import { Trans } from 'react-i18next';
 
 const Portfolio = () => {
@@ -128,6 +129,21 @@ const Portfolio = () => {
                                 <button className='view-project-btn'>
                                     <Trans i18nKey={"view_github"}>
                                         GitHub ansehen
+                                    </Trans>
+                                </button>
+                            </a>
+                        </div>
+                        <div className='project'>
+                            <h3>
+                                <Trans i18nKey={"augustus_timeline_title"}>
+                                    Augustus Timeline
+                                </Trans>
+                            </h3>
+                            <a href="/augustus" target="_blank" rel="noopener noreferrer">
+                                <img className='augustus-timeline' src={augustusImage} alt="Augustus Timeline" />
+                                <button className='view-project-btn'>
+                                    <Trans i18nKey={"visit_website"}>
+                                        Website besuchen
                                     </Trans>
                                 </button>
                             </a>

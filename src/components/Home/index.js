@@ -33,23 +33,29 @@ const Home = () => {
         <div className="home" id="home">
             <div className="home-content">
                 <h3>
-                    <Trans i18nKey={"name"}/>
+                    <Trans i18nKey={"name"}>
+                        Hallo, mein Name ist
+                    </Trans>
                 </h3>
                 <h1><img className='p' src={P} alt=''></img>ius <span className='surname'>Maushart</span></h1>
                 <div className="title-container">
                     <h3>
-                        <Trans i18nKey={"ich_bin"}/>
+                        <Trans i18nKey={"ich_bin"}>
+                            Ich bin
+                        </Trans>
                     </h3>
                     <h3 className='software' ref={el}></h3>
                 </div>
                 <p>
-                    <Trans i18nKey={"verit"}/>    
+                    <Trans i18nKey={"verit"}>
+                        Websites, Code-Lösungen, Web Applikationen - Ver-IT Services, zu Ihren Diensten für IT
+                    </Trans>
                 </p>
                 <div className='buttons-container'>
                     <Link to="/contact" className='flat-button'>CONTACT ME</Link>
                     <Link to="/portfolio" className='flat-button'>PORTFOLIO</Link>
-                    <div className='background' />
                 </div>
+                <div className='background' />
                 <div className='hoverbackground' />
             </div>
             <div className="home-img">

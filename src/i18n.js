@@ -61,6 +61,7 @@ i18next
                     louhaus_band_title: 'The Louhaus Band',
                     pathtracer_title: 'Path-tracer in Java',
                     treemap_title: 'Treemap in C++',
+                    augustus_timeline_title: 'Augustus Timeline',
 
                 }
             },
@@ -115,6 +116,7 @@ i18next
                     louhaus_band_title: 'The Louhaus Band',
                     pathtracer_title: 'Path-tracer in Java',
                     treemap_title: 'Treemap in C++',
+                    augustus_timeline_title: 'Augustus Timeline',
 
                 }
             },
