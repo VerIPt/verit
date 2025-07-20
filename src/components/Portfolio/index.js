@@ -11,11 +11,13 @@ import treemap from '../../assets/images/treemap.png'
 import kristenTransporte from '../../assets/images/kristen-transporte.png'
 import spenglereiHolderied from '../../assets/images/spenglerei-holderied.png'
 import augustusImage from '../../assets/images/image_augustus.png'
+import BackgroundWaves from '../BackgroundWaves'
 import { Trans } from 'react-i18next';
 
 const Portfolio = () => {
     return (
         <div className="container" >
+            <BackgroundWaves />
             {/* Websites Section First */}
             <div className="text-zone1">
                 <h1>

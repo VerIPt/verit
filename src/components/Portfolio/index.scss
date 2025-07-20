@@ -3,6 +3,12 @@
     overflow-y: scroll;
     position: relative;
     z-index: 1;
+    
+    .background-waves {
+        position: fixed;
+        height: 100vh;
+        z-index: 0;
+    }
 }
 
 .text-zone1 {
@@ -237,6 +243,8 @@
         left: 5%;
         width: 90%;
         transform: none;
+        margin-top: 140px;
+        padding-top: 40px;
     }
 
     .text-zone1 h1 {
@@ -305,6 +313,28 @@
     .cubespinner{
         margin-bottom: 50px;
         margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .text-zone1 {
+        margin-top: 160px;
+        padding-top: 50px;
+    }
+    
+    .text-zone1 h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .text-zone1 {
+        margin-top: 180px;
+        padding-top: 60px;
+    }
+    
+    .text-zone1 h1 {
+        font-size: 2rem;
     }
 }
 

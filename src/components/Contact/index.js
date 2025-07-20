@@ -3,6 +3,7 @@ import './index.scss';
 import emailjs from '@emailjs/browser'
 import Pacman from 'react-pacman';
 import { Link } from 'react-router-dom';
+import BackgroundWaves from '../BackgroundWaves';
 
 import { Trans } from 'react-i18next';
 
@@ -55,6 +56,7 @@ const Contact = () => {
     return (
         <>
             <div className='contact-page'>
+                <BackgroundWaves />
                 <div className='text-zone'>
                     <div className='text'>
                         <h1>
@@ -105,13 +107,7 @@ const Contact = () => {
                                         />
                                         <span className="checkmark"></span>
                                         <span className="checkbox-text">
-                                            <Trans 
-                                                i18nKey="privacy_consent"
-                                                components={[
-                                                    null, // Index 0 wird nicht verwendet
-                                                    <Link to="/impressum#datenschutz" target="_blank" rel="noopener noreferrer" />
-                                                ]}
-                                            /> *
+                                            Ich stimme der <Link to="/impressum" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</Link> zu. *
                                         </span>
                                     </label>
                                 </li>

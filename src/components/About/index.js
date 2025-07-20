@@ -2,6 +2,7 @@ import './index.scss'
 import Pius from '../../assets/images/transparent1.png'
 import PiusWebP from '../../assets/images/webp/transparent1.webp'
 import OptimizedImage from '../OptimizedImage'
+import BackgroundWaves from '../BackgroundWaves'
 import { Trans } from 'react-i18next';
 
 
@@ -9,6 +10,7 @@ const About = () => {
     return (
         <>
             <div className='about' id='about'>
+                <BackgroundWaves />
                 <div className='background1' />
                 <div className='about-content'>
                     <h2>

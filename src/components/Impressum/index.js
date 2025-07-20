@@ -1,9 +1,11 @@
 import './index.scss'
+import BackgroundWaves from '../BackgroundWaves'
 
 const Impressum = () => {
     return (
         <>
             <div className='container impressum-page'>
+                <BackgroundWaves />
                 <div className='text-zone'>
                     <h1>
                         Impressum
