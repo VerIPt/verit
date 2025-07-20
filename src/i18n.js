@@ -45,6 +45,8 @@ i18next
                     
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'Wenn Sie Fragen haben, zögern Sie nicht, mich über das untenstehende Formular zu kontaktieren.',
+                    privacy_consent: 'Ich stimme der <1>Datenschutzerklärung</1> zu und bin damit einverstanden, dass meine Daten zur Bearbeitung meiner Anfrage gespeichert und verarbeitet werden.',
+                    privacy_required: 'Bitte stimmen Sie der Datenschutzerklärung zu, um das Formular zu senden.',
 
                     // Portfolio translations
                     portfolio: 'Portfolio & <1>Projekte</1>',
@@ -100,6 +102,8 @@ i18next
                     embedded_text: 'Solid experience in embedded software development with a focus on driver programming and system validation. I have proficiency in developing and adapting C drivers using Python as well as validating device trees for data logger systems. My expertise includes integrating tests into build processes and optimizing UIO driver handling in complex C/C++ class structures. Through my work with hardware-level software, I have developed a deep understanding of the interaction between hardware and software in resource-constrained environments.',
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'If you have other inquiries or questions, please do not hesitate to contact me using the form below.',
+                    privacy_consent: 'I agree to the <1>privacy policy</1> and consent to my data being stored and processed to handle my inquiry.',
+                    privacy_required: 'Please agree to the privacy policy to send the form.',
                     
                     // Portfolio translations
                     portfolio: 'Portfolio & <1>Projects</1>',

@@ -2,13 +2,14 @@ import { useRef, useState, useEffect } from 'react';
 import './index.scss';
 import emailjs from '@emailjs/browser'
 import Pacman from 'react-pacman';
-
+import { Link } from 'react-router-dom';
 
 import { Trans } from 'react-i18next';
 
 const Contact = () => {
     const refForm = useRef()
     const [startGame, setStartGame] = useState(true);
+    const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -26,6 +27,13 @@ const Contact = () => {
 
     const sendEmail = (e) => {
         e.preventDefault()
+        
+        // Überprüfen, ob Datenschutz-Checkbox aktiviert ist
+        if (!privacyAccepted) {
+            alert('Bitte stimmen Sie der Datenschutzerklärung zu, um das Formular zu senden.')
+            return
+        }
+        
         emailjs
             .sendForm(
                 'service_71sfjzy',
@@ -87,8 +95,33 @@ const Contact = () => {
                                         required
                                     ></textarea>
                                 </li>
+                                <li className="privacy-checkbox">
+                                    <label className="checkbox-container">
+                                        <input 
+                                            type="checkbox"
+                                            checked={privacyAccepted}
+                                            onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                                            required
+                                        />
+                                        <span className="checkmark"></span>
+                                        <span className="checkbox-text">
+                                            <Trans 
+                                                i18nKey="privacy_consent"
+                                                components={[
+                                                    null, // Index 0 wird nicht verwendet
+                                                    <Link to="/impressum#datenschutz" target="_blank" rel="noopener noreferrer" />
+                                                ]}
+                                            /> *
+                                        </span>
+                                    </label>
+                                </li>
                                 <li>
-                                    <input type="submit" className="flat-button" value="SEND" />
+                                    <input 
+                                        type="submit" 
+                                        className={`flat-button ${!privacyAccepted ? 'disabled' : ''}`}
+                                        value="SEND"
+                                        disabled={!privacyAccepted}
+                                    />
                                 </li>
                             </ul>
                         </form>

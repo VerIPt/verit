@@ -1,30 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const AugustusHTML = () => {
     const navigate = useNavigate();
-    const [showBackButton, setShowBackButton] = useState(true);
     
     const goBack = () => {
         navigate('/');
     };
-
-    // Höre auf Nachrichten vom iframe
-    useEffect(() => {
-        const handleMessage = (event) => {
-            if (event.data.type === 'AUGUSTUS_MENU_STATE') {
-                setShowBackButton(event.data.showMainMenu);
-            }
-        };
-
-        window.addEventListener('message', handleMessage);
-        
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        };
-    }, []);
 
     return (
         <div style={{ 
@@ -36,42 +20,43 @@ const AugustusHTML = () => {
             zIndex: 9999,
             backgroundColor: '#000'
         }}>
-            {/* Back Button - nur im Hauptmenü anzeigen */}
-            {showBackButton && (
-                <button 
-                    onClick={goBack}
-                    style={{
-                    position: 'absolute',
-                    top: '20px',
-                    left: '20px',
-                    zIndex: 10000,
-                    background: 'linear-gradient(135deg,rgb(69, 69, 69),rgb(39, 39, 39))',
-                    border: 'none',
-                    borderRadius: '50px',
-                    padding: window.innerWidth <= 768 ? '12px 20px' : '15px 25px',
-                    color: 'white',
-                    fontSize: window.innerWidth <= 768 ? '14px' : '16px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 15px rgba(243, 159, 159, 0.3)',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: window.innerWidth <= 768 ? '8px' : '10px'
-                }}
-                onMouseOver={(e) => {
-                    e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = '0 6px 20px rgba(243, 159, 159, 0.4)';
-                }}
-                onMouseOut={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 4px 15px rgba(243, 159, 159, 0.3)';
-                }}
-            >
-                <FontAwesomeIcon icon={faArrowLeft} />
-                {window.innerWidth <= 768 ? 'Zurück' : 'Zurück zur Website'}
-            </button>
-            )}
+            {/* Zurück Button - position fixed für bessere Sichtbarkeit */}
+            <button 
+                onClick={goBack}
+                style={{
+                position: 'fixed',
+                top: '20px',
+                left: '20px',
+                zIndex: 999999,
+                background: 'rgba(80, 80, 80, 0.9)',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '25px',
+                padding: '12px 20px',
+                color: 'white',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5)',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backdropFilter: 'blur(10px)'
+            }}
+            onMouseOver={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.background = 'rgba(100, 100, 100, 0.9)';
+                e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.6)';
+            }}
+            onMouseOut={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.background = 'rgba(80, 80, 80, 0.9)';
+                e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.5)';
+            }}
+        >
+            <FontAwesomeIcon icon={faArrowLeft} />
+            Zurück zur Website
+        </button>
             
             <iframe 
                 src="/augustus/index.html"
