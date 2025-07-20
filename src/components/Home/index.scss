@@ -12,6 +12,7 @@
     #0f2940 100%
   );
   z-index: 0;
+  overflow: hidden; // Für saubere Triangulation
 }
 
 .buttons-container {

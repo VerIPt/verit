@@ -3,6 +3,7 @@ import Typed from 'typed.js';
 import Logo from '../../assets/images/verit_logo.png';
 import P from '../../assets/images/p.png';
 import OptimizedImage from '../OptimizedImage';
+import TriangulationEffect from '../TriangulationEffect';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import {Trans } from 'react-i18next';
@@ -31,6 +32,7 @@ const Home = () => {
 
     return (
         <div className="home" id="home">
+            <TriangulationEffect />
             <div className="home-content">
                 <h3>
                     <Trans i18nKey={"name"}>

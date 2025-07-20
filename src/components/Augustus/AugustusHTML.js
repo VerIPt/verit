@@ -13,7 +13,6 @@ const AugustusHTML = () => {
 
     useEffect(() => {
         const handleMessage = (event) => {
-            // Button nur im Hauptmenü anzeigen, nicht in der Timeline
             if (event.data.type === 'AUGUSTUS_MENU_STATE') {
                 setShowBackButton(event.data.showMainMenu);
             }
@@ -36,7 +35,7 @@ const AugustusHTML = () => {
             zIndex: 9999,
             backgroundColor: '#000'
         }}>
-            {/* Zurück Button - nur im Hauptmenü sichtbar */}
+            {/* back button */}
             {showBackButton && (
                 <button 
                     onClick={goBack}
