@@ -1696,6 +1696,8 @@ function Emina() {
             {/* Triangular Grid Background */}
             <TriangularGridBackground
                 primaryColor={{ r: redL, g: greenL, b: blueL }}
+                backgroundColor='auto'
+                opacity={1}
             />
 
             {/* Canvas und Button Container */}

@@ -3,11 +3,11 @@ import Typed from 'typed.js';
 import Logo from '../../assets/images/verit_logo.png';
 import P from '../../assets/images/p.png';
 import OptimizedImage from '../OptimizedImage';
-import TriangulationEffect from '../TriangulationEffect';
-import BackgroundWaves from '../BackgroundWaves';
+import TriangularGridBackground from '../TriangularGridBackground';
+
 import './index.scss';
 import { Link } from 'react-router-dom';
-import {Trans } from 'react-i18next';
+import { Trans } from 'react-i18next';
 
 const Home = () => {
     const el = useRef(null);
@@ -33,8 +33,12 @@ const Home = () => {
 
     return (
         <div className="home" id="home">
-            <BackgroundWaves />
-            <TriangulationEffect />
+            <TriangularGridBackground
+                primaryColor={{ r: 255, g: 255, b: 255 }}
+                backgroundColor='transparent'
+                triangleFill={false}
+                opacity={0.2}
+            />
             <div className="home-content">
                 <h3>
                     <Trans i18nKey={"name"}>
@@ -63,8 +67,8 @@ const Home = () => {
                 <div className='hoverbackground' />
             </div>
             <div className="home-img">
-                <OptimizedImage 
-                    src={Logo} 
+                <OptimizedImage
+                    src={Logo}
                     alt="Ver-IT Logo - Pius Maushart Portfolio"
                     loading="eager"
                     width="35vw"
