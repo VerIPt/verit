@@ -9,16 +9,32 @@ import { Trans } from 'react-i18next';
 
 const Contact = () => {
     const refForm = useRef()
-    const [startGame, setStartGame] = useState(true);
+    const [startGame, setStartGame] = useState(false);
+    const [gameInitialized, setGameInitialized] = useState(false);
     const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
+    // Verhindert Scrollen mit Pfeiltasten wenn das Spiel läuft
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setStartGame(true);
-        }, 1000);
+        const handleKeyDown = (e) => {
+            if (gameInitialized && startGame) {
+                // Verhindert Scrollen mit Pfeiltasten
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
+                    e.preventDefault();
+                }
+            }
+        };
 
-        return () => clearTimeout(timer);
-    }, []);
+        document.addEventListener('keydown', handleKeyDown);
+        
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [gameInitialized, startGame]);
+
+    const handleStartClick = () => {
+        setGameInitialized(true);
+        setStartGame(true);
+    };
 
 
     const handleRestartClick = () => {
@@ -125,8 +141,18 @@ const Contact = () => {
                 </div>
                 <div className='pacman'>
                     <div className='pacman-frame'>
-                        {startGame && <Pacman gridSize={20} />}
-                        <button onClick={handleRestartClick}>RESTART</button>
+                        {!gameInitialized ? (
+                            <div className='game-start-section'>
+                                <h3>Relaxing Game Break</h3>
+                                <p>Take a break and play some Pacman!</p>
+                                <button onClick={handleStartClick} className='start-button'>START GAME</button>
+                            </div>
+                        ) : (
+                            <>
+                                {startGame && <Pacman gridSize={20} />}
+                                <button onClick={handleRestartClick}>RESTART</button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
