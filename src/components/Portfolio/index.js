@@ -18,35 +18,69 @@ const Portfolio = () => {
             {/* Websites Section First */}
             <div className="text-zone1">
                 <h1>
-                    Portfolio & <span>Projekte</span>
+                    <Trans i18nKey={"portfolio"}>
+                        Portfolio & <span>Projekte</span>
+                    </Trans>
                 </h1>
                 
                 <div className="websites-section">
-                    <h2>Beispiel Websites</h2>
-                    <p>Hier sind einige Beispiele meiner Web-Entwicklungsarbeiten:</p>
+                    <h2>
+                        <Trans i18nKey={"websites_section"}>
+                            Beispiel Websites
+                        </Trans>
+                    </h2>
+                    <p>
+                        <Trans i18nKey={"websites_description"}>
+                            Hier sind einige Beispiele meiner Web-Entwicklungsarbeiten:
+                        </Trans>
+                    </p>
                     
                     <div className='portfolio-websites'>
                         <div className='project'>
-                            <h3>Kristen Transporte</h3>
+                            <h3>
+                                <Trans i18nKey={"kristen_transporte_title"}>
+                                    Kristen Transporte
+                                </Trans>
+                            </h3>
                             <a href="https://www.kristen-transporte.de/" target="_blank" rel="noopener noreferrer">
                                 <img className='kristen-transporte' src={kristenTransporte} alt="Kristen Transporte Website" />
-                                <button className='view-project-btn'>Website besuchen</button>
+                                <button className='view-project-btn'>
+                                    <Trans i18nKey={"visit_website"}>
+                                        Website besuchen
+                                    </Trans>
+                                </button>
                             </a>
                         </div>
                         
                         <div className='project'>
-                            <h3>Spenglerei Holderied</h3>
+                            <h3>
+                                <Trans i18nKey={"spenglerei_holderied_title"}>
+                                    Spenglerei Holderied
+                                </Trans>
+                            </h3>
                             <a href="https://spenglerei-holderied.de/" target="_blank" rel="noopener noreferrer">
                                 <img className='spenglerei-holderied' src={spenglereiHolderied} alt="Spenglerei Holderied Website" />
-                                <button className='view-project-btn'>Website besuchen</button>
+                                <button className='view-project-btn'>
+                                    <Trans i18nKey={"visit_website"}>
+                                        Website besuchen
+                                    </Trans>
+                                </button>
                             </a>
                         </div>
                         
                         <div className='project'>
-                            <h3>The Louhaus Band</h3>
+                            <h3>
+                                <Trans i18nKey={"louhaus_band_title"}>
+                                    The Louhaus Band
+                                </Trans>
+                            </h3>
                             <a href="https://www.louhausband.de/" target="_blank" rel="noopener noreferrer">
                                 <img className='louhaus' src={louhaus} alt="The Louhaus Band Website" />
-                                <button className='view-project-btn'>Website besuchen</button>
+                                <button className='view-project-btn'>
+                                    <Trans i18nKey={"visit_website"}>
+                                        Website besuchen
+                                    </Trans>
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -56,22 +90,46 @@ const Portfolio = () => {
                 
                 {/* Programming Projects */}
                 <div className="projects-section">
-                    <h2>Programmier-Projekte</h2>
-                    <p>Technische Projekte und Implementierungen:</p>
+                    <h2>
+                        <Trans i18nKey={"projects_section"}>
+                            Programmier-Projekte
+                        </Trans>
+                    </h2>
+                    <p>
+                        <Trans i18nKey={"projects_description"}>
+                            Technische Projekte und Implementierungen:
+                        </Trans>
+                    </p>
                     
                     <div className='portfolio-projects'>
                         <div className='project'>
-                            <h3>Path-tracer in Java</h3>
+                            <h3>
+                                <Trans i18nKey={"pathtracer_title"}>
+                                    Path-tracer in Java
+                                </Trans>
+                            </h3>
                             <a href="https://github.com/VerIPt/path-tracer" target="_blank" rel="noopener noreferrer">
                                 <img className='pathtracer' src={raytracer} alt="Path-tracer in Java" />
-                                <button className='view-project-btn'>GitHub ansehen</button>
+                                <button className='view-project-btn'>
+                                    <Trans i18nKey={"view_github"}>
+                                        GitHub ansehen
+                                    </Trans>
+                                </button>
                             </a>
                         </div>
                         <div className='project'>
-                            <h3>Treemap in C++</h3>
+                            <h3>
+                                <Trans i18nKey={"treemap_title"}>
+                                    Treemap in C++
+                                </Trans>
+                            </h3>
                             <a href="https://github.com/VerIPt/treemap" target="_blank" rel="noopener noreferrer">
                                 <img className='treemap' src={treemap} alt="Treemap Implementation" />
-                                <button className='view-project-btn'>GitHub ansehen</button>
+                                <button className='view-project-btn'>
+                                    <Trans i18nKey={"view_github"}>
+                                        GitHub ansehen
+                                    </Trans>
+                                </button>
                             </a>
                         </div>
                     </div>

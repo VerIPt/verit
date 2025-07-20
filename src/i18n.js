@@ -46,6 +46,22 @@ i18next
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'Wenn Sie Fragen haben, zögern Sie nicht, mich über das untenstehende Formular zu kontaktieren.',
 
+                    // Portfolio translations
+                    portfolio: 'Portfolio & <1>Projekte</1>',
+                    websites_section: 'Beispiel Websites',
+                    websites_description: 'Hier sind einige Beispiele meiner Web-Entwicklungsarbeiten:',
+                    projects_section: 'Programmier-Projekte',
+                    projects_description: 'Technische Projekte und Implementierungen:',
+                    visit_website: 'Website besuchen',
+                    view_github: 'GitHub ansehen',
+                    
+                    // Project titles
+                    kristen_transporte_title: 'Kristen Transporte',
+                    spenglerei_holderied_title: 'Spenglerei Holderied',
+                    louhaus_band_title: 'The Louhaus Band',
+                    pathtracer_title: 'Path-tracer in Java',
+                    treemap_title: 'Treemap in C++',
+
                 }
             },
             en: {
@@ -83,6 +99,23 @@ i18next
                     embedded_text: 'Solid experience in embedded software development with a focus on driver programming and system validation. I have proficiency in developing and adapting C drivers using Python as well as validating device trees for data logger systems. My expertise includes integrating tests into build processes and optimizing UIO driver handling in complex C/C++ class structures. Through my work with hardware-level software, I have developed a deep understanding of the interaction between hardware and software in resource-constrained environments.',
                     contact: 'Contact <1>Me</1>',
                     contact_text: 'If you have other inquiries or questions, please do not hesitate to contact me using the form below.',
+                    
+                    // Portfolio translations
+                    portfolio: 'Portfolio & <1>Projects</1>',
+                    websites_section: 'Example Websites',
+                    websites_description: 'Here are some examples of my web development work:',
+                    projects_section: 'Programming Projects',
+                    projects_description: 'Technical projects and implementations:',
+                    visit_website: 'Visit Website',
+                    view_github: 'View GitHub',
+                    
+                    // Project titles
+                    kristen_transporte_title: 'Kristen Transport',
+                    spenglerei_holderied_title: 'Spenglerei Holderied',
+                    louhaus_band_title: 'The Louhaus Band',
+                    pathtracer_title: 'Path-tracer in Java',
+                    treemap_title: 'Treemap in C++',
+
                 }
             },
 

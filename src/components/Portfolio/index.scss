@@ -4,7 +4,6 @@
 }
 
 .text-zone1 {
-
     color: white;
     position: absolute;
     left: 15%;
@@ -45,7 +44,6 @@
 
 .stage-cube-cont {
     width: 50%;
-    
     top: 0;
     padding-top: 8%;
     margin-left: 0;
@@ -103,14 +101,6 @@
 }
 
 
-.portfolio {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 38%;
-    animation: fadeInImage 1s ease-in-out forwards;
-}
-
 .project {
     position: relative;
     margin-bottom: 5%;
@@ -127,14 +117,6 @@
 .project img:hover {
     transform: scale(1.06);
     box-shadow: 0 0 20px 0px lightyellow;
-}
-
-.project button.view-project-btn {
-    position: absolute;
-    bottom: 0.5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
 }
 
 .project h2 {
@@ -181,8 +163,9 @@
     background: rgba(19, 48, 81, 0.3);
     border: 1px solid rgba(162, 222, 235, 0.3);
     border-radius: 12px;
-    padding: 20px;
+    padding: 20px 20px 70px 20px;
     transition: all 0.3s ease;
+    position: relative;
     
     &:hover {
         transform: translateY(-5px);
@@ -213,7 +196,11 @@
     }
     
     .view-project-btn {
-        width: 100%;
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 40px);
         background: linear-gradient(135deg, #f39f9f, #a2deeb);
         color: #133051;
         border: none;
@@ -225,8 +212,9 @@
         transition: all 0.3s ease;
         
         &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(243, 159, 159, 0.4);
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(243, 159, 159, 0.25);
+            background: linear-gradient(135deg, #f5b1b1, #b8e8f5);
         }
     }
 }
@@ -269,7 +257,7 @@
     }
     
     .project {
-        padding: 15px;
+        padding: 15px 15px 60px 15px;
         
         h3 {
             font-size: 1.2rem;
@@ -277,6 +265,11 @@
         
         img {
             height: 150px;
+        }
+        
+        .view-project-btn {
+            width: calc(100% - 30px);
+            bottom: 10px;
         }
     }
 
