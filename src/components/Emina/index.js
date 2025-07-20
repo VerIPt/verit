@@ -1714,7 +1714,25 @@ function Emina() {
                 paddingBottom: '50px'
             }}>
                 {/* Logo Canvas - nach oben verschoben */}
-                <canvas ref={canvasRef} width={1000} height={1000} />
+                <canvas 
+                    ref={canvasRef} 
+                    width={1000} 
+                    height={1000} 
+                    style={{
+                    // ← HIER: Responsive Größen hinzufügen
+                    width: 'min(80vw, 80vh, 800px)',     // Mobile: 80% der Viewport-Größe, max 800px
+                    height: 'min(80vw, 80vh, 800px)',    // Gleiches für Höhe
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    display: 'block',
+                    margin: '0 auto',
+                    // Für sehr kleine Bildschirme noch kleiner
+                    '@media (max-width: 480px)': {
+                        width: 'min(70vw, 70vh)',
+                        height: 'min(70vw, 70vh)'
+                    }
+                }}
+                    />
 
                 <button
                     onClick={handlePulse}
