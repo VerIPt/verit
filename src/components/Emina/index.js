@@ -22,7 +22,6 @@ function Emina() {
     }
     const canvasRef = useRef(null);
 
-
     const animStateRef = useRef({
         arcs: [
             {
@@ -1509,6 +1508,25 @@ function Emina() {
         circuitDuration: 1500
     });
 
+    // Einfache Canvas-Initialisierung für bessere Schärfe
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // High-DPI Support für schärfere Darstellung
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+    }, []);
+
     useEffect(() => {
 
         animStateRef.current.arcs[0].color = getRGBALogo(0.7);
@@ -1541,7 +1559,7 @@ function Emina() {
         ctx.stroke();
     }
 
-    function drawCircuitLines(ctx, lines) {
+    function drawCircuitLines(ctx, lines, scaleX = 1, scaleY = 1) {
         lines.forEach(line => {
             ctx.beginPath();
             ctx.lineWidth = line.width;
@@ -1549,8 +1567,9 @@ function Emina() {
             ctx.shadowBlur = 20;
             ctx.shadowColor = line.color;
 
-            let x = line.startX;
-            let y = line.startY;
+            // Skalierte Startposition
+            let x = line.startX * scaleX;
+            let y = line.startY * scaleY;
             ctx.moveTo(x, y);
 
             const totalLength = line.segments.reduce((sum, seg) => sum + seg.length, 0);
@@ -1560,8 +1579,9 @@ function Emina() {
                 if (visibleLen <= 0) break;
                 const drawLen = Math.min(seg.length, visibleLen);
                 const angleRad = seg.angleDeg * Math.PI / 180;
-                const newX = x + Math.cos(angleRad) * drawLen;
-                const newY = y + Math.sin(angleRad) * drawLen;
+                // Skalierte Segmentlängen
+                const newX = x + Math.cos(angleRad) * drawLen * scaleX;
+                const newY = y + Math.sin(angleRad) * drawLen * scaleY;
                 ctx.lineTo(newX, newY);
                 x = newX;
                 y = newY;
@@ -1569,8 +1589,9 @@ function Emina() {
             }
             ctx.stroke();
 
-            if (line.startPoint) drawEndpoint(ctx, line.startX, line.startY, 6, line.color);
-            if (line.endPoint) drawEndpoint(ctx, x, y, 6, line.color);
+            // Skalierte Endpunkte
+            if (line.startPoint) drawEndpoint(ctx, line.startX * scaleX, line.startY * scaleY, 6 * Math.min(scaleX, scaleY), line.color);
+            if (line.endPoint) drawEndpoint(ctx, x, y, 6 * Math.min(scaleX, scaleY), line.color);
         });
     }
 
@@ -1589,10 +1610,17 @@ function Emina() {
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const rect = canvas.getBoundingClientRect();
+        
+        // Clear mit Display-Größe (nicht Canvas-Auflösung wegen DPI-Skalierung)
+        ctx.clearRect(0, 0, rect.width, rect.height);
 
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
+        // Center basierend auf Display-Größe
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Berechne Skalierungsfaktor für Arcs (basierend auf der kleineren Dimension)
+        const arcScale = Math.min(rect.width, rect.height) / 1000;
 
         // 1) Arcs 
         state.arcs.forEach(arc => {
@@ -1615,16 +1643,16 @@ function Emina() {
             else if (state.phase === 3) {
                 let elapsed = timestamp - state.finalDoneTime;
                 let floatSpeed = 0.002;
-                let floatAmp = 5;
+                let floatAmp = 5 * arcScale;
                 let pulseSpeed = 0.003;
                 let pulseAmp = 0.05;
                 let floatOffset = Math.sin(elapsed * floatSpeed) * floatAmp;
                 let pulseScale = 1 + pulseAmp * Math.sin(elapsed * pulseSpeed);
-                arc._pulseLineWidth = arc.lineWidth * pulseScale;
+                arc._pulseLineWidth = arc.lineWidth * pulseScale * arcScale;
 
                 drawRotatedArc(ctx, centerX, centerY + floatOffset,
-                    arc.radius,
-                    arc._pulseLineWidth || arc.lineWidth,
+                    arc.radius * arcScale,
+                    arc._pulseLineWidth || arc.lineWidth * arcScale,
                     arc.color,
                     arc.angle
                 );
@@ -1633,8 +1661,8 @@ function Emina() {
 
             drawRotatedArc(
                 ctx, centerX, centerY,
-                arc.radius,
-                arc._pulseLineWidth ? arc._pulseLineWidth : arc.lineWidth,
+                arc.radius * arcScale,
+                (arc._pulseLineWidth ? arc._pulseLineWidth : arc.lineWidth) * arcScale,
                 arc.color,
                 arc.angle
             );
@@ -1662,7 +1690,13 @@ function Emina() {
             state.circuitLines.forEach(line => {
                 line.progress = t;
             });
-            drawCircuitLines(ctx, state.circuitLines);
+            
+            // Berechne Skalierungsfaktoren basierend auf Canvas-Größe
+            // Das Original-Design ist für 1000x1000 ausgelegt
+            const scaleX = rect.width / 1000;
+            const scaleY = rect.height / 1000;
+            
+            drawCircuitLines(ctx, state.circuitLines, scaleX, scaleY);
 
         }
 
@@ -1713,26 +1747,20 @@ function Emina() {
                 paddingTop: '0px',
                 paddingBottom: '50px'
             }}>
-                {/* Logo Canvas - nach oben verschoben */}
+                {/* Logo Canvas - mit High-DPI Support für schärfere Darstellung */}
                 <canvas 
                     ref={canvasRef} 
                     width={1000} 
                     height={1000} 
                     style={{
-                    // ← HIER: Responsive Größen hinzufügen
-                    width: 'min(80vw, 80vh, 800px)',     // Mobile: 80% der Viewport-Größe, max 800px
-                    height: 'min(80vw, 80vh, 800px)',    // Gleiches für Höhe
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    display: 'block',
-                    margin: '0 auto',
-                    // Für sehr kleine Bildschirme noch kleiner
-                    '@media (max-width: 480px)': {
-                        width: 'min(70vw, 70vh)',
-                        height: 'min(70vw, 70vh)'
-                    }
-                }}
-                    />
+                        width: 'min(80vw, 80vh, 800px)',
+                        height: 'min(80vw, 80vh, 800px)',
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        display: 'block',
+                        margin: '0 auto',
+                    }}
+                />
 
                 <button
                     onClick={handlePulse}
