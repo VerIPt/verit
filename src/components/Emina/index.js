@@ -1559,12 +1559,12 @@ function Emina() {
         ctx.stroke();
     }
 
-    function drawCircuitLines(ctx, lines, scaleX = 1, scaleY = 1) {
+    function drawCircuitLines(ctx, lines, scaleX = 1, scaleY = 1, lineScale = 1) {
         lines.forEach(line => {
             ctx.beginPath();
-            ctx.lineWidth = line.width;
+            ctx.lineWidth = line.width * lineScale;
             ctx.strokeStyle = line.color;
-            ctx.shadowBlur = 20;
+            ctx.shadowBlur = 20 * lineScale;
             ctx.shadowColor = line.color;
 
             // Skalierte Startposition
@@ -1590,16 +1590,16 @@ function Emina() {
             ctx.stroke();
 
             // Skalierte Endpunkte
-            if (line.startPoint) drawEndpoint(ctx, line.startX * scaleX, line.startY * scaleY, 6 * Math.min(scaleX, scaleY), line.color);
-            if (line.endPoint) drawEndpoint(ctx, x, y, 6 * Math.min(scaleX, scaleY), line.color);
+            if (line.startPoint) drawEndpoint(ctx, line.startX * scaleX, line.startY * scaleY, 6 * Math.min(scaleX, scaleY), line.color, lineScale);
+            if (line.endPoint) drawEndpoint(ctx, x, y, 6 * Math.min(scaleX, scaleY), line.color, lineScale);
         });
     }
 
-    function drawEndpoint(ctx, cx, cy, r, color) {
+    function drawEndpoint(ctx, cx, cy, r, color, lineScale = 1) {
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, 2 * Math.PI);
         ctx.fillStyle = color;
-        ctx.shadowBlur = 20;
+        ctx.shadowBlur = 20 * lineScale;
         ctx.shadowColor = color;
         ctx.fill();
     }
@@ -1696,7 +1696,10 @@ function Emina() {
             const scaleX = rect.width / 1000;
             const scaleY = rect.height / 1000;
             
-            drawCircuitLines(ctx, state.circuitLines, scaleX, scaleY);
+            // Linienskalierung basierend auf der kleineren Dimension für bessere mobile Darstellung
+            const lineScale = Math.min(rect.width, rect.height) / 1000;
+            
+            drawCircuitLines(ctx, state.circuitLines, scaleX, scaleY, lineScale);
 
         }
 
