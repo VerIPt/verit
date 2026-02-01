@@ -52,7 +52,9 @@ const Home = () => {
                             Ich bin
                         </Trans>
                     </h3>
-                    <h3 className='software' ref={el}></h3>
+                    <h3 className='software' ref={el}>
+                        <span className="sr-only">Software Developer</span>
+                    </h3>
                 </div>
                 <p>
                     <Trans i18nKey={"verit"}>

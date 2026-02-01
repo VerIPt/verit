@@ -1707,7 +1707,8 @@ function Emina() {
     useEffect(() => {
         const id = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(id);
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []);
 
     function handlePulse() {
         const state = animStateRef.current;
