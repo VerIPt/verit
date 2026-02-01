@@ -964,7 +964,7 @@
                     }),
                     React.createElement('div', {
                         key: 'infoContent',
-                        className: "relative bg-gray-900 border-2 border-green-400 rounded-lg p-6 max-w-4xl max-h-[80vh] overflow-y-auto",
+                        className: "relative bg-gray-900 border-2 border-green-400 rounded-lg p-6 max-w-4xl max-h-[80vh] overflow-y-auto flex flex-col items-center",
                         onClick: (e) => e.stopPropagation()
                     }, [
                         React.createElement('button', {
@@ -972,10 +972,27 @@
                             onClick: closeInfoText,
                             className: "absolute top-2 right-2 text-green-400 hover:text-green-300 text-2xl font-bold w-8 h-8 flex items-center justify-center"
                         }, '×'),
-                        React.createElement('h2', {
-                            key: 'title',
-                            className: "text-yellow-400 text-xl sm:text-2xl font-bold mb-4 pr-8"
-                        }, `${timeline[currentStep]?.year} - ${timeline[currentStep]?.keyword}`),
+                        React.createElement('div', {
+                            key: 'navBtns',
+                            className: "flex flex-row items-center justify-center mb-4 gap-4"
+                        }, [
+                            React.createElement('button', {
+                                key: 'prevBtn',
+                                onClick: (e) => { e.stopPropagation(); if (currentStep > 0) { jumpToStep(currentStep - 1); } },
+                                disabled: currentStep === 0,
+                                className: `px-3 py-2 rounded bg-gray-700 text-green-400 font-bold text-lg shadow ${currentStep === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-600 cursor-pointer'}`
+                            }, '←'),
+                            React.createElement('h2', {
+                                key: 'title',
+                                className: "text-yellow-400 text-xl sm:text-2xl font-bold pr-8 pl-8"
+                            }, `${timeline[currentStep]?.year} - ${timeline[currentStep]?.keyword}`),
+                            React.createElement('button', {
+                                key: 'nextBtn',
+                                onClick: (e) => { e.stopPropagation(); if (currentStep < timeline.length - 2) { jumpToStep(currentStep + 1); } },
+                                disabled: currentStep >= timeline.length - 2,
+                                className: `px-3 py-2 rounded bg-gray-700 text-green-400 font-bold text-lg shadow ${currentStep >= timeline.length - 2 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-600 cursor-pointer'}`
+                            }, '→')
+                        ]),
                         React.createElement('div', {
                             key: 'infoTextContent',
                             className: "text-amber-400 text-base sm:text-lg leading-relaxed"
