@@ -21,7 +21,6 @@ const TriangularGridBackground = ({
                 : backgroundColor,
 
         // Automatisch berechnete Farbtöne (basierend auf primary)
-        get background() { return `rgb(${Math.max(5, this.primary.r * 0.02)}, ${Math.max(8, this.primary.g * 0.03)}, ${Math.max(15, this.primary.b * 0.05)})`; },
         get baseTone() { return { r: Math.max(20, this.primary.r * 0.08), g: Math.max(30, this.primary.g * 0.12), b: Math.max(50, this.primary.b * 0.2) }; },
         get glowColor() { return `rgba(${this.primary.r}, ${this.primary.g}, ${this.primary.b}, 0.3)`; },
         get glowColorMid() { return `rgba(${this.primary.r}, ${this.primary.g}, ${this.primary.b}, 0.1)`; },

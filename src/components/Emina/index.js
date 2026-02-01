@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect} from 'react';
 import TriangularGridBackground from '../TriangularGridBackground';
 
 function Emina() {
@@ -1633,8 +1633,6 @@ function Emina() {
                 let scale = 1 + 0.3 * Math.sin(t * Math.PI);
                 arc._pulseLineWidth = arc.lineWidth * scale;
             } else if (state.phase === 2) {
-                let elapsed = timestamp - state.finalMoveStartTime;
-                let t = Math.min(elapsed / state.finalMoveDuration, 1);
                 let angleDiff = arc.targetAngle - arc.angle;
                 arc.angle += angleDiff * 0.08;
                 let radiusDiff = arc.targetRadius - arc.radius;

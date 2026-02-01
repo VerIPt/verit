@@ -1,0 +1,8 @@
+npm warn deprecated @babel/plugin-proposal-private-property-in-object@7.21.11: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
+
+added 259 packages, and audited 260 packages in 19s
+
+59 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
