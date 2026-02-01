@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berlin im Spiegel der Deutschen Geschichte</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: monospace;
+            background: #1a1a2e;
+            color: #d4a574;
+        }
+
+        @keyframes fadeInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slide-in-left {
+            from {
+                transform: translateX(100%);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-in-left {
+            animation: slide-in-left 1.2s ease-out forwards;
+        }
+
+        @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .cursor-blink {
+            animation: cursor-blink 1s infinite;
+        }
+
+        @keyframes terminal-glow {
+            0%, 100% {
+                text-shadow: 0 0 5px currentColor;
+            }
+            50% {
+                text-shadow: 0 0 10px currentColor;
+            }
+        }
+
+        .terminal-glow {
+            animation: terminal-glow 2s ease-in-out infinite;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar-thumb {
+            background: #d4a574;
+            border-radius: 4px;
+        }
+
+        [data-timeline="years"]::-webkit-scrollbar-thumb:hover {
+            background: #e8c49a;
+        }
+
+        .bismarck-container {
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            transition: none !important;
+        }
+
+        .bismarck-ascii {
+            font-size: clamp(4px, 1.2vw, 10px);
+            line-height: 1;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            color: #d4a574;
+            text-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .bismarck-ascii {
+                font-size: clamp(2px, 1.5vw, 6px);
+            }
+
+            .speech-bubble {
+                max-width: 90vw !important;
+                font-size: 14px !important;
+                padding: 1rem !important;
+            }
+
+            .timeline-years {
+                height: 5rem !important;
+                padding: 0.5rem !important;
+            }
+
+            .console-bar {
+                height: 8rem !important;
+                bottom: 20pt !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bismarck-ascii {
+                font-size: clamp(1.5px, 2vw, 4px);
+            }
+
+            .speech-bubble {
+                font-size: 12px !important;
+                padding: 0.75rem !important;
+            }
+
+            .timeline-years {
+                height: 4rem !important;
+                padding: 0.25rem !important;
+            }
+
+            .console-bar {
+                height: 6rem !important;
+                bottom: 50pt !important;
+            }
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            background: #d4a574;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            background: #d4a574;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .timeline-button {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.2), rgba(26, 26, 46, 0.9));
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-button:hover {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.4), rgba(26, 26, 46, 0.9));
+            border-color: rgba(212, 165, 116, 0.6);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .timeline-button.active {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.5), rgba(26, 26, 46, 0.9));
+            border-color: rgba(212, 165, 116, 0.8);
+            box-shadow: 0 0 16px rgba(212, 165, 116, 0.4);
+        }
+
+        .bg-gray-800 {
+            background-color: #1a1a2e !important;
+        }
+
+        .bg-black {
+            background-color: #0f0f1a !important;
+        }
+
+        .border-gray-600 {
+            border-color: rgba(212, 165, 116, 0.3) !important;
+        }
+
+        .text-green-400, .text-green-300, .text-green-500 {
+            color: #d4a574 !important;
+        }
+
+        .border-green-400, .border-green-600 {
+            border-color: #d4a574 !important;
+        }
+
+        .bg-green-600 {
+            background-color: #8b7355 !important;
+        }
+
+        .bg-green-500 {
+            background-color: #a08060 !important;
+        }
+
+        .text-amber-400 {
+            color: #ffd700 !important;
+        }
+
+        .text-yellow-400 {
+            color: #ffd700 !important;
+        }
+
+        .text-cyan-300 {
+            color: #87ceeb !important;
+        }
+
+        .text-white {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const BismarckTerminal = () => {
+            
+            const [currentStep, setCurrentStep] = useState(0);
+            const [showFullBismarck, setShowFullBismarck] = useState(false);
+            const [showIntroPhase, setShowIntroPhase] = useState(false);
+            const [introText, setIntroText] = useState('');
+            const [zoomToFace, setZoomToFace] = useState(false);
+            const [showTimeline, setShowTimeline] = useState(false);
+            const [currentText, setCurrentText] = useState('');
+            const [yearsShown, setYearsShown] = useState([]);
+            const [showTerminalLoading, setShowTerminalLoading] = useState(false);
+            const [typedCommand, setTypedCommand] = useState('');
+            const [showStartButton, setShowStartButton] = useState(true);
+            const [speedMultiplier, setSpeedMultiplier] = useState(0.5);
+            const [isTimelineComplete, setIsTimelineComplete] = useState(false);
+            const [introComplete, setIntroComplete] = useState(false);
+            const [isSkipped, setIsSkipped] = useState(false);
+            const [showInfoText, setShowInfoText] = useState(false);
+            const [currentInfoText, setCurrentInfoText] = useState('');
+
+            useEffect(() => {
+                window.parent.postMessage({
+                    type: 'BISMARCK_MENU_STATE',
+                    showMainMenu: showStartButton
+                }, '*');
+            }, [showStartButton]);
+
+            const introMessage = "Guten Tag! Ich bin Otto von Bismarck und werde Sie durch die wechselvolle Geschichte Deutschlands und Berlins führen - von Karl dem Großen bis zur Wiedervereinigung. Diese Stadt hat Höhen und Tiefen erlebt, Kaiserreiche und Revolutionen, Teilung und Einheit. Klicken Sie am Ende auf die Jahreszahlen für mehr Details. Beginnen wir!";
+
+            const timeline = [
+                { 
+                    year: '800', 
+                    keyword: 'Karl d. Große', 
+                    text: 'Am ersten Weihnachtstag wird Karl der Große in Rom zum Kaiser gekrönt. Ein fränkischer Warlord wird zum Erben Roms!',
+                    info_text: 'Am 25. Dezember 800 wird der fränkische König Karl in Rom von Papst Leo III. zum Römischen Kaiser gekrönt. Sein Berater Alkuin von York legitimierte dies durch Rückgriff auf die Tradition des römischen Kaisertums. Karl war de facto ein fränkischer Herrscher, dessen Reich weit über das alte Weströmische Reich hinausging. Diese Krönung begründet das mittelalterliche Kaisertum, das später zum Heiligen Römischen Reich wird.'
+                },
+                { 
+                    year: '955', 
+                    keyword: 'Lechfeld', 
+                    text: 'Otto I. besiegt die Ungarn auf dem Lechfeld. Die Ostgrenzen werden gesichert - der Weg nach Brandenburg wird frei!',
+                    info_text: 'Otto I. besiegt die Ungarn entscheidend bei Augsburg. Diese Schlacht beendet die ungarischen Raubzüge nach Mitteleuropa endgültig und festigt Ottos Stellung, der 962 zum Kaiser gekrönt wird. Dies markiert den Beginn des Heiligen Römischen Reiches Deutscher Nation. Die Sicherung der Ostgrenzen ermöglicht später die deutsche Ostsiedlung in den slawischen Gebieten, wo Berlin entstehen wird.'
+                },
+                { 
+                    year: '1190', 
+                    keyword: 'Barbarossa', 
+                    text: 'Kaiser Friedrich Barbarossa ertrinkt auf dem Kreuzzug. Die Stauferzeit prägt das Reich - und die Mark Brandenburg entsteht!',
+                    info_text: 'Kaiser Friedrich I. Barbarossa ertrinkt während des 3. Kreuzzuges im Fluss Saleph in Kleinasien. Er war einer der mächtigsten Stauferkaiser und Symbol der mittelalterlichen Reichsherrlichkeit. Die Kyffhäuser-Sage entsteht später um seine Person. Unter den Staufern wird die Mark Brandenburg an die Askanier vergeben, die später Berlin gründen werden.'
+                },
+                { 
+                    year: '1237', 
+                    keyword: 'Berlin entsteht', 
+                    text: 'Berlin und Cölln werden erstmals urkundlich erwähnt. Der Name kommt vom slawischen "brlo" - eine trockene Stelle im Sumpf!',
+                    info_text: 'Cölln wird 1237, Berlin 1244 erstmals urkundlich erwähnt. Beide sind Kaufmannssiedlungen an der Spree, gegründet von den Askaniern als Markgrafen von Brandenburg. Der Name "Berlin" stammt vermutlich vom slawischen "brlo" (trockene Stelle im Sumpf/Morast). Die Städte dienen als Grenzstädte gegen die slawischen Gebiete östlich der Oder. Dies ist die Geburtsstunde Berlins!'
+                },
+                { 
+                    year: '1348', 
+                    keyword: 'Pest', 
+                    text: 'Der Schwarze Tod erreicht auch Brandenburg. Ein Drittel der Bevölkerung stirbt - eine Katastrophe ohnegleichen!',
+                    info_text: 'Die Beulenpest erreicht Europa und tötet etwa ein Drittel der Bevölkerung. Sie verbreitet sich entlang der Handelsrouten von Süden nach Norden. Die sozialen und wirtschaftlichen Verwerfungen sind enorm: Arbeitskräftemangel, Judenpogrome, religiöse Bewegungen wie die Flagellanten. Auch Berlin und Brandenburg werden schwer getroffen. Die Bevölkerungsverluste prägen die Region für Jahrzehnte.'
+                },
+                { 
+                    year: '1356', 
+                    keyword: 'Goldene Bulle', 
+                    text: 'Die Goldene Bulle macht Brandenburg zum Kurfürstentum. Berlin gewinnt reichspolitische Bedeutung!',
+                    info_text: 'Kaiser Karl IV. erlässt das wichtigste Verfassungsdokument des Heiligen Römischen Reiches. Es legt fest, dass sieben Kurfürsten den König wählen: die Erzbischöfe von Mainz, Köln und Trier sowie der König von Böhmen, der Pfalzgraf bei Rhein, der Herzog von Sachsen und der Markgraf von Brandenburg. Der Markgraf von Brandenburg wird einer der sieben Kurfürsten – Brandenburg und damit Berlin gewinnen reichspolitische Bedeutung.'
+                },
+                { 
+                    year: '1440', 
+                    keyword: 'Eisenzahn', 
+                    text: 'Kurfürst Friedrich II. "Eisenzahn" bricht Berlins Autonomie. Die Hohenzollern etablieren ihre Macht!',
+                    info_text: 'Der Hohenzollern-Kurfürst Friedrich II. versucht, seine landesherrliche Macht über die märkischen Städte auszudehnen. Berlin und Cölln hatten Autonomiebestrebungen und versuchten, der Hanse beizutreten. Friedrich erzwingt 1442 die Trennung der Doppelstadt und beginnt mit dem Bau einer Zwingburg an der Spree. Der "Berliner Unwille" (1447/48) ist der gescheiterte Aufstand gegen die Hohenzollern. Berlin wird zur Residenzstadt der Kurfürsten - Ende der städtischen Autonomie!'
+                },
+                { 
+                    year: '1517', 
+                    keyword: 'Luther', 
+                    text: 'Martin Luther schlägt seine Thesen an. Die Reformation spaltet das Reich - Brandenburg wird protestantisch!',
+                    info_text: 'Martin Luther veröffentlicht seine 95 Thesen gegen den Ablasshandel (traditionell: Anschlag an der Schlosskirche zu Wittenberg). Dies löst die Reformation aus, die Europa religiös und politisch spalten wird. Brandenburg-Preußen wird 1539 offiziell protestantisch unter Kurfürst Joachim II. Berlin wird lutherisch.'
+                },
+                { 
+                    year: '1618', 
+                    keyword: 'Winterkönig', 
+                    text: 'Friedrich von der Pfalz nimmt die böhmische Krone an. Der Dreißigjährige Krieg beginnt - Deutschlands größte Katastrophe!',
+                    info_text: 'Der pfälzische Kurfürst Friedrich V. nimmt die böhmische Königskrone an (protestantisch gegen den katholischen Habsburg-Kandidaten). Nach seiner Niederlage in der Schlacht am Weißen Berg (1620) flieht er und geht als "Winterkönig" in die Geschichte ein – er regierte nur einen Winter lang. Brandenburg unter dem "Betenden Kurfürsten" Georg Wilhelm versucht erfolglos, neutral zu bleiben. Berlin und die Mark werden von allen Kriegsparteien verwüstet.'
+                },
+                { 
+                    year: '1648', 
+                    keyword: 'Westfalen', 
+                    text: 'Der Westfälische Friede beendet das Morden. Brandenburg hat die Hälfte seiner Bevölkerung verloren!',
+                    info_text: 'Der verheerendste Krieg der deutschen Geschichte vor dem 20. Jahrhundert endet. Religiöser Konflikt eskalierte zum europäischen Machtkrieg. Deutschland verliert etwa ein Drittel seiner Bevölkerung. Der Westfälische Friede (1648) beendet den Krieg und etabliert das Prinzip der Staatensouveränität. Brandenburg verliert etwa die Hälfte seiner Bevölkerung. Berlin ist am Ende des Krieges eine verarmte Kleinstadt mit weniger als 10.000 Einwohnern.'
+                },
+                { 
+                    year: '1685', 
+                    keyword: 'Hugenotten', 
+                    text: 'Das Edikt von Potsdam lädt die Hugenotten ein. Sie bringen Kultur und Handwerk nach Berlin!',
+                    info_text: 'Kurfürst Friedrich Wilhelm ("Der Große Kurfürst") erlässt das Edikt von Potsdam und lädt die aus Frankreich vertriebenen Hugenotten (französische Protestanten) nach Brandenburg ein. Etwa 20.000 Hugenotten siedeln sich an. Die Hugenotten bringen Handwerk, Bildung und französische Kultur nach Berlin. Um 1700 ist jeder fünfte Berliner französischstämmig. Stadtteile wie der Französische Dom am Gendarmenmarkt zeugen davon.'
+                },
+                { 
+                    year: '1701', 
+                    keyword: 'Königreich', 
+                    text: 'Friedrich krönt sich zum König in Preußen. Berlin wird königliche Residenz - der Aufstieg beginnt!',
+                    info_text: 'Kurfürst Friedrich III. von Brandenburg krönt sich in Königsberg selbst zum "König in Preußen" (Friedrich I.). Der Titel "in Preußen" ist ein Kompromiss, da im Reich nur der Kaiser König sein darf – Preußen liegt außerhalb der Reichsgrenzen. Berlin wird zur königlichen Residenz und Hauptstadt des aufstrebenden preußischen Staates.'
+                },
+                { 
+                    year: '1756', 
+                    keyword: 'Siebenjähriger Krieg', 
+                    text: 'Friedrich der Große kämpft gegen halb Europa. Manche nennen es den nullten Weltkrieg!',
+                    info_text: 'Friedrich der Große (Friedrich II.) kämpft gegen eine Koalition aus Österreich, Russland, Frankreich und anderen. Preußen steht mehrfach vor der Vernichtung. Der Krieg wird manchmal als "0. Weltkrieg" bezeichnet, da er auch in Nordamerika und Indien ausgetragen wird. Das "Mirakel des Hauses Brandenburg" (Tod der Zarin Elisabeth) rettet Preußen. Berlin wird 1757 und 1760 von feindlichen Truppen besetzt und muss hohe Kontributionen zahlen.'
+                },
+                { 
+                    year: '1789', 
+                    keyword: 'Revolution', 
+                    text: 'Die Französische Revolution erschüttert Europa. Die Ideen von Freiheit und Gleichheit erreichen auch Preußen!',
+                    info_text: 'Die Revolution beendet das Ancien Régime in Frankreich. Sie durchläuft mehrere Phasen: konstitutionelle Monarchie, Republik, Terrorherrschaft (1793–1794 unter Robespierre), Direktorium. 1799 putscht sich Napoleon Bonaparte an die Macht, 1804 krönt er sich zum Kaiser. Die Ideen der Revolution (Freiheit, Gleichheit, Brüderlichkeit) erreichen auch Preußen und inspirieren spätere Reformer wie Stein und Hardenberg.'
+                },
+                { 
+                    year: '1806', 
+                    keyword: 'Ende des Reiches', 
+                    text: 'Napoleon zieht durchs Brandenburger Tor. Das Heilige Römische Reich ist Geschichte - eine Schmach!',
+                    info_text: 'Nach der vernichtenden Niederlage Preußens bei Jena und Auerstedt gegen Napoleon legt Kaiser Franz II. die Kaiserkrone nieder. Das Heilige Römische Reich Deutscher Nation, das seit 962 (oder 800) bestanden hatte, hört auf zu existieren. Napoleon gründet den Rheinbund als französischen Satellitenstaat. Napoleon zieht am 27. Oktober 1806 durch das Brandenburger Tor in Berlin ein. Die Quadriga wird als Kriegsbeute nach Paris gebracht.'
+                },
+                { 
+                    year: '1812', 
+                    keyword: 'Russland', 
+                    text: 'Napoleon marschiert nach Russland - mit deutschen Truppen auf beiden Seiten. Die Katastrophe ebnet den Weg zur Befreiung!',
+                    info_text: 'Napoleon marschiert mit der Grande Armée (ca. 600.000 Mann) nach Russland. Deutsche Truppen kämpfen auf beiden Seiten – sowohl unter Napoleon als auch unter russischer Flagge. Der Feldzug endet in einer Katastrophe: Nur etwa 100.000 Mann kehren zurück. Preußische Truppen sind zunächst als Verbündete Napoleons gezwungen, am Feldzug teilzunehmen. Die Niederlage ermöglicht den Befreiungskrieg.'
+                },
+                { 
+                    year: '1813', 
+                    keyword: 'Völkerschlacht', 
+                    text: 'Bei Leipzig wird Napoleon geschlagen! Die Befreiungskriege beginnen in Berlin - General Yorck wechselt die Seiten!',
+                    info_text: 'Die größte Schlacht der Napoleonischen Kriege (16.–19. Oktober). Eine Koalition aus Preußen, Russland, Österreich und Schweden besiegt Napoleon entscheidend. Etwa 500.000 Soldaten sind beteiligt, über 90.000 fallen. Die Befreiungskriege beginnen mit Berliner Beteiligung: General Yorck wechselt eigenmächtig die Seiten (Konvention von Tauroggen, 1812). König Friedrich Wilhelm III. ruft von Berlin aus zum Kampf auf.'
+                },
+                { 
+                    year: '1815', 
+                    keyword: 'Wiener Kongress', 
+                    text: 'Europa wird neu geordnet. Preußen wird zur Großmacht - mit dem Rheinland als Geschenk!',
+                    info_text: 'Die europäischen Mächte ordnen nach Napoleons Niederlage Europa neu. Prinzipien: Legitimität (Wiederherstellung der alten Dynastien), Restauration, Gleichgewicht der Mächte. Metternich dominiert die Verhandlungen. Preußen wird territorial stark vergrößert (Rheinland, Teile Sachsens) und zur europäischen Großmacht. Der Deutsche Bund ersetzt das alte Reich als lockerer Staatenbund von 39 Staaten unter österreichischer Führung.'
+                },
+                { 
+                    year: '1848', 
+                    keyword: 'Märzrevolution', 
+                    text: 'Barrikadenkämpfe in Berlin! Das Volk fordert Einheit und Freiheit - doch die Fürsten siegen.',
+                    info_text: 'Inspiriert von der Februarrevolution in Paris fordern Bürger in ganz Deutschland Verfassung, Pressefreiheit und nationale Einheit. In Berlin kommt es zu Barrikadenkämpfen (18./19. März). Die Frankfurter Nationalversammlung tagt in der Paulskirche, scheitert aber an der Frage der Einheit und am Widerstand der Fürsten. König Friedrich Wilhelm IV. muss Zugeständnisse machen, lehnt aber später die Kaiserkrone der Nationalversammlung ab ("Schweinekrone aus der Gosse").'
+                },
+                { 
+                    year: '1864-1871', 
+                    keyword: 'Einigungskriege', 
+                    text: 'Mit Blut und Eisen schmieden wir das Reich! Gegen Dänemark, Österreich und Frankreich - drei Siege, ein Deutschland!',
+                    info_text: 'Ministerpräsident Otto von Bismarck führt Preußen in drei Kriege: 1864 gegen Dänemark (Schleswig-Holstein), 1866 gegen Österreich und den Deutschen Bund (Königgrätz), 1870/71 gegen Frankreich (Sedan). Durch "Blut und Eisen" erzwingt er die deutsche Einigung unter preußischer Führung. Berlin wird Zentrum der preußischen Machtpolitik.'
+                },
+                { 
+                    year: '1871', 
+                    keyword: 'Reichsgründung', 
+                    text: 'Im Spiegelsaal von Versailles wird das Deutsche Reich proklamiert! Berlin ist Reichshauptstadt - mein Lebenswerk!',
+                    info_text: 'Am 18. Januar 1871 wird im Spiegelsaal von Versailles das Deutsche Kaiserreich proklamiert. König Wilhelm I. von Preußen wird deutscher Kaiser. Das Reich ist ein Bundesstaat unter preußischer Hegemonie mit Bismarck als Reichskanzler. Berlin wird Reichshauptstadt und erlebt einen beispiellosen Aufschwung zur Weltstadt. Die Gründerzeit prägt das Stadtbild.'
+                },
+                { 
+                    year: '1914', 
+                    keyword: '1. Weltkrieg', 
+                    text: 'Der Große Krieg beginnt. Was ich stets zu verhindern suchte, ist eingetreten - Deutschland kämpft an zwei Fronten!',
+                    info_text: 'Der Krieg beginnt nach dem Attentat von Sarajevo und eskaliert durch das Bündnissystem zum Weltkrieg. Deutschland kämpft an zwei Fronten gegen Frankreich, Großbritannien, Russland und später die USA. Der Krieg endet mit der deutschen Niederlage und dem Zusammenbruch der Monarchie. Revolution in Berlin (November 1918): Philipp Scheidemann ruft die Republik aus. Der Kaiser flieht ins niederländische Exil.'
+                },
+                { 
+                    year: '1920er', 
+                    keyword: 'Goldene Zwanziger', 
+                    text: 'Berlin wird zur Kulturhauptstadt Europas! Rathenau, Stresemann - doch die Republik steht auf tönernen Füßen.',
+                    info_text: 'Nach den Krisenjahren (Inflation, Putschversuche, Ruhrkampf) stabilisiert sich die Republik unter Gustav Stresemann. Walter Rathenau (Außenminister, 1922 ermordet) und Stresemann führen Deutschland zurück in die internationale Gemeinschaft (Locarno-Verträge, Völkerbund). Berlin wird zur Kulturhauptstadt Europas: Expressionismus, Bauhaus, Theater (Brecht), Film (Metropolis), Nachtleben. Die "Goldenen Zwanziger" sind vor allem Berliner Jahre.'
+                },
+                { 
+                    year: '1929', 
+                    keyword: 'Weltwirtschaftskrise', 
+                    text: 'Der Schwarze Freitag stürzt die Welt ins Chaos. Massenarbeitslosigkeit destabilisiert die Demokratie!',
+                    info_text: 'Der Börsencrash an der Wall Street (24./29. Oktober – "Schwarzer Donnerstag/Freitag") löst eine weltweite Depression aus. Deutschland ist besonders betroffen durch die Abhängigkeit von US-Krediten. Massenarbeitslosigkeit (6 Millionen) destabilisiert die Demokratie. Berlin erlebt Massenelend, politische Straßenkämpfe zwischen SA und Rotfront. Die NSDAP und KPD gewinnen Zulauf.'
+                },
+                { 
+                    year: '1933', 
+                    keyword: 'Machtergreifung', 
+                    text: 'Hitler wird Reichskanzler. Die Demokratie stirbt - durch Hindenburg und seinen nicht vorgesehenen Sohn Oskar!',
+                    info_text: 'Am 30. Januar 1933 ernennt Reichspräsident Hindenburg Adolf Hitler zum Reichskanzler. Hindenburgs Sohn Oskar und Intriganten wie Franz von Papen spielen eine Rolle bei dieser verfassungsrechtlich fragwürdigen Entscheidung. Innerhalb weniger Monate wird die Demokratie zerstört (Reichstagsbrand, Ermächtigungsgesetz). Fackelzug der SA durch das Brandenburger Tor. Der Reichstag brennt (27. Februar). Berlin wird Zentrum der NS-Diktatur.'
+                },
+                { 
+                    year: '1939', 
+                    keyword: '2. Weltkrieg', 
+                    text: 'Der Überfall auf Polen beginnt den Krieg. Strategische Überdehnung und der Holocaust - Deutschlands dunkelste Stunde!',
+                    info_text: 'Mit dem Überfall auf Polen (1. September 1939) beginnt der Krieg. Die strategische Überdehnung (Frankreich, Nordafrika, Russland) führt zur Niederlage. Die Anti-Hitler-Koalition aus Kapitalismus (USA, GB) und Kommunismus (UdSSR) besiegt das "Dritte Reich". Der systematische Völkermord an den europäischen Juden (Holocaust/Shoah) fordert etwa 6 Millionen Opfer. Die Wannsee-Konferenz findet in einer Villa am Berliner Wannsee statt. Berlin wird ab 1943 massiv bombardiert.'
+                },
+                { 
+                    year: '1945', 
+                    keyword: 'Stunde Null', 
+                    text: 'Die Schlacht um Berlin beendet den Krieg. Die Sieger zerstreiten sich über der Beute - Deutschland wird geteilt!',
+                    info_text: 'Deutschland kapituliert bedingungslos (8./9. Mai). Die Siegermächte (USA, UdSSR, GB, Frankreich) teilen Deutschland in Besatzungszonen. Der Kalte Krieg beginnt: Die ehemaligen Verbündeten werden zu Gegnern. Berlin wird in vier Sektoren geteilt, obwohl es mitten in der sowjetischen Zone liegt. Die Berlin-Blockade (1948/49) und die Luftbrücke prägen die Teilung. Turbokapitalismus und kommunistischer Sozialismus kollidieren über der Beute.'
+                },
+                { 
+                    year: '1961', 
+                    keyword: 'Mauerbau', 
+                    text: 'Die Mauer teilt Berlin! Familien werden getrennt - das Symbol des Kalten Krieges entsteht.',
+                    info_text: 'Am 13. August 1961 beginnt die DDR mit dem Bau der Berliner Mauer, um die Massenflucht in den Westen zu stoppen (bis dahin etwa 3,5 Millionen). Die Mauer wird zum Symbol des Kalten Krieges und der deutschen Teilung. Berlin wird durch eine Mauer geteilt. Familien werden getrennt. Fluchtversuche werden mit dem Tod bestraft.'
+                },
+                { 
+                    year: '1970er-80er', 
+                    keyword: 'RAF & Stasi', 
+                    text: 'Die RAF terrorisiert den Westen, die Stasi überwacht den Osten. Beide deutschen Staaten verhärten sich.',
+                    info_text: 'Die Rote Armee Fraktion (RAF) verübt Terroranschläge in der BRD (Deutscher Herbst 1977). Die DDR-Staatssicherheit (Stasi) unterstützt die RAF logistisch und gewährt Unterschlupf für untergetauchte Terroristen. West-Berlin ist Schauplatz von Anschlägen und Entführungen. Ost-Berlin ist Zentrale der Stasi.'
+                },
+                { 
+                    year: '1989', 
+                    keyword: 'Mauerfall', 
+                    text: 'Die Mauer fällt! "Wir sind das Volk!" - Die friedliche Revolution vereint Deutschland wieder!',
+                    info_text: 'Massenproteste in der DDR ("Wir sind das Volk!") erzwingen die Öffnung der Grenzen. Am 9. November 1989 fällt die Berliner Mauer nach einer missverständlichen Pressekonferenz von Günter Schabowski. Die Wiedervereinigung folgt am 3. Oktober 1990. Die Mauer fällt in Berlin. Menschen tanzen auf der Mauer am Brandenburger Tor. Berlin wird wieder Hauptstadt des vereinten Deutschlands.'
+                },
+                { 
+                    year: '', 
+                    keyword: 'Einheit', 
+                    text: 'Deutschland ist wieder vereint. Berlin ist wieder Hauptstadt. Die Geschichte geht weiter - klicken Sie nun auf die Jahreszahlen für mehr Details!',
+                    info_text: 'Am 3. Oktober 1990 tritt die DDR der Bundesrepublik bei. Deutschland ist nach 45 Jahren Teilung wieder vereint. Berlin wird 1991 vom Bundestag zur Hauptstadt gewählt. 1999 zieht die Regierung von Bonn nach Berlin um. Das Reichstagsgebäude, von Norman Foster mit einer gläsernen Kuppel versehen, wird wieder Sitz des Parlaments. Berlin entwickelt sich zur europäischen Metropole und zieht Menschen aus aller Welt an. Die Geschichte der Stadt, die so oft zerstört und geteilt wurde, geht weiter.'
+                }
+            ];
+
+            const bismarckAscii = `
+                                                                                                                                             -
+                                                                                                                                            -=-
+                                                                                                                                           ++*:
+                                                                                                                                         :=+=*
+                                                                                                                                        :=+.**
+                                                                                                                                       =-+:+#-
+                                                                                                                                     :-:+--**:
+                                                                                                                                    :=:*=:+*=:
+                                                                                                                                   ==:++.-#+=
+                                                                                                                                  =-.=+.:++*-
+                                                                                                                                 =:.-*-.=**+:
+                                                                                                                              :+---=+-..##*+
+                                                                                                                          -+++==++++**+++**-
+                                                                                                                         #**#*#****+=::-##++
+                                                                                                                         **+--===-:=+#%#*+*#*:
+                                                                                                                          +##*-..-=*#*+=*%#+*#=
+                                                                                                                           +*=:.:-=+***##+*%**%=
+                                                                                                                          -*+:..--+*+**##%++%*#-
+                                                                                                                         :#*-..:-+***%##*#++#+
+                                                                                        :::--:=+==+#=-++----.            #%=-..-+*%#+*%*+
+                                                                                   :=+-=-.-=:-#%*+:*+-*#%%+=+*#**=:-:  -**+-..:=+*#***%%:
+                                                                               :--::=*+=--**#%##%+-:=#+=+=-+#*=*+*=*#***=-#*+--=*##@%#+- 
+                                                                            :==--:-=*-..:==-:-----=--+=:=+%+=--:::---+#**%=-:+*+##%%%=-
+                                                                          :---=+**=-.-++#-===--=---=-*++*+=----===-+##**###*###+=-*+=+:
+                                                                        -=::=#+-:..:-+*-=:-=========*+=----*++===-*##*%#####**#*#%%#*#*+#=
+                                                                      ---:-:=-:..:++*#*-:+--+*:-=-+-:-===-:.-*%#*++**%##*##**#**#%#**%%#**:
+                                                                    -=+-+++=:::::==+**#*****+*::*=-*-:-=*%#*#*+====+#*####*###*#%###*####%*:
+                                                                   =--::-+:-*--+-+-.:-=--=+#%*=-*#***%##**+*=+-:.-=#%%+%##%#%*%#**######%*#@#-
+                                                                 -=+#+*#+=-:=**--:=-=#--*#*+:-:-.:-+**++++++-:..:+##%%%##%##*###**#*#########%#-
+                                                               :=*#**%*#*#*+=:-==-+==--##..-::==:.:=*+=*====::.-+%#%%%#%#*###*%#%+##**#**#######%+
+                                                            :-=#*+-.=#*=-+=--*+**=*#%#*=--:::==:=+++++++=======*##%%%##%#*##*%####**#####*#%*%%###%+
+                                                          -+=*=**--:+*=.==:++:=*=:=#==*+==:-=---++=++===---=-==%#%###%###%#%#%#%*%##*#*****%##@%###*#-
+                                                       =++=+*-=#=-::=#+====*#--*-=++==---+*-*%#+==-=+-=-::---+%*##%%%*##%*#*%+%####%####**=*#####*##*#*:
+                                                     ++*+%+#*=+*=+-:-*----:=-:-+-=*+-*-=+#=+*##=#*#++**+==--+*##%##%%#%%#%*#*###%####**##*+***#%%##*++##=
+                                                    =+##%+=-+#*#*##%%+*+-+=-+--+-*:=++-+*%==*#:=***=+*%%=*#@#*#*#%###%##%*@%*##%#%##%****+++*##%%##%+**#%*
+                                                    -*##*###%%%%%%%%%%%*%#####*#**#-+*-+%=*#%*-+%#+=*%=+#%#%++*#+-*#**###%+*******%#%#**+*****#%%#*#**+*#%*:
+                                                 -+#%*%*%*###*##%@@@%#*#**#*#%#%*#*##%@#*%**%*+%##=+*#***%%=+**#+=+*=+%@@@%%+++=*+*+##+***#*++*%#%+*##++*##*
+                                   :-===++*+++=++++***###%%%@%%%%%%@#**++++*+=+=++++++**##%%%%%#*#*#%#=*%%=-##%:+#*%***##*-#%***+**#%%**++#*+++##%#%*++*#*%%=
+                               =#*--=*%@@@%%@@@@@@@%#*==-::=====+*##%%@@##+*+++++=====-==-=+#%#%#%#%#%%%#%+*%*%*#***-:=**=*#=-#%##%##%**+*#++*+*#%#*****#*#%%-
+                             -#++#%#%%###%%%%%@@%%%@@@@@%@@@%#*+=-:--=+=+**###+===-==+++=+==+:=++%#%#%%#**##%***#%%=+**==+=##=+*%+=+*##+++*+***+*###****+#*#%#
+                             +#+%##%%%#%%%%%%%%%%@%%%@@%#**#####%%%@%#+=-:=++==++**=---==++++==+++*##%@%#%%%#%%#%#-+#%+=+=#=:=+#-=+*-=%*##*++**++#%%#**+#%**%%=
+                             =#+#%%###%%%#%%%%%@%%%%%%%*################%%%%#=::-=+=-+##**=+++**+##%@##%*%%%%%%####%%%%###+==+**:+==#=*#=##+#*%#=*#%*#*#*#*###+
+                             :+*###%#%%####%%%@%%%%%@%##*+=++==++**##########%%%%#+=:-=--+*#######%%%%###%*+#%%#%%%#*#%%%@**#%*--+*:=+*++#%=+*%%*-+-=##*+*#**%*:
+                              =++%%%#**##%%%%%%%%@@%%#+=-=:::-:::-====--===+**#**#*##%%*=:-==-*%%###%%%%##+%##**#%%@@%%#*#%###+#=##+*+=+++*%@##%+=-===*#+*+**%*:
+                               *+*#%########%#%%%%@%#+--:::....::-=-:::::::::--==+**#%##%%%#+====+*%%%%%####**+%%####%%#%%#*%%*#%==*#%%+=+**+*++--=#=-+##++*#%#-
+                               :#*#%%%%###%%%%#%%%***=+*+--:....:-=-:....::::::--=-=*****##%#%@%*-+*=+#%%%%%*#*%#%@%%%@%#**#%+*%@*#*##-+%@%-+##:-+-::=+#*++*#%#=
+                                :*+####*%%#####**++#*#*#%%*=--:::-=:::::-=-*++***##**##***+**#%%#%@%*++*###*#%#####*#*+#%%%##**#*#%%*%+**#%#%#=-+#%+++%%#+***##=
+                                 :+***#%####%#**++%##%%##%%@@#==--==:-=**##**%%#%####%##*#***#*###%#%@@#=+#*#%#%%#**##*##*=+#%%%%#**#%@@%%%@%*:-+==+%@%*#%+**%#=
+                                   -*##*######%%%%#***+=+**###%+-::-=++%%%%%%%#%%%%%%#%%%#***#*****###%%%@#+*%#**%%%%*--*%%#*%%@%%%%#**#@%#%#=-*%%+*##:.=****%#=
+                                       :-===+=+**+--:....:-+##*#-:.:-***##+===---:-----==+**++**+#++*####%#%%#+*##+-+#%####**###%#%%#%%#***%#=*%*#%@##-=*%%*#%*-
+                                                  -=#%@%#@%@@%*+-...-**#%++=+#%%#%@@@%#+-===+**+++++=+++*##%#%%@%%%##*#**#%*#=*#*%%##%%*#%%###*+*#%+###%%%+*%%+:
+                                                   +%%:.+#*@%*%+:..:-*#*#%###*%#=::#=%@@@%##****+++++==-+++*###*##***+++**%#*##*=*%**%*#%#%%%%*++###********%#+
+                                                    =*+:.=*+*%#-...-=*###*==#=+-..:*+##*%#@%%%#%##+*=+=--==+++*++++++++++*#+#%++*%#*%#%****%@@%@@##*++*#*+*#@*+
+                                                    :=---:--=*+...:-+****+=---=----=+##*+**##*#%#*++++==--=++++++++=+==++**%%+**#**#**##**%%@@@##%*+*******#%+:
+                                                     :----===+:...-=++*+=-=++++++++==--=++*+=-=+++=--=--=-=++=++=+==+==+=*#*####%+*#%%*#%%@%#*++=+=+++*##*%%**
+                                                       ...:===...-=+**++=-:::-----:::--===---=++---::::--====+++++=+=++++**%#%###%%#%%#*=---:-====--:=*###%#*:
+                                                       :----=:..:=+*+++==-:..:::--==--====++==-:::..:::---==-=-=+=+++*++****%@%%%%%%##+--=+#@@%%%%%*=-=*##@%+
+                                                      .:----:..:-+**+++=-::....::::::::-----:::.....:::---=======++=*+=++++*+***####*==+#@%@#+++*#%%+++###%*:
+                                                     ....:=:...:-+*++++==-::......::::.:::.........:::--========++++==++=+++*****##++*+#%%%*==-=+#%#==*%%%#=.
+                                                     ....--....:=++++=+==-:::..................:.::.::-=-=-===+++*++*+=++=++*+###+=#***##=--=-=++#%==+%+#%+:
+                                                    :..:-......:-+=-::-=++=--............::::.:::::::-----===+++++*+=++==++==++==#++*#@%%*=----=*#=-=%+*%*=
+                                                    :..:-:...--=*+==--:-=+#+=:.......:.::.:::.::.:.-::-:=--=+++*#++*+==++==+++====--+#@%%%*++:=*+=-=##+#%%
+                                                     ...:=+=+**#%%%%#**+=+#+-=-.........::::::::::::------===+++**=+++=====+==++=---+##*##**--+*=-=+%**+=::
+                                                      ....-#%##%%%%@@%#**##+---:........:..::::---=--=--++=++=*+=+==-=+======-=====+##*+++==-=*+--=@#*@%**:
+                                                      :--+==#%@@%#*##*##*+=-:::-::...........::----==-=-=+=+*++++===+=-=+===+++***#%##*#==-:=*+--+@%**%*:
+                                                    :-:---+***#+++=====+=:.....::.:.........:.:::--:--=+=++=++====+=-===-+++==*#%*===-----+**=--+%%%+##=
+                                                  :.::::=*=+==++++=-=+-*=+-+=-..:::.........::::::::-===+=+=++====-+===++==++***+===+++*++=---==%@@%+*#-
+                                                ::....:-*=**:++=+==-+=-==-=====-::::.......:::::::-=====+==+=+===++==++==+++***====-===+=---=+%@@%@#*##:
+                                               ::.:-.-=-+**+-=+=+-=-+--==---=-++===::::...:::::-:===+=+==+=+=-=+=-++=-=+===++*===:::----::=+*%#%%%%++%*-
+                                              ::::--=++##*##++***++===--:-:-:-+======--::::::----======+-==-=+==+=--=====+++#*==----==+++*#@%%%%%%%++%*--
+                                              ::--:--=##*******#%#*#**+==-=:==--=-==------:--::-:-+==+-======++=-===--====+*%@%+=+**%@@%#@%%%##%%%%***##=-
+                                              .:-=-+=**#*%##**###*##*##**=-*==*==+:--+---=+===--:::--==-===+==+=----===-=+**%##%%%%#%##**@%%%###%%##=%%#:
+                                             :.:=-****##+==-:.:...-=+##%+*+#**++=++=-=+----=-==---:-=-===+==+=--===-===++**#%%%##**#**#*#@%%##%#%%@%=##=:
+                                             ::-===++*#*=-:::-===----==-#*+*@%##**+=---+=---=====------=-=+====--=--=+==+**%%#****+==+***%####%*%#@%++##-
+                                             ::-==+***#+-:...:::-:::::--=#++*%*%#*#*=-+=+--==+-==----=-===-==-----======**####*+==-===+**%%#*#*##%#%#=##*
+                                             :===*+****=:............:::--===**#*+#+=**+===+=*====----=-===-===--==-==*+*#%#++====--=+++*%%@%#*%#%#%%*+##+
+                                              =+**+***#+:...............:::::=**+***#*%++*--++=====-=====-==---==--==-=+*%#*++=----==+#%%%%%%%####%#%%*+#%+
+                                                :::.:=#*-::.............:.:----++++#*#**+*-=+===+-+--==-+=--===--==--+**#**==-==--*%%@@@%##%%%######%%%*+@%*+-
+                                                     :==-::..............:::-=--===++*+****#+++++=====+===++=-=----+*++#**+==+*%%%%%%%#%#%%%%%%#*####%%@#-**#++
+                                                      -+=::.....:.....:::--:--==-=+++*#*##*#*+++-+=-=+-=++=-==--=+++*+#*+=*%%%%%%%#%%#%#%%%%%%%%**#%%%%@@@*+#%=
+                                                       :=-:...:::.......::-::---=+-=+=+++*#++*++==+=-========-==+++=+*#%%%%%%#%%#%#%%#%%%#%%%%@%##**#*%#%%@%*=++-:
+                                                         --::::--.......::---====+++++=++*+=++==++==+=------=+*+++#%#%@%%%%%%%#%%#%%%%%%%#%%%%%%%####*%#%%%##%#==++-
+                                                          -+===---::-:--====++++**#****+=-===+*+---=--=-=-=+++#%%%%@%#%%#%%##%%%%%%#%%%%%%%%#%%%%%#%%%#%%%%%%%%%#*=+==
+                                                           :=++++*++++++++****#%%***+==++++===--===-==+=+*#@@@@%%%%%%%%%%#%#%#%%%%%%#%%#%%%%#%###%%=:-==++++*+***+**+=
+                                                              :++**#%#%%#%#####*+=+++=-=::----===++=-+#%%%%%%#%#%%#%%%#%%*%%%%#%%#%%%#%%%##%%%#%##%%+
+                                                                ----=**+**#*+++=====-:---=--===++*#%%%%%%%%%%%#%%%%%%%%%%%%%%%%%#%#%%%%%%%%#%##%%@%%%@%+:
+                                                                 :=--=+*#*+**+=+=-------=-++####@%%%%#%%%##%%#%%#%%%%%%%#%%#*%%#%%%%%%@%%%#*%%%%%%%%###@#%
+                                                                   :+=+********++***++**#*##%%%%#%%#%#%%%%%#%%##%%#%#%%%###%%%%%%%%%%%%##%%%%%%%%%@%%%%%%%%+
+                                                                  :*+=::------=-==---+%%%@%%%*%%*%%%%%%%##%%#%%##%%#%%#%@%%%%#%%##%#@@%%+----+*+++**%@%%%#%##*
+                                                                 -##::-=-:::.:---+###%%#%#%%#%%#%#%%%%#%%%#%%#%##%#%%#%%%%%%###%%%%@#=-:::--+***+=---=+#%%#%#%#=
+                                                                 -*+#-..---::-+#%%%%#%%%#%%#%#%#%###%%#%%%#%#%##%%#%#%%%%%%%%@%@#%#---*++***#+=+++==*#+-+##%%##%#:
+                                                                 :+#+**...=##%%%##%##%##%%#####%%*#%%#####%###%%%%%#%%@%@%%#%%%#@%+=*-:=--====:=-+=:-+#--*%#%%%%*#*-
+                                                                  =*##+%%#%%%%%%##%%#########%*####%#%##%%##%%####%%%%%%%%%##%###@@%-:-.:=*#%#+:=*+==:::=*#%#%%@%*#%#-
+                                                                  -*#*#*#%%#%%%#%%###**%#*%%*#%#####*##%%#%%#%%@%%#%%#%#%%%#%%%%*###.:-++::=+-*#--:+#+--:=-*%#@@%##*##*
+                                                                  :+**%**%%%%##%##%################%#%%%%%%@@@%%#%%%%#*####=.::::+-=%*+:::---=**#*++=+=++-+**%%%@%%%%####-
+                                                                   =++#**##%#######*#%%##%#%#######%#%%@%%%%%%**#%%%##*##*-+=-+***+%@%==--:*#*:=-=--:.:-**=-*@%##%##*%##%#=
+                                                                   =++*++#####**#####%###%##%#%##%%%%@%@%##%%##*%########*---===*#%%%%=:=-==++=-:---:::---===#%%%#%@%####%##=
+                                                                   :*+***%%*##**##%##%#%#%*#%%#%%%%#%%%###%%%%##*####%%%#*##%%%%#%%%%%#-=+::.---**#=-:::-=--=*=*%%##%%#*%%#*#*:
+                                                                  -=+**#+%%###*##*%##*%%#%#%%%%%%#####%######%#######*%#%#%##%%%##%%%@%%%+::=---=#**--+=+***+====%##%#%%%#%#%##-
+                                                               :=:-=***%+%##*#*#######%%%%%%%##%#%###%#*######%*#%%###%###%#%#%##%%%%@%%#=:-::+#=-:::-=-:---::-+*%%###%@%######%*
+                                                             :=--+#%%%*%+######*##%%@%%%%%%%%#%#%##*#%#***###%#**#%%%%%%%%%#######%%%%%%@#*=++:+=**-:.:=++++=-:-:-=*#%*%%%#%#%#%#+:
+                                                          :=*%#%%%%%%%#%+*%%#%%@%%%%%%%%%#%####%##**###*###%######%%%##%%%%#%#%%%*##%##%#@%#+:.--=-=*#+******+--==-:-##*#%#%####***-
+                                                        :**#%#%%%%%%@%%%%%%#%@@%##%%@%*%%%*######*+%%%#*****%@@%*#%%@%%%##%%%*#%#*#%%%%%%@@@*:.-:::++*-:::----=**:-+:==#*%@@@#*****++
+                                                       ===###%###%%%%%#%#%%%%#%%%%##%###%#%#####%%#*###%########%####%#%%##############%%#%%%+=.-----=*=--===--=-=*-+=*#%##%%%******+*-
+                                                     :-::+%%%%###%#*%%%*****##%%%%##*%#%*##%%#*%%#*+*#%#####*##%%*#**%%%***%%#*###*+*#%*%%%%@%#-::-=**=:-===-:***=+%@@%%%%%*%%%***+*+#++
+                                                    -=-=:#%%#%**###%%%#%###****###%#####%%#####*##%###*##%%#*##*#%#%#**##%##%#*+##%######%%%#%@%%%%#+----=====*%%%%**###%#%####*#*#***#++
+                                                   =++++%#%###*##*#####%***#+***#%%#*###*##*###*#%######%%%%*#*#%%%%##*#######**#%%###*##%#%%#%###%%%%%%@%%%%@%@%#%#*%%#*##%#%%%#***#****+-
+                                                  +*=-#%##**%##%%##%##*#++*=**#*##%%%###+*%##*##***%%#**##%##*#+**#%%####%#*#%#+*########**++*###*%**==##@%%%%##%***%#*+##*#**+*###*+*+++*--
+                                                 =+###%%#**####**###*##*##+**+**########%*##*####*###%%%###%#####**#%#%*#%######*##**+**+***#*###*****#***##*##******####**#***+****++*+=++=:
+                                                ==####%%****#+##%%#%*#*#***++++#**%%##%####%%+*#%#-.-==:-+#%%%%##***#%%##%%*#%%**##%+*#%*++#++*%###**+**###%%%%###%%%%@@@%#**##+*#*+=:**=:---
+                                               -+###%##***####**#*#####+****#****####%#***##**#%+::::::--.-%%#########*##%**####*#**#*******#***#######%#%##%%%%%%######%##**#%%#*++=--+=--::
+                                              -*##***#***+++*#%#%%%%+#*#****+*****%%%%%#*%#%%%#-.+=====.=:+%%#%%@@#*##+=###*#%%#**##*####+++#%**#%%@@@%@@@%###%@@%%%%#%#***#*#%%#%%++=::=--::
+                                             =#%##****###*###*##########*####***#########*%#*##-+*+=---#=:*%%*####***+***#*##*##***#*###*#**#**###%######**##****%#****#*++***+##%%*#*+=:--:-.:
+                                            +#**++*####%%%#%#%%#%%%%#*****%*##*#****#%%##**#*#%==+##*#*:-*%%*###*++#+++#%%*+##+****#%%#%##%%###*#**##=+*++#**#*#+*#+++#+==+##*=**==*%%#*=:=:=-:
+                                           *+**+***###%###*#########%####%%#%##%##**#*#%#%###*###+----+#%%%###*#***+++%%#*****+******##*%##%%%%#*#*++++****#**##******+=****+=**++++==+*##--::..:
+                                          +*#***+##########*#****#%##########**#**#*+##%#####%%%%%%%%@%%%%%#**#****#%##*+*#+++++*#****##*#%%%#***+*++******+*#*#*###***+++**++#*==+=-:===-==-:.:
+                                         =+*#=-*+*##*+*#####*######*+*##*#%#%%%###*#*#**#%%%%%#%#%%@%%#%%#%%%*#++*#%%%*+*#%**+*****%%%%#**###*+=+**###***#*+=*++***=**++++*=++=-++==-===-=--=:
+                                        -=+*+******#**#####*#*****#*###%%#%####*###***#*##%%#%%#%%#%%###%%#%##**#%@%#*++##**########%#%**###*++**#*****+=++=+*++****####***======+=-:-=+--::
+                                       ==+*+#++**++#%%%###***+**#+***#%%%%%%#@@%%##*#+*+*#%%@%%#####%%%%*#**#*+%%@%***=-*#%%#%%@%%%#%%#+=+##*+-+*=+=+-=*+=+*+++*==##*##+=*+*+-=*==..:-=:+-
+                                      =-+****++*+****##**+#*%###***#######*#######*##%#*########**#*%#%%##*#*#%%%%*+**++*#%%@%%%%**#***++*#****#*++*++==+++*#+++*++=**+***==++-------==-::.-:
+                                     ===*#++=*++*+*+++++*%#%%##*#*#*##*#*#%%%%%%%%#%%##+*+*##%*++*#**#%###%%%%%%%#==##=+%@%@@@%*+#*+*+=+###**=+=--=++=*==**-=#=-#*=-*=-+++=-=-=:::-+-..:..--
+                                    ===##++=++*#*++=+****%###**++++****#*#**********########****+++**#*#***#%@%%**=+***#%%@%#++*##++**++*+**+**++++*+===+++=++-===+===++==+=:.:::-:-=--::.::
+                                  ::::.=**+**#****#*++#####*+++****##%%##*##*##*##*#%%%%#%####**+**#****+*%##%%+++++%#%#@%##*++*#*+=+**+*###%*++=-+==*+-=+++*=--+=+=--++:-=*-::=+-:::
+                                 :-..:-*++++===***+*+*##**+==*+++*+**##*+**++*#%##%##***##*#*#**=++%%##+***%###==**##%###+***=**+++*++*#+++++**==+*==--+=-+==-+==++-=--:=+-::=-----::
+                                 --:::++*+=--=*==-+***#+---======**#***#+++*++###*####***#*###*+++*%#%*#**###++=+#*%#*++*##+=+***=+*++*+++**--+=--+++-=+--=--:---+===-=-:-::-=-:.:
+                                ::::=*#*+-:-=+:-:+=++=---===-==+=+**+*+*###***#%##*****#+#***%#*+*%%*%#*+###+=-+##+***#*+=+=+*=+#**=*#+-=+=-=+=:=+#+--==-:+=----:::--:==::-*=:.:
+                               :::-+===---===-:-==+=+--===++*++*=*+++++***##*#%#*####*+*+***###+**%%%#**#%#===+##+=*+*++=+++*=++*==-++===+=-==-:-===-===::---=-=----::-=::----::
+`;
+
+            useEffect(() => {
+                if (!showStartButton && !isSkipped) {
+                    const command = './deutsche_geschichte.exe';
+                    let i = 0;
+
+                    setShowTerminalLoading(true);
+
+                    const typeCommand = setInterval(() => {
+                        if (i <= command.length) {
+                            setTypedCommand(command.slice(0, i));
+                            i++;
+                        } else {
+                            clearInterval(typeCommand);
+
+                            setTimeout(() => {
+                                setShowTerminalLoading(false);
+                                setShowFullBismarck(true);
+                                
+                                setShowIntroPhase(true);
+
+                                setTimeout(() => {
+                                    setZoomToFace(true);
+                                }, 1500);
+
+                                setTimeout(() => {
+                                    let i = 0;
+                                    setIntroText('');
+                                    
+                                    const typeIntro = setInterval(() => {
+                                        if (i < introMessage.length) {
+                                            setIntroText(introMessage.slice(0, i + 1));
+                                            i++;
+                                        } else {
+                                            clearInterval(typeIntro);
+                                            setTimeout(() => {
+                                                setIntroComplete(true);
+                                                setShowFullBismarck(false);
+                                                setShowIntroPhase(false);
+                                                setShowTimeline(true);
+                                            }, 10000 * speedMultiplier);
+                                        }
+                                    }, 100 * speedMultiplier);
+                                }, 2500);
+                            }, 1000 * speedMultiplier);
+                        }
+                    }, 100 * speedMultiplier);
+
+                    return () => clearInterval(typeCommand);
+                }
+            }, [showStartButton, speedMultiplier, introMessage, isSkipped]);
+
+
+            useEffect(() => {
+                if (showTimeline && introComplete && currentStep < timeline.length && !isTimelineComplete) {
+                    const timer = setTimeout(() => {
+                        setYearsShown(prev => [...prev, timeline[currentStep].year]);
+
+                        const text = timeline[currentStep].text;
+                        let i = 0;
+                        setCurrentText('');
+
+                        const typeWriter = setInterval(() => {
+                            if (i < text.length) {
+                                setCurrentText(text.slice(0, i + 1));
+                                i++;
+                            } else {
+                                clearInterval(typeWriter);
+                                setTimeout(() => {
+                                    if (currentStep < timeline.length - 1) {
+                                        setCurrentStep(currentStep + 1);
+                                    } else {
+                                        setIsTimelineComplete(true);
+                                    }
+                                }, 3000 * speedMultiplier);
+                            }
+                        }, 50 * speedMultiplier);
+
+                        return () => clearInterval(typeWriter);
+                    }, currentStep === 0 ? (1000 * speedMultiplier) : (4000 * speedMultiplier));
+
+                    return () => clearTimeout(timer);
+                }
+            }, [currentStep, showTimeline, introComplete, isTimelineComplete, speedMultiplier]);
+
+            useEffect(() => {
+                if (showTimeline && yearsShown.length > 0 && !isTimelineComplete) {
+                    const timelineContainer = document.querySelector('[data-timeline="years"]');
+                    if (timelineContainer) {
+                        setTimeout(() => {
+                            timelineContainer.scrollLeft = timelineContainer.scrollWidth;
+                        }, 100);
+                    }
+                }
+            }, [yearsShown, isTimelineComplete]);
+
+            const restartAnimation = () => {
+                for (let i = 1; i < 99999; i++) {
+                    clearTimeout(i);
+                    clearInterval(i);
+                }
+                
+                setCurrentStep(0);
+                setShowTerminalLoading(false);
+                setShowFullBismarck(false);
+                setShowIntroPhase(false);
+                setIntroText('');
+                setIntroComplete(false);
+                setZoomToFace(false);
+                setShowTimeline(false);
+                setCurrentText('');
+                setYearsShown([]);
+                setTypedCommand('');
+                setShowStartButton(true);
+                setIsTimelineComplete(false);
+                setIsSkipped(false);
+                setShowInfoText(false);
+                setCurrentInfoText('');
+            };
+
+            const startAnimation = () => {
+                setShowStartButton(false);
+            };
+
+            const skipToTimeline = () => {
+                for (let i = 1; i < 99999; i++) {
+                    clearTimeout(i);
+                    clearInterval(i);
+                }
+                
+                setIsSkipped(true);
+                setShowStartButton(false);
+                setShowTerminalLoading(false);
+                setShowFullBismarck(false);
+                setShowIntroPhase(false);
+                setIntroText('');
+                setIntroComplete(true);
+                setZoomToFace(true);
+                setShowTimeline(true);
+                setTypedCommand('./deutsche_geschichte.exe');
+                
+                setYearsShown(timeline.map(item => item.year));
+                setCurrentStep(timeline.length - 1);
+                setCurrentText('');
+                setIsTimelineComplete(true);
+            };
+
+            const jumpToStep = (stepIndex) => {
+                if (isTimelineComplete) {
+                    setCurrentStep(stepIndex);
+                    setCurrentText(timeline[stepIndex].text);
+                    setCurrentInfoText(timeline[stepIndex].info_text);
+                    setShowInfoText(true);
+                }
+            };
+
+            const closeInfoText = () => {
+                setShowInfoText(false);
+                setCurrentInfoText('');
+            };
+
+            return React.createElement('div', {
+                className: "w-full h-screen bg-black text-green-400 font-mono overflow-hidden relative"
+            }, [
+
+                showStartButton && React.createElement('div', {
+                    key: 'startScreen',
+                    className: "absolute inset-0 flex flex-col items-center justify-center bg-black z-50 p-8"
+                }, [
+                    React.createElement('h1', {
+                        key: 'mainTitle',
+                        className: "text-4xl md:text-6xl text-amber-400 terminal-glow mb-4 text-center font-bold tracking-wider",
+                        style: { fontFamily: 'Cinzel, serif' }
+                    }, 'BERLIN'),
+                    React.createElement('h2', {
+                        key: 'subTitle',
+                        className: "text-2xl md:text-4xl text-amber-400 terminal-glow mb-12 text-center font-bold tracking-wider",
+                        style: { fontFamily: 'Cinzel, serif' }
+                    }, 'im Spiegel der Deutschen Geschichte'),
+                    React.createElement('div', {
+                        key: 'speedControl',
+                        className: "mb-8 text-center"
+                    }, [
+                        React.createElement('h2', {
+                            key: 'speedTitle',
+                            className: "text-green-400 text-lg mb-4"
+                        }, 'Geschwindigkeit wählen:'),
+                        React.createElement('div', {
+                            key: 'speedSlider',
+                            className: "flex flex-col items-center space-y-4"
+                        }, [
+                            React.createElement('input', {
+                                key: 'slider',
+                                type: 'range',
+                                min: '0.1',
+                                max: '0.8',
+                                step: '0.1',
+                                value: speedMultiplier,
+                                onChange: (e) => setSpeedMultiplier(parseFloat(e.target.value)),
+                                className: "w-64 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                            }),
+                            React.createElement('div', {
+                                key: 'speedLabels',
+                                className: "flex justify-between w-64 text-xs text-green-300"
+                            }, [
+                                React.createElement('span', { key: 'slow' }, 'Schnell'),
+                                React.createElement('span', { key: 'medium' }, 'Mittel'),
+                                React.createElement('span', { key: 'fast' }, 'Langsam')
+                            ]),
+                            React.createElement('div', {
+                                key: 'speedValue',
+                                className: "text-green-400 font-bold"
+                            }, `Geschwindigkeit: ${(100 - (speedMultiplier - 0.1) * 100 / 0.7).toFixed(0)}%`)
+                        ])
+                    ]),
+                    React.createElement('button', {
+                        key: 'startBtn',
+                        onClick: startAnimation,
+                        className: "bg-green-600 text-black px-8 py-4 rounded-lg hover:bg-green-500 transition-colors font-bold text-xl shadow-lg border-2 border-green-400 uppercase tracking-wider mb-4"
+                    }, 'Starten'),
+                    React.createElement('button', {
+                        key: 'skipBtn',
+                        onClick: skipToTimeline,
+                        className: "text-yellow-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition-colors font-bold text-lg shadow-lg border-2 border-gray-400 uppercase tracking-wider"
+                    }, 'Animation überspringen')
+                ]),
+
+                !showStartButton && React.createElement('div', {
+                    key: 'header',
+                    className: "bg-gray-800 text-white p-2 text-xs sm:text-sm border-b border-gray-600"
+                },
+                    React.createElement('div', {
+                        className: "flex items-center space-x-1 sm:space-x-2"
+                    }, [
+                        React.createElement('div', { key: 'red', className: "w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full" }),
+                        React.createElement('div', { key: 'yellow', className: "w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full" }),
+                        React.createElement('div', { key: 'green', className: "w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full" }),
+                        React.createElement('span', { key: 'title', className: "ml-2 sm:ml-4 truncate" }, 'bismarck@berlin:~$ deutsche_geschichte.exe')
+                    ])
+                ),
+
+                !showStartButton && React.createElement('div', {
+                    key: 'consoleBar',
+                    className: "console-bar absolute bottom-0 left-0 right-0 h-40 sm:h-48 bg-black border-t-2 border-green-600 z-30"
+                }, [
+                    React.createElement('div', {
+                        key: 'timelineYears',
+                        'data-timeline': 'years',
+                        className: `timeline-years flex items-start justify-start h-28 sm:h-32 px-2 sm:px-4 space-x-3 sm:space-x-6 z-40 relative pt-3 sm:pt-6 mb-1 sm:mb-2 ${!showTimeline ? 'opacity-0' : 'opacity-100'}`,
+                        style: {
+                            overflowX: 'auto',
+                            scrollBehavior: 'smooth',
+                            whiteSpace: 'nowrap',
+                            transition: 'opacity 0.5s ease'
+                        }
+                    },
+                        showTimeline ? yearsShown.map((year, index) =>
+                            React.createElement('button', {
+                                key: index,
+                                onClick: () => jumpToStep(index),
+                                disabled: !isTimelineComplete,
+                                className: `flex flex-col items-center whitespace-nowrap flex-shrink-0 transition-all duration-500 timeline-button ${index === currentStep ? 'active' : ''} ${!isTimelineComplete ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`,
+                                style: {
+                                    opacity: 1,
+                                    minWidth: '100px',
+                                    padding: '8px 12px',
+                                    borderRadius: '8px',
+                                    backgroundColor: index === currentStep ? 'rgba(212, 165, 116, 0.1)' : 'transparent',
+                                    border: index === currentStep ? '2px solid #d4a574' : '2px solid transparent',
+                                    transform: 'translateX(0)',
+                                    animation: `fadeInFromRight 0.8s ease-out both`
+                                }
+                            }, [
+                                React.createElement('div', {
+                                    key: 'year',
+                                    className: `text-yellow-400 font-bold text-sm sm:text-xl mb-0.5 sm:mb-1 ${index === currentStep ? 'text-yellow-300' : 'text-yellow-400'}`
+                                }, year),
+                                React.createElement('div', {
+                                    key: 'keyword',
+                                    className: `text-cyan-300 text-xs sm:text-sm font-medium ${index === currentStep ? 'text-cyan-200' : 'text-cyan-300'}`
+                                }, timeline[index]?.keyword || '')
+                            ])
+                        ) : []
+                    ),
+
+                    React.createElement('div', {
+                        key: 'prompt',
+                        className: "absolute bottom-1 sm:bottom-2 left-2 sm:left-4 right-2 sm:right-4 z-40"
+                    },
+                        React.createElement('div', {
+                            className: "bg-gray-900 border border-green-600 p-1 sm:p-2 rounded text-xs sm:text-sm"
+                        }, [
+                            React.createElement('span', {
+                                key: 'promptText',
+                                className: "text-green-500"
+                            }, 'bismarck@berlin:~$ '),
+                            React.createElement('span', {
+                                key: 'status',
+                                className: "ml-1 sm:ml-2 text-green-400 terminal-glow"
+                            }, [
+                                showTerminalLoading ? [
+                                    typedCommand,
+                                    React.createElement('span', {
+                                        key: 'cursor',
+                                        className: "text-yellow-400 cursor-blink"
+                                    }, '▋')
+                                ] : showTimeline ? [
+                                    currentStep >= timeline.length ? 'Geschichte komplett!' : 'Lade Geschichte...',
+                                    React.createElement('span', {
+                                        key: 'cursor2',
+                                        className: "text-yellow-400 cursor-blink"
+                                    }, '▋')
+                                ] : showFullBismarck ? [
+                                    'Initialisiere...',
+                                    React.createElement('span', {
+                                        key: 'cursor3',
+                                        className: "text-yellow-400 cursor-blink"
+                                    }, '▋')
+                                ] : null
+                            ])
+                        ])
+                    )
+                ]),
+
+                !showStartButton && React.createElement('div', {
+                    key: 'bismarckContainer',
+                    className: "absolute top-8 left-0 right-0 bottom-40 sm:bottom-48 flex items-center justify-center px-2 bismarck-container"
+                },
+                    React.createElement('div', {
+                        className: `bismarck-container ${
+                            showTimeline || zoomToFace ? 'transform scale-50 sm:scale-100 translate-y-4 sm:translate-y-8' : 
+                            showFullBismarck ? 'transform scale-50 sm:scale-75' :
+                            'transform scale-50 sm:scale-75 opacity-0'
+                        }`,
+                        style: {
+                            transition: 'none'
+                        }
+                    },
+                        React.createElement('pre', {
+                            className: "bismarck-ascii whitespace-pre overflow-hidden"
+                        }, bismarckAscii)
+                    )
+                ),
+
+                !showStartButton && ((showIntroPhase && introText) || (showTimeline && currentText)) && React.createElement('div', {
+                    key: 'speech',
+                    className: "absolute left-1/2 top-1/4 transform -translate-x-1/2 z-50"
+                },
+                    React.createElement('div', {
+                        className: "speech-bubble bg-gray-900 border-2 border-green-400 rounded-lg p-3 sm:p-6 relative max-w-xs sm:max-w-2xl mx-2"
+                    }, [
+                        React.createElement('div', {
+                            key: 'arrow1',
+                            className: "absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 sm:border-l-8 border-r-4 sm:border-r-8 border-t-4 sm:border-t-8 border-transparent border-t-gray-900"
+                        }),
+                        React.createElement('div', {
+                            key: 'arrow2',
+                            className: "absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 sm:border-l-8 border-r-4 sm:border-r-8 border-t-4 sm:border-t-8 border-transparent border-t-green-400"
+                        }),
+                        React.createElement('div', {
+                            key: 'text',
+                            className: "text-green-300 text-sm sm:text-lg leading-relaxed text-center"
+                        }, showIntroPhase ? introText : currentText)
+                    ])
+                ),
+
+                showInfoText && React.createElement('div', {
+                    key: 'infoOverlay',
+                    className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                    onClick: closeInfoText
+                }, [
+                    React.createElement('div', {
+                        key: 'backdrop',
+                        className: "absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+                    }),
+                    React.createElement('div', {
+                        key: 'infoContent',
+                        className: "relative bg-gray-900 border-2 border-green-400 rounded-lg p-6 max-w-4xl max-h-[80vh] overflow-y-auto",
+                        onClick: (e) => e.stopPropagation()
+                    }, [
+                        React.createElement('button', {
+                            key: 'closeBtn',
+                            onClick: closeInfoText,
+                            className: "absolute top-2 right-2 text-green-400 hover:text-green-300 text-2xl font-bold w-8 h-8 flex items-center justify-center"
+                        }, '×'),
+                        React.createElement('h2', {
+                            key: 'title',
+                            className: "text-yellow-400 text-xl sm:text-2xl font-bold mb-4 pr-8"
+                        }, `${timeline[currentStep]?.year} - ${timeline[currentStep]?.keyword}`),
+                        React.createElement('div', {
+                            key: 'infoTextContent',
+                            className: "text-amber-400 text-base sm:text-lg leading-relaxed"
+                        }, currentInfoText)
+                    ])
+                ]),
+
+                !showStartButton && React.createElement('button', {
+                    key: 'backBtn',
+                    onClick: restartAnimation,
+                    className: "fixed top-12 sm:top-16 left-2 sm:left-4 bg-gray-600 bg-opacity-50 text-gray-300 px-2 sm:px-3 py-1 sm:py-2 rounded hover:bg-gray-500 hover:bg-opacity-70 transition-all font-bold text-sm sm:text-base z-40"
+                }, '←'),
+
+                !showStartButton && showTimeline && currentStep >= timeline.length && React.createElement('button', {
+                    key: 'restart',
+                    onClick: restartAnimation,
+                    className: "fixed top-2 sm:top-4 right-2 sm:right-4 bg-green-600 text-black px-3 sm:px-6 py-2 sm:py-3 rounded hover:bg-green-500 transition-colors font-bold text-sm sm:text-lg shadow-lg border-2 border-green-400 z-50"
+                }, '↻ Neustart')
+            ]);
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(BismarckTerminal));
+    </script>
+</body>
+
+</html>
